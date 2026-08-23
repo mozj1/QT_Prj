@@ -1,0 +1,1180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RtDriverConfiguration FormNameCN="锐特调试软件" FormNameTC="銳特調試軟件" FormNameEN="RUITECHCONFIGURATOR" FormNameKr=""  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+	<IOConfiguration INModbusAddr="154" OUTModbusAddr="155" INcount="6" OUTcount="4"/>
+  <SpecialFunRegister SaveModbusAddr="90" ReSetModbusAddr="91"/>
+  <Product ProductName="DV400" ProductSeries="DRVSeries" VerModbusAddr="41" language="0" neutral="0">
+    <RegisterSummary>
+      <Register ModbusAddr="0" FunctionCN="控制模式" FunctionTC="控制模式" FunctionEN="Control mode" FunctionKr="" ColumnType="Combox" Parameter="0" Default="0" Minimum="0" Maximum="2" Unit="-" RWAttribution="RW" Remark="-">
+        <Menu NameCN="位置模式" NameTC="位置模式" NameEN="Position Mode" NameKr="" Parameter="0"/>
+        <Menu NameCN="速度模式" NameTC="速度模式" NameEN="Speed mode" NameKr="" Parameter="1"/>
+        <Menu NameCN="力矩模式" NameTC="力矩模式" NameEN="Torque mode" NameKr="" Parameter="2"/>
+      </Register>
+      <Register ModbusAddr="1" FunctionCN="位置指令源" FunctionTC="位置指令源" FunctionEN="Position command source" FunctionKr="" ColumnType="Combox" Parameter="0" Default="0" Minimum="0" Maximum="15" Unit="-" RWAttribution="RW" Remark="-">
+        <Menu NameCN="脉冲指令源" NameTC="脈沖指令源" NameEN="Pulse command source" NameKr="" Parameter="0"/>
+        <Menu NameCN="定长/位置表" NameTC="定長/位置表" NameEN="Fixed length/position chart" NameKr="" Parameter="1"/>
+        <Menu NameCN="通讯控制" NameTC="通訊控製" NameEN="Communication control" NameKr="" Parameter="2"/>
+        <Menu NameCN="调试" NameTC="調試" NameEN="Debug Mode" NameKr="" Parameter="3"/>
+        <Menu NameCN="APP1" NameTC="APP1" NameEN="APP1" NameKr="" Parameter="5"/>
+        <Menu NameCN="位置表" NameTC="位置表" NameEN="location table" NameKr="" Parameter="7"/>
+      </Register>
+      <Register ModbusAddr="2" FunctionCN="速度指令源" FunctionTC="速度指令源" FunctionEN="Speed command source" FunctionKr="" ColumnType="Combox" Parameter="0" Default="0" Minimum="0" Maximum="15" Unit="-" RWAttribution="RW" Remark="-">
+        <Menu NameCN="数字给定" NameTC="數字給定" NameEN="Numbers given" NameKr="" Parameter="0"/>
+        <Menu NameCN="多段速度指令" NameTC="多段速度指令" NameEN="Multiple speed command" NameKr="" Parameter="1"/>
+        <Menu NameCN="调试" NameTC="調試" NameEN="Debug Mode" NameKr="" Parameter="2"/>
+        <Menu NameCN="模拟量(保留)" NameTC="調試" NameEN="Debug Mode" NameKr="" Parameter="3"/>
+        <Menu NameCN="PWM调速(保留)" NameTC="調試" NameEN="Debug Mode" NameKr="" Parameter="4"/>
+        <Menu NameCN="APP1" NameTC="APP1" NameEN="APP1" NameKr="" Parameter="5"/>
+        <Menu NameCN="APP2" NameTC="APP2" NameEN="APP2" NameKr="" Parameter="6"/>
+        <Menu NameCN="APP3" NameTC="APP3" NameEN="APP3" NameKr="" Parameter="7"/>
+        <Menu NameCN="APP4" NameTC="APP4" NameEN="APP4" NameKr="" Parameter="8"/>
+        <Menu NameCN="APP5" NameTC="APP5" NameEN="APP5" NameKr="" Parameter="9"/>
+      </Register>
+      <Register ModbusAddr="3" FunctionCN="转矩指令源" FunctionTC="轉矩指令源" FunctionEN="Torque command source" FunctionKr="" ColumnType="Combox" Parameter="0" Default="0" Minimum="0" Maximum="15" Unit="-" RWAttribution="RW" Remark="-">
+        <Menu NameCN="数字给定" NameTC="數字給定" NameEN="Numbers given" NameKr="" Parameter="0"/>
+        <Menu NameCN="模拟量(保留)" NameTC="模拟量(保留)" NameEN="Analog(Rsvd)" NameKr="" Parameter="1"/>
+        <Menu NameCN="APP1" NameTC="APP1" NameEN="APP1" NameKr="" Parameter="5"/>
+        <Menu NameCN="APP2" NameTC="APP2" NameEN="APP2" NameKr="" Parameter="6"/>
+        <Menu NameCN="APP3" NameTC="APP3" NameEN="APP3" NameKr="" Parameter="7"/>
+        <Menu NameCN="APP4" NameTC="APP4" NameEN="APP4" NameKr="" Parameter="8"/>
+        <Menu NameCN="APP5" NameTC="APP5" NameEN="APP5" NameKr="" Parameter="9"/>
+      </Register>
+      <Register ModbusAddr="4" FunctionCN="指令脉冲类型" FunctionTC="指令脈衝類型" FunctionEN="Command pulse type" FunctionKr="" ColumnType="Combox" Parameter="0" Default="0" Minimum="0" Maximum="2" Unit="-" RWAttribution="RW" Remark="-">
+        <Menu NameCN="PUL+DIR(P)" NameTC="PUL+DIR(P)" NameEN="PUL+DIR(P)" NameKr="" Parameter="0"/>
+        <Menu NameCN="PUL+DIR(N)" NameTC="PUL+DIR(N)" NameEN="PUL+DIR(N)" NameKr="" Parameter="1"/>
+        <Menu NameCN="CW+CCW" NameTC="CW+CCW" NameEN="CW+CCW" NameKr="" Parameter="2"/>
+      </Register>
+      <Register ModbusAddr="5" FunctionCN="电机运行方向" FunctionTC="電機運行方向" FunctionEN="Motor running direction" FunctionKr="" ColumnType="Combox" Parameter="0" Default="0" Minimum="0" Maximum="1" Unit="-" RWAttribution="RW" Remark="-">
+        <Menu NameCN="正常" NameTC="正常" NameEN="Normal" NameKr="" Parameter="0"/>
+        <Menu NameCN="取反" NameTC="取反" NameEN="Reverse" NameKr="" Parameter="1"/>
+      </Register>
+      <Register ModbusAddr="6" FunctionCN="指令细分" FunctionTC="指令細分" FunctionEN="Command segments" FunctionKr="" ColumnType="Textbox" Parameter="10000" Default="10000" Minimum="0" Maximum="1048576" Unit="Command unit" RWAttribution="RW" Remark="int32"/>
+      <Register ModbusAddr="8" FunctionCN="电子齿轮比分子" FunctionTC="電子齒輪比分子" FunctionEN="Electronic gear ratio numerator" FunctionKr="" ColumnType="Textbox" Parameter="1" Default="1" Minimum="1" Maximum="8388608" Unit="-" RWAttribution="RW" Remark="int32"/>
+      <Register ModbusAddr="10" FunctionCN="电子齿轮比分母" FunctionTC="電子齒輪比分母" FunctionEN="Electronic gear ratio denominator" FunctionKr="" ColumnType="Textbox" Parameter="1" Default="1" Minimum="1" Maximum="8388608" Unit="-" RWAttribution="RW" Remark="int32"/>
+      <Register ModbusAddr="12" FunctionCN="超差报警阈值" FunctionTC="超差報警閾值" FunctionEN="Out of tolerance alarm threshold" FunctionKr="" ColumnType="Textbox" Parameter="1310720" Default="1310720" Minimum="0" Maximum="2147483647" Unit="0.01 circle " RWAttribution="RW" Remark="int32"/>
+      <Register ModbusAddr="14" FunctionCN="定位精度" FunctionTC="定位精度" FunctionEN="positioning accuracy" FunctionKr="" ColumnType="Textbox" Parameter="10" Default="10" Minimum="0" Maximum="65535" Unit="Encoder unit" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="15" FunctionCN="到位信号建立时间" FunctionTC="到位信號建立時間" FunctionEN="In-position signal establishment time" FunctionKr="" ColumnType="Textbox" Parameter="20" Default="20" Minimum="0" Maximum="65535" Unit="0.08ms" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="16" FunctionCN="脉冲停止检测时间" FunctionTC="脈衝停止檢測時間" FunctionEN="Pulse stop detection time" FunctionKr="" ColumnType="Textbox" Parameter="20" Default="20" Minimum="0" Maximum="65535" Unit="0.08ms" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="17" FunctionCN="脉冲指令滤波时间" FunctionTC="脈衝指令濾波時間" FunctionEN="Pulse command filter time" FunctionKr="" ColumnType="Textbox" Parameter="1" Default="1" Minimum="1" Maximum="1024" Unit="0.08ms" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="18" FunctionCN="保留" FunctionTC="保留" FunctionEN="Keep" FunctionKr="" ColumnType="Textbox" Parameter="-" Default="-" Minimum="-" Maximum="-" Unit="-" RWAttribution="R" Remark="1"/>
+      <Register ModbusAddr="19" FunctionCN="电机极对数" FunctionTC="電機極對數" FunctionEN="Number of motor pole pairs" FunctionKr="" ColumnType="Textbox" Parameter="5" Default="5" Minimum="0" Maximum="256" Unit="Pole Number" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="20" FunctionCN="电机额定电流" FunctionTC="電機額定電流" FunctionEN="Motor rated current" FunctionKr="" ColumnType="Textbox" Parameter="70" Default="70" Minimum="0" Maximum="65535" Unit="0.1A" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="21" FunctionCN="电机额定扭矩" FunctionTC="電機額定扭矩" FunctionEN="Motor rated torque" FunctionKr="" ColumnType="Textbox" Parameter="65" Default="65" Minimum="0" Maximum="65535" Unit="0.01Nm" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="22" FunctionCN="驱动器过载系数" FunctionTC="驅動器過載係數" FunctionEN="Driver overload factor" FunctionKr="" ColumnType="Textbox" Parameter="150" Default="150" Minimum="0" Maximum="300" Unit="%" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="23" FunctionCN="编码器类型选择" FunctionTC="編碼器類型選擇" FunctionEN="Encoder type selection" FunctionKr="" ColumnType="Combox" Parameter="5" Default="5" Minimum="0" Maximum="10" Unit="-" RWAttribution="RW" Remark="-">
+        <Menu NameCN="ABZ+UVW(保留)" NameTC="ABZ+UVW(保留)" NameEN="AB+UVW(Rsvd)" NameKr="" Parameter="0"/>
+        <Menu NameCN="ABZ+RS485(保留)" NameTC="ABZ+RS485(保留)" NameEN="ABZ+RS485(Rsvd)" NameKr="" Parameter="1"/>
+        <Menu NameCN="ABZ(保留)" NameTC="ABZ(保留)" NameEN="ABZ(Rsvd)" NameKr="" Parameter="2"/>
+        <Menu NameCN="UVW(保留)" NameTC="UVW(保留)" NameEN="UVW(Rsvd)" NameKr="" Parameter="3"/>
+        <Menu NameCN="RS485(保留)" NameTC="RS485(保留)" NameEN="RS485(Rsvd)" NameKr="" Parameter="4"/>
+        <Menu NameCN="通讯型单圈编码器" NameTC="通訊型單圈編碼器" NameEN="Communication type single coil encoder" NameKr="" Parameter="5"/>
+        <Menu NameCN="AB" NameTC="AB" NameEN="AB" NameKr="" Parameter="6"/>
+        <Menu NameCN="AB+UVW" NameTC="AB+UVW" NameEN="AB+UVW" NameKr="" Parameter="7"/>
+        <Menu NameCN="AB+RS485(保留)" NameTC="AB+RS485(保留)" NameEN="AB+RS485(Rsvd)" NameKr="" Parameter="8"/>
+        <Menu NameCN="PWM+RS485(保留)" NameTC="PWM+RS485(保留)" NameEN="PWM+RS485(Rsvd)" NameKr="" Parameter="9"/>
+        <Menu NameCN="通讯型多圈编码器" NameTC="通訊型多圈編碼器" NameEN="Communication multiloop encoder" NameKr="" Parameter="10"/>
+      </Register>
+      <Register ModbusAddr="24" FunctionCN="编码器分辨率" FunctionTC="編碼器分辨率" FunctionEN="Encoder resolution" FunctionKr="" ColumnType="Textbox" Parameter="17" Default="17" Minimum="0" Maximum="65535" Unit="Encoder unit" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="25" FunctionCN="编码器校准启动" FunctionTC="編碼器校準啟動" FunctionEN="Encoder calibration start" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="1" Unit="-" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="26" FunctionCN="编码器校准转矩" FunctionTC="編碼器校準轉矩" FunctionEN="Encoder calibration torque" FunctionKr="" ColumnType="Textbox" Parameter="70" Default="70" Minimum="0" Maximum="100" Unit="%" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="27" FunctionCN="编码器Z相信号对应的电角度" FunctionTC="編碼器Z相信號對應的電角度" FunctionEN="The electrical angle corresponding to the encoder Z phase signal" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="65535" Unit="Encoder unit" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="28" FunctionCN="编码器U相信号对应的电角度" FunctionTC="編碼器U相信號對應的電角度" FunctionEN="The electrical angle corresponding to the encoder U phase signal" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="65535" Unit="Encoder unit" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="29" FunctionCN="编码器校准标志" FunctionTC="編碼器校準標誌" FunctionEN="Encoder calibration mark" FunctionKr="" ColumnType="Textbox" Parameter="21845" Default="21845" Minimum="0" Maximum="65535" Unit="-" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="30" FunctionCN="电机最高转速" FunctionTC="電機最高轉速" FunctionEN="Maximum motor speed" FunctionKr="" ColumnType="Textbox" Parameter="4000" Default="4000" Minimum="0" Maximum="6000" Unit="r/min" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="31" FunctionCN="过速等级" FunctionTC="過速等級" FunctionEN="Overspeed level" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="2" Unit="-" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="32" FunctionCN="速度到达幅值" FunctionTC="速度到達幅值" FunctionEN="Speed reach amplitude" FunctionKr="" ColumnType="Textbox" Parameter="1000" Default="1000" Minimum="0" Maximum="6000" Unit="r/min" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="33" FunctionCN="速度一致幅值" FunctionTC="速度一致幅值" FunctionEN="Speed consistent amplitude" FunctionKr="" ColumnType="Textbox" Parameter="1000" Default="1000" Minimum="0" Maximum="6000" Unit="r/min" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="34" FunctionCN="零速钳位阈值" FunctionTC="零速箝位閾值" FunctionEN="Zero-speed clamp threshold" FunctionKr="" ColumnType="Textbox" Parameter="20" Default="20" Minimum="0" Maximum="1000" Unit="r/min" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="35" FunctionCN="驱动器欠压阈值" FunctionTC="驅動器欠壓閾值" FunctionEN="Driver undervoltage threshold" FunctionKr="" ColumnType="Textbox" Parameter="18" Default="18" Minimum="1" Maximum="500" Unit="V" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="36" FunctionCN="驱动器过压阈值" FunctionTC="驅動器過壓閾值" FunctionEN="Driver overvoltage threshold" FunctionKr="" ColumnType="Textbox" Parameter="60" Default="60" Minimum="1" Maximum="500" Unit="V" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="37" FunctionCN="串口波特率" FunctionTC="串口波特率" FunctionEN="Serial port baud rate" FunctionKr="" ColumnType="Textbox" Parameter="2" Default="2" Minimum="0" Maximum="3" Unit="-" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="38" FunctionCN="RS485 波特率" FunctionTC="RS485 波特率" FunctionEN="RS485 Baud rate" FunctionKr="" ColumnType="Textbox" Parameter="2" Default="2" Minimum="0" Maximum="3" Unit="-" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="39" FunctionCN="RS485 站号" FunctionTC="RS485 站號" FunctionEN="RS485 station number" FunctionKr="" ColumnType="Textbox" Parameter="1" Default="1" Minimum="1" Maximum="247" Unit="-" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="40" FunctionCN="驱动器 ID" FunctionTC="驅動器 ID" FunctionEN="Driver ID " FunctionKr="" ColumnType="Textbox" Parameter="1" Default="1" Minimum="-" Maximum="-" Unit="-" RWAttribution="R" Remark="-"/>
+      <Register ModbusAddr="41" FunctionCN="驱动器版本号" FunctionTC="驅動器版本號" FunctionEN="Driver version number" FunctionKr="" ColumnType="Textbox" Parameter="1" Default="1" Minimum="-" Maximum="-" Unit="-" RWAttribution="R" Remark="-"/>
+      <Register ModbusAddr="42" FunctionCN="非标ID" FunctionTC="非標ID" FunctionEN="NonStandard ID" FunctionKr="" ColumnType="Textbox" Parameter="54040" Default="54040" Minimum="0" Maximum="65535" Unit="-" RWAttribution="RW" Remark="2"/>
+      <Register ModbusAddr="43" FunctionCN="默认参数ID" FunctionTC="默認參數ID" FunctionEN="Default Prm ID" FunctionKr="" ColumnType="Textbox" Parameter="10002" Default="10002" Minimum="0" Maximum="65535" Unit="-" RWAttribution="RW" Remark="2"/>
+      <Register ModbusAddr="44" FunctionCN="伺服强制使能" FunctionTC="伺服強制使能" FunctionEN="Servo forced enable" FunctionKr="" ColumnType="Combox" Parameter="0" Default="0" Minimum="0" Maximum="1" Unit="-" RWAttribution="RW" Remark="-">
+        <Menu NameCN="不强制" NameTC="不強制" NameEN="Not mandatory" NameKr="" Parameter="0"/>
+        <Menu NameCN="强制" NameTC="強制" NameEN="Mandatory" NameKr="" Parameter="1"/>
+      </Register>
+      <Register ModbusAddr="45" FunctionCN="报警复位" FunctionTC="報警復位" FunctionEN="Alarm reset" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="1" Unit="-" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="46" FunctionCN="复位驱动器" FunctionTC="復位驅動器" FunctionEN="Reset driver" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="1" Unit="-" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="47" FunctionCN="电流阶跃测试" FunctionTC="電流階躍測試" FunctionEN="Current step test" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="1" Unit="-" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="48" FunctionCN="开环运行" FunctionTC="開環運行" FunctionEN="Open loop operation" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="15" Unit="-" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="49" FunctionCN="锁轴/VF控制指令" FunctionTC="鎖軸/VF控制指令" FunctionEN="Lock/VF command" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="4" Unit="-" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="50" FunctionCN="锁轴电角度" FunctionTC="鎖軸電角度" FunctionEN="Lock angle" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="65535" Unit="-" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="51" FunctionCN="数据采样通道 1" FunctionTC="數據採樣通道 1" FunctionEN="Data sampling channel 1" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="15" Unit="-" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="52" FunctionCN="数据采样通道 2" FunctionTC="數據採樣通道 2" FunctionEN="Data sampling channel 2" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="15" Unit="-" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="53" FunctionCN="数据采样间隔" FunctionTC="數據採樣間隔" FunctionEN="Data sampling interval" FunctionKr="" ColumnType="Textbox" Parameter="1" Default="1" Minimum="1" Maximum="65535" Unit="0.08ms" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="54" FunctionCN="数据采样启停" FunctionTC="數據採樣啟停" FunctionEN="Data sampling start and stop" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="2" Unit="-" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="55" FunctionCN="数字给定速度" FunctionTC="數字給定速度" FunctionEN="Digital given speed" FunctionKr="" ColumnType="Textbox" Parameter="500" Default="500" Minimum="0" Maximum="6000" Unit="r/min" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="56" FunctionCN="数字给定加速度" FunctionTC="數字給定加速度" FunctionEN="Digital given acceleration" FunctionKr="" ColumnType="Textbox" Parameter="100" Default="100" Minimum="1" Maximum="2000" Unit="r/s^2" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="57" FunctionCN="数字给定减速度" FunctionTC="數字給定減速度" FunctionEN="Digital given deceleration" FunctionKr="" ColumnType="Textbox" Parameter="100" Default="100" Minimum="1" Maximum="2000" Unit="r/s^2" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="58" FunctionCN="测量 PWM 反馈编码器占空比" FunctionTC="測量PWM 反饋編碼器佔空比" FunctionEN="Measure PWN feedback encoder duty cycle" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="1" Unit="-" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="59" FunctionCN="内部运动启停" FunctionTC="內部運動啟停" FunctionEN="Internal movement start and stop" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="15" Unit="-" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="60" FunctionCN="点位加速度" FunctionTC="點位加速度" FunctionEN="Point acceleration" FunctionKr="" ColumnType="Textbox" Parameter="100" Default="100" Minimum="1" Maximum="2000" Unit="r/s^2" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="61" FunctionCN="点位减速度" FunctionTC="點位減速度" FunctionEN="Point deceleration" FunctionKr="" ColumnType="Textbox" Parameter="100" Default="100" Minimum="1" Maximum="2000" Unit=" r/s^2" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="62" FunctionCN="点位速度" FunctionTC="點位速度" FunctionEN="Point speed" FunctionKr="" ColumnType="Textbox" Parameter="500" Default="500" Minimum="0" Maximum="6000" Unit="r/min" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="63" FunctionCN="点位行程" FunctionTC="點位行程" FunctionEN="Point stroke" FunctionKr="" ColumnType="Textbox" Parameter="10000" Default="10000" Minimum="-1073741824" Maximum="1073741824" Unit="Command unit" RWAttribution="RW" Remark="int32"/>
+      <Register ModbusAddr="65" FunctionCN="点动加速度" FunctionTC="點動加速度" FunctionEN="Jog acceleration" FunctionKr="" ColumnType="Textbox" Parameter="100" Default="100" Minimum="1" Maximum="2000" Unit="r/s^2" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="66" FunctionCN="点动减速度" FunctionTC="點動減速度" FunctionEN="Jog deceleration" FunctionKr="" ColumnType="Textbox" Parameter="100" Default="100" Minimum="1" Maximum="2000" Unit="r/s^2" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="67" FunctionCN="点动速度" FunctionTC="點動速度" FunctionEN="Jog speed" FunctionKr="" ColumnType="Textbox" Parameter="500" Default="500" Minimum="0" Maximum="6000" Unit="r/min" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="68" FunctionCN="急停减速度" FunctionTC="急停減速度" FunctionEN="Emergency stop deceleration" FunctionKr="" ColumnType="Textbox" Parameter="300" Default="300" Minimum="1" Maximum="2000" Unit="r/s^2" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="69" FunctionCN="内部运行位置模式" FunctionTC="內部運行位置模式" FunctionEN="Internal operating position mode" FunctionKr="" ColumnType="Combox" Parameter="0" Default="0" Minimum="0" Maximum="1" Unit="-" RWAttribution="RW" Remark="-">
+        <Menu NameCN="增量式" NameTC="增量式" NameEN="Incremental" NameKr="" Parameter="0"/>
+        <Menu NameCN="绝对式" NameTC="絕對式" NameEN="Absolute" NameKr="" Parameter="1"/>
+      </Register>
+      <Register ModbusAddr="70" FunctionCN="输入口 1 功能/极性设置" FunctionTC="輸入口 1 功能/極性設置" FunctionEN="Input port 1 function/polarity setting" FunctionKr="" ColumnType="Textbox" Parameter="33" Default="33" Minimum="0" Maximum="63" Unit="-" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="71" FunctionCN="输入口 2 功能/极性设置" FunctionTC="輸入口 2 功能/極性設置" FunctionEN="Input port 2 function/polarity setting" FunctionKr="" ColumnType="Textbox" Parameter="34" Default="34" Minimum="0" Maximum="63" Unit="-" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="72" FunctionCN="输入口 3 功能/极性设置" FunctionTC="輸入口 3 功能/極性設置" FunctionEN="Input port 3 function/polarity setting" FunctionKr="" ColumnType="Textbox" Parameter="37" Default="37" Minimum="0" Maximum="63" Unit="-" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="73" FunctionCN="输入口 4 功能/极性设置" FunctionTC="輸入口 4 功能/極性設置" FunctionEN="Input port 4 function/polarity setting" FunctionKr="" ColumnType="Textbox" Parameter="39" Default="39" Minimum="0" Maximum="63" Unit="-" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="74" FunctionCN="输入口 5 功能/极性设置" FunctionTC="輸入口 5 功能/極性設置" FunctionEN="Input port 5 function/polarity setting" FunctionKr="" ColumnType="Textbox" Parameter="44" Default="44" Minimum="0" Maximum="63" Unit="-" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="75" FunctionCN="输入口 6 功能/极性设置" FunctionTC="輸入口 6 功能/極性設置" FunctionEN="Input port 6 function/polarity setting" FunctionKr="" ColumnType="Textbox" Parameter="43" Default="43" Minimum="0" Maximum="63" Unit="-" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="76" FunctionCN="输出口 1 功能/极性设置" FunctionTC="輸出口 1 功能/極性設置" FunctionEN="Output port 1 function/polarity setting" FunctionKr="" ColumnType="Textbox" Parameter="33" Default="33" Minimum="0" Maximum="63" Unit="-" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="77" FunctionCN="输出口 2 功能/极性设置" FunctionTC="輸出口 2 功能/極性設置" FunctionEN="Output port 2 function/polarity setting" FunctionKr="" ColumnType="Textbox" Parameter="34" Default="34" Minimum="0" Maximum="63" Unit="-" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="78" FunctionCN="输出口 3 功能/极性设置" FunctionTC="輸出口 3 功能/極性設置" FunctionEN="Output port 3 function/polarity setting" FunctionKr="" ColumnType="Textbox" Parameter="35" Default="35" Minimum="0" Maximum="63" Unit="-" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="79" FunctionCN="输出口 4 功能/极性设置" FunctionTC="輸出口 4 功能/極性設置" FunctionEN="Output port 4 function/polarity setting" FunctionKr="" ColumnType="Textbox" Parameter="37" Default="37" Minimum="0" Maximum="63" Unit="-" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="80" FunctionCN="调试速度" FunctionTC="調試速度" FunctionEN="Debugging speed" FunctionKr="" ColumnType="Textbox" Parameter="100" Default="100" Minimum="0" Maximum="6000" Unit="rpm" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="81" FunctionCN="调试加速度" FunctionTC="調試加速度" FunctionEN="Debugging acceleration" FunctionKr="" ColumnType="Textbox" Parameter="100" Default="100" Minimum="1" Maximum="2000" Unit="r/s^2" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="82" FunctionCN="调试减速度" FunctionTC="調試減速度" FunctionEN="Debugging deceleration" FunctionKr="" ColumnType="Textbox" Parameter="100" Default="100" Minimum="1" Maximum="2000" Unit="r/s^2" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="83" FunctionCN="调试行程" FunctionTC="調試行程" FunctionEN="Debugging stroke" FunctionKr="" ColumnType="Textbox" Parameter="10000" Default="10000" Minimum="0" Maximum="1073741827" Unit="Command unit" RWAttribution="RW" Remark="int32"/>
+      <Register ModbusAddr="85" FunctionCN="运动演示延时时间" FunctionTC="運動演示延時時間" FunctionEN="Motion demonstration delay time" FunctionKr="" ColumnType="Textbox" Parameter="500" Default="500" Minimum="0" Maximum="65535" Unit="ms" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="86" FunctionCN="运动演示运行模式" FunctionTC="運動演示運行模式" FunctionEN="Motion demonstration running time" FunctionKr="" ColumnType="Combox" Parameter="0" Default="0" Minimum="0" Maximum="1" Unit="-" RWAttribution="RW" Remark="-">
+        <Menu NameCN="往复运动" NameTC="往復運動" NameEN="Reciprocating motion" NameKr="" Parameter="0"/>
+        <Menu NameCN="单方向" NameTC="單方向" NameEN="Unidirectional " NameKr="" Parameter="1"/>
+      </Register>
+      <Register ModbusAddr="87" FunctionCN="运动演示起始方向" FunctionTC="運動演示起始方向" FunctionEN="Movement demonstration starting direction" FunctionKr="" ColumnType="Combox" Parameter="0" Default="0" Minimum="0" Maximum="1" Unit="-" RWAttribution="RW" Remark="-">
+        <Menu NameCN="正方向" NameTC="正方向" NameEN="Positive direction" NameKr="" Parameter="0"/>
+        <Menu NameCN="反方向" NameTC="反方向" NameEN="Opposite direction" NameKr="" Parameter="1"/>
+      </Register>
+      <Register ModbusAddr="88" FunctionCN="运动演示运行次数" FunctionTC="運動演示運行次數" FunctionEN="Number of movement demonstration runs" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="65535" Unit="-" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="89" FunctionCN="运动演示启动/停止命令" FunctionTC="運動演示啟動/停止命令" FunctionEN="Motion demonstration start/stop command" FunctionKr="" ColumnType="Combox" Parameter="0" Default="0" Minimum="0" Maximum="2" Unit="-" RWAttribution="RW" Remark="-">
+        <Menu NameCN="等待触发" NameTC="等待觸發" NameEN="Waiting for trigger" NameKr="" Parameter="0"/>
+        <Menu NameCN="启动" NameTC="啟動" NameEN="Start" NameKr="" Parameter="1"/>
+        <Menu NameCN="运动中" NameTC="運動中" NameEN="In motion" NameKr="" Parameter="2"/>
+      </Register>
+      <Register ModbusAddr="90" FunctionCN="保存参数" FunctionTC="保存參數" FunctionEN="Save parameters" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="65535" Unit="-" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="91" FunctionCN="恢复出厂设置" FunctionTC="恢復出廠設置" FunctionEN="Restore factory settings" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="1" Unit="-" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="92" FunctionCN="保留" FunctionTC="保留" FunctionEN="Keep" FunctionKr="" ColumnType="Textbox" Parameter="-" Default="-" Minimum="-" Maximum="-" Unit="-" RWAttribution="R" Remark="1"/>
+      <Register ModbusAddr="93" FunctionCN="编码器/PWM信号反相控制" FunctionTC="編碼器/PWM反相" FunctionEN="Encoder/PWM inversion" FunctionKr="" ColumnType="Combox" Parameter="0" Default="0" Minimum="0" Maximum="3" Unit="-" RWAttribution="RW" Remark="-">
+        <Menu NameCN="AB信号及UVW信号均不反向" NameTC="AB信號及UVW信號均不反向" NameEN="AB and UVW signal not reversed" NameKr="" Parameter="0"/>
+        <Menu NameCN="AB信号反向,UVW信号不反向" NameTC="AB信號反向,UVW信號不反向" NameEN="AB reversed UVW not" NameKr="" Parameter="1"/>
+        <Menu NameCN="AB信号不反向,UVW信号反向" NameTC="AB信號不反向,UVW信號反向" NameEN="AB not UVW reversed" NameKr="" Parameter="2"/>
+        <Menu NameCN="AB信号及UVW信号均反向" NameTC="AB信號及UVW信號均反向" NameEN="AB and UVW signal reversed" NameKr="" Parameter="3"/>
+      </Register>
+      <Register ModbusAddr="94" FunctionCN="原点复归使能控制方式" FunctionTC="原點復歸使能控製方式" FunctionEN="Homing enable control method" FunctionKr="" ColumnType="Combox" Parameter="1" Default="1" Minimum="0" Maximum="6" Unit="-" RWAttribution="RW" Remark="-">
+        <Menu NameCN="禁止原点复位功能" NameTC="禁止原點復位功能" NameEN="Disable the origin reset function" NameKr="" Parameter="0"/>
+        <Menu NameCN="使用IN输入功能为启动回零的IN端子触发机械回原点" NameTC="使用IN輸入功能為啟動回零的IN端子觸發機械回原點" NameEN="Input Trigger mechanical" NameKr="" Parameter="1"/>
+        <Menu NameCN="使用IN输入功能为启动回零的IN端子触发电气回原点" NameTC="使用IN輸入功能為啟動回零的IN端子觸發電氣回原點" NameEN="Input Trigger electrical" NameKr="" Parameter="2"/>
+        <Menu NameCN="上电自动机械回原点" NameTC="上電自動機械回原點" NameEN="Power on auto" NameKr="" Parameter="3"/>
+        <Menu NameCN="通讯触发机械回原点功能" NameTC="通訊觸發機械回原點功能" NameEN="Communication triggers mechanical " NameKr="" Parameter="4"/>
+        <Menu NameCN="通讯触发电气回原点功能" NameTC="通訊觸發電氣回原點功能" NameEN="Communication triggers electrical " NameKr="" Parameter="5"/>
+        <Menu NameCN="通讯触发以当前位置为原点" NameTC="通訊觸發以當前位置為原點" NameEN="Current pos as the origin" NameKr="" Parameter="6"/>
+      </Register>
+      <Register ModbusAddr="95" FunctionCN="原点复归模式" FunctionTC="原點復歸模式" FunctionEN="Homing mode" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="5" Unit="-" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="96" FunctionCN="高速搜索原点开关信号的速度" FunctionTC="高速搜索原點開關信號的速度" FunctionEN="High speed search homing switch signal speed" FunctionKr="" ColumnType="Textbox" Parameter="100" Default="100" Minimum="0" Maximum="3000" Unit="r/min" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="97" FunctionCN="低速搜索原点开关信号的速度" FunctionTC="低速搜索原點開關信號的速度" FunctionEN="Low speed search homing switch signal speed" FunctionKr="" ColumnType="Textbox" Parameter="50" Default="50" Minimum="0" Maximum="1000" Unit="r/min" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="98" FunctionCN="搜索原点开关信号的加减速度" FunctionTC="搜索原點開關信號的加減速度" FunctionEN="Search for the acceleration and deceleration of the homing switch signal" FunctionKr="" ColumnType="Textbox" Parameter="100" Default="100" Minimum="1" Maximum="2000" Unit="r/s^2" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="99" FunctionCN="保留" FunctionTC="保留" FunctionEN="Keep" FunctionKr="" ColumnType="Textbox" Parameter="-" Default="-" Minimum="-" Maximum="-" Unit="-" RWAttribution="R" Remark="1"/>
+      <Register ModbusAddr="100" FunctionCN="机械原点偏移量" FunctionTC="機械原點偏移量" FunctionEN="Machine homing offset" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="-1073741824" Maximum="1073741824" Unit="Command unit" RWAttribution="RW" Remark="int32"/>
+      <Register ModbusAddr="102" FunctionCN="机械原点偏移量及遇限位处理方式" FunctionTC="機械原點偏移量及遇限位處理方式" FunctionEN="Mechanical homing offset and limit processing method" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="3" Unit="Command unit" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="103" FunctionCN="碰撞回原点检测时间" FunctionTC="碰撞回原點檢測時間" FunctionEN="Collision back to homing detection time" FunctionKr="" ColumnType="Textbox" Parameter="50" Default="50" Minimum="0" Maximum="65535" Unit="ms" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="104" FunctionCN="碰撞回原点检测速度" FunctionTC="碰撞回原點檢測速度" FunctionEN="Collision back to homing detection speed" FunctionKr="" ColumnType="Textbox" Parameter="50" Default="50" Minimum="0" Maximum="1000" Unit="r/min" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="105" FunctionCN="碰撞回原点力矩" FunctionTC="碰撞回原點力矩" FunctionEN="Collision back to homing torque" FunctionKr="" ColumnType="Textbox" Parameter="300" Default="300" Minimum="0" Maximum="65535" Unit="0.001Nm" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="106" FunctionCN="输入端口强制有效" FunctionTC="輸入端口強制有效" FunctionEN="Input port is mandatory" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="63" Unit="-" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="107" FunctionCN="输出端口强制有效" FunctionTC="輸出端口強制有效" FunctionEN="Output port is mandatory" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="15" Unit="-" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="108" FunctionCN="电机转速、故障代码PWM输出使能" FunctionTC="電機轉速、故障代碼PWM輸出使能" FunctionEN="PWM enabled" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="3" Unit="-" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="109" FunctionCN="电机转速PWM输出最高转速设定" FunctionTC="電機轉速PWM輸出最高轉速設定" FunctionEN="PWM OutPut MaxSpeed" FunctionKr="" ColumnType="Textbox" Parameter="5000" Default="5000" Minimum="0" Maximum="20000" Unit="r/min" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="110" FunctionCN="位置比例增益" FunctionTC="位置比例增益" FunctionEN="Position proportional gain" FunctionKr="" ColumnType="Textbox" Parameter="300" Default="300" Minimum="0" Maximum="65535" Unit="-" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="111" FunctionCN="速度比例增益" FunctionTC="速度比例增益" FunctionEN="Speed proportional gain" FunctionKr="" ColumnType="Textbox" Parameter="500" Default="500" Minimum="0" Maximum="65535" Unit="-" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="112" FunctionCN="速度积分增益" FunctionTC="速度積分增益" FunctionEN="Speed integral gain" FunctionKr="" ColumnType="Textbox" Parameter="10" Default="10" Minimum="0" Maximum="65535" Unit="-" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="113" FunctionCN="速度饱和增益" FunctionTC="速度飽和增益" FunctionEN="Speed saturation gain" FunctionKr="" ColumnType="Textbox" Parameter="256" Default="256" Minimum="0" Maximum="65535" Unit="-" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="114" FunctionCN="位置比例增益2" FunctionTC="位置比例增益2" FunctionEN="Position proportional gain 2" FunctionKr="" ColumnType="Textbox" Parameter="300" Default="300" Minimum="0" Maximum="65535" Unit="-" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="115" FunctionCN="速度比例增益2" FunctionTC="速度比例增益2" FunctionEN="Speed proportional gain 2" FunctionKr="" ColumnType="Textbox" Parameter="500" Default="500" Minimum="0" Maximum="65535" Unit="-" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="116" FunctionCN="速度积分增益2" FunctionTC="速度積分增益2" FunctionEN="Speed integral gain 2" FunctionKr="" ColumnType="Textbox" Parameter="10" Default="10" Minimum="0" Maximum="65535" Unit="-" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="117" FunctionCN="速度饱和增益2" FunctionTC="速度飽和增益2" FunctionEN="Speed saturation gain 2" FunctionKr="" ColumnType="Textbox" Parameter="256" Default="256" Minimum="0" Maximum="65535" Unit="-" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="118" FunctionCN="速度低通滤波截止频率 1" FunctionTC="速度低通濾波截止頻率 1" FunctionEN="Speed low pass filter cutoff frequency 1" FunctionKr="" ColumnType="Textbox" Parameter="200" Default="200" Minimum="0" Maximum="3000" Unit="Hz" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="119" FunctionCN="速度低通滤波截止频率 2" FunctionTC="速度低通濾波截止頻率 2" FunctionEN="Speed low pass filter cutoff frequency 2" FunctionKr="" ColumnType="Textbox" Parameter="600" Default="600" Minimum="0" Maximum="3000" Unit="Hz" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="120" FunctionCN="速度前馈增益" FunctionTC="速度積分增益2" FunctionEN="Speed integral gain 2" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="1000" Unit="0.1%" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="121" FunctionCN="速度前馈低通滤波截止频率" FunctionTC="速度飽和增益2" FunctionEN="Speed saturation gain 2" FunctionKr="" ColumnType="Textbox" Parameter="500" Default="500" Minimum="0" Maximum="3000" Unit="Hz" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="122" FunctionCN="转矩前馈增益" FunctionTC="速度低通濾波截止頻率 1" FunctionEN="Speed low pass filter cutoff frequency 1" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="1000" Unit="0.1%" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="123" FunctionCN="转矩前馈低通滤波截止频率" FunctionTC="速度低通濾波截止頻率 2" FunctionEN="Speed low pass filter cutoff frequency 2" FunctionKr="" ColumnType="Textbox" Parameter="500" Default="500" Minimum="0" Maximum="3000" Unit="Hz" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="124" FunctionCN="转矩比例增益" FunctionTC="轉矩比例增益" FunctionEN="Torque proportional gain" FunctionKr="" ColumnType="Textbox" Parameter="150" Default="150" Minimum="0" Maximum="65535" Unit="-" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="125" FunctionCN="转矩积分增益" FunctionTC="轉矩積分增益" FunctionEN="Torque integral gain" FunctionKr="" ColumnType="Textbox" Parameter="80" Default="80" Minimum="0" Maximum="65535" Unit="-" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="126" FunctionCN="转矩饱和增益" FunctionTC="轉矩飽和增益" FunctionEN="Torque saturation gain" FunctionKr="" ColumnType="Textbox" Parameter="256" Default="256" Minimum="0" Maximum="65535" Unit="-" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="127" FunctionCN="转矩低通滤波截止频率" FunctionTC="轉矩低通濾波截止頻率" FunctionEN="Torque low-pass filter cut-off frequency" FunctionKr="" ColumnType="Textbox" Parameter="1000" Default="1000" Minimum="1" Maximum="3000" Unit="Hz" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="128" FunctionCN="第2增益模式设置" FunctionTC="轉矩低通濾波截止頻率" FunctionEN="Torque low-pass filter cut-off frequency" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="65535" Unit="-" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="129" FunctionCN="增益切换条件选择" FunctionTC="轉矩低通濾波截止頻率" FunctionEN="Torque low-pass filter cut-off frequency" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="65535" Unit="-" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="130" FunctionCN="增益切换延迟时间" FunctionTC="轉矩低通濾波截止頻率" FunctionEN="Torque low-pass filter cut-off frequency" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="65535" Unit="ms" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="131" FunctionCN="增益切换等级" FunctionTC="轉矩低通濾波截止頻率" FunctionEN="Torque low-pass filter cut-off frequency" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="65535" Unit="-" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="132" FunctionCN="增益切换时滞" FunctionTC="轉矩低通濾波截止頻率" FunctionEN="Torque low-pass filter cut-off frequency" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="65535" Unit="-" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="133" FunctionCN="位置增益切换时间" FunctionTC="轉矩低通濾波截止頻率" FunctionEN="Torque low-pass filter cut-off frequency" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="65535" Unit="ms" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="134-139" FunctionCN="保留" FunctionTC="保留" FunctionEN="Keep" FunctionKr="" ColumnType="Textbox" Parameter="-" Default="-" Minimum="-" Maximum="-" Unit="-" RWAttribution="R" Remark="12"/>
+      <Register ModbusAddr="140" FunctionCN="力矩模式给定力矩" FunctionTC="力矩模式給定力矩" FunctionEN="Torque mode given torque" FunctionKr="" ColumnType="Textbox" Parameter="300" Default="300" Minimum="0" Maximum="65535" Unit="0.001Nm" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="141" FunctionCN="力矩模式加速度" FunctionTC="力矩模式加速度" FunctionEN="Torque mode acceleration" FunctionKr="" ColumnType="Textbox" Parameter="100" Default="100" Minimum="1" Maximum="2000" Unit="r/s^2" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="142" FunctionCN="力矩模式减速度" FunctionTC="力矩模式減速度" FunctionEN="Torque mode deceleration" FunctionKr="" ColumnType="Textbox" Parameter="100" Default="100" Minimum="1" Maximum="2000" Unit="r/s^2" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="143" FunctionCN="力矩模式正向运行速度" FunctionTC="力矩模式正向運行速度" FunctionEN="Forward running speed in torque mode" FunctionKr="" ColumnType="Textbox" Parameter="500" Default="500" Minimum="0" Maximum="6000" Unit="r/min" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="144" FunctionCN="力矩模式负向运行速度" FunctionTC="力矩模式負向運行速度" FunctionEN="Negative running speed in torque mode" FunctionKr="" ColumnType="Textbox" Parameter="500" Default="500" Minimum="0" Maximum="6000" Unit="r/min" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="145" FunctionCN="力矩模式:力矩到达基准值" FunctionTC="力矩模式:力矩到達基準值" FunctionEN="Torque mode: Torque reaches the reference value" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="65535" Unit="0.001Nm" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="146" FunctionCN="力矩模式: 力矩到达有效值" FunctionTC="力矩模式:力矩到達有效值" FunctionEN="Torque mode: Torque reaches the valid value." FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="65535" Unit="0.001Nm" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="147" FunctionCN="力矩模式:力矩到达无效值" FunctionTC="力矩模式:力矩到達無效值" FunctionEN="Torque mode: Torque reaches the invalid value" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="65535" Unit="0.001Nm" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="148" FunctionCN="力矩模式:力矩到达信号检测时间" FunctionTC="力矩模式:力矩到達信號檢測時間" FunctionEN="Torque mode: Torque reaches signal detection time-" FunctionKr="" ColumnType="Textbox" Parameter="50" Default="50" Minimum="0" Maximum="65535" Unit="ms" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="149" FunctionCN="力矩模式:力矩到达保持时间" FunctionTC="力矩模式:力矩到達保持時間" FunctionEN="Torque mode: Torque reaches holding time" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="65535" Unit="ms" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="150" FunctionCN="驱动器故障代码" FunctionTC="驅動器故障代碼" FunctionEN="Drive fault code" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="65535" Unit="-" RWAttribution="R" Remark="-"/>
+      <Register ModbusAddr="151" FunctionCN="驱动器输出功能标志状态" FunctionTC="驅動器狀態代碼" FunctionEN="Drive status code" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="65535" Unit="-" RWAttribution="R" Remark="-"/>
+      <Register ModbusAddr="152" FunctionCN="编码器状态代码" FunctionTC="編碼器狀態代碼" FunctionEN="Encoder status code" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="65535" Unit="-" RWAttribution="R" Remark="-"/>
+      <Register ModbusAddr="153" FunctionCN="编码器状态代码" FunctionTC="編碼器狀態代碼" FunctionEN="Encoder status code" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="65535" Unit="-" RWAttribution="R" Remark="-"/>
+      <Register ModbusAddr="154" FunctionCN="输入端口状态" FunctionTC="輸入端口狀態" FunctionEN="Input port status" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="65535" Unit="-" RWAttribution="R" Remark="-"/>
+      <Register ModbusAddr="155" FunctionCN="输出端口状态" FunctionTC="輸出端口狀態" FunctionEN="Output port status" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="65535" Unit="-" RWAttribution="R" Remark="-"/>
+      <Register ModbusAddr="156" FunctionCN="输入端口导通沿锁存状态" FunctionTC="輸入端口導通沿鎖存狀態" FunctionEN="Input port conduction edge latch state" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="65535" Unit="-" RWAttribution="R" Remark="-"/>
+      <Register ModbusAddr="157" FunctionCN="输入端口关断沿锁存状态" FunctionTC="輸入端口關斷沿鎖存狀態" FunctionEN="Input port shut-off edge latch state " FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="65535" Unit="-" RWAttribution="R" Remark="-"/>
+      <Register ModbusAddr="158" FunctionCN="输入状态标志寄存器" FunctionTC="輸入狀態標誌寄存器" FunctionEN="Input status flag register" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="65535" Unit="-" RWAttribution="R" Remark="-"/>
+      <Register ModbusAddr="159" FunctionCN="输出状态标志寄存器" FunctionTC="輸出狀態標誌寄存器" FunctionEN="Output status flag register" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="65535" Unit="-" RWAttribution="R" Remark="-"/>
+      <Register ModbusAddr="160" FunctionCN="驱动器电压" FunctionTC="驅動器電壓" FunctionEN="Drive voltage" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="65535" Unit="0.01V" RWAttribution="R" Remark="-"/>
+      <Register ModbusAddr="161" FunctionCN="驱动器平均负载率" FunctionTC="驅動器平均負載率" FunctionEN="Drive average load rate" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="65535" Unit="1%" RWAttribution="R" Remark="-"/>
+      <Register ModbusAddr="162" FunctionCN="电机当前位置" FunctionTC="電機當前位置" FunctionEN="Motor current position" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="65535" Unit="Command unit" RWAttribution="R" Remark="int32"/>
+      <Register ModbusAddr="164" FunctionCN="跟踪误差" FunctionTC="跟踪誤差" FunctionEN="Tracking error" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="65535" Unit="编码器单位" RWAttribution="R" Remark="int32"/>
+      <Register ModbusAddr="166" FunctionCN="外部脉冲指令计数器" FunctionTC="外部脈衝指令計數器" FunctionEN="External pulse command counter" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="65535" Unit="指令单位" RWAttribution="R" Remark="int32"/>
+      <Register ModbusAddr="168" FunctionCN="内部脉冲指令计数器" FunctionTC="內部脈衝指令計數器" FunctionEN="Internal pulse command counter" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="65535" Unit="指令单位" RWAttribution="R" Remark="int32"/>
+      <Register ModbusAddr="170" FunctionCN="编码器反馈脉冲计数器" FunctionTC="編碼器反饋脈衝計數器" FunctionEN="Encoder feedback pulse counter" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="65535" Unit="编码器单位" RWAttribution="R" Remark="int32"/>
+      <Register ModbusAddr="172" FunctionCN="编码器当前位置" FunctionTC="編碼器當前位置" FunctionEN="Encoder current position" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="65535" Unit="编码器单位" RWAttribution="R" Remark="int32"/>
+      <Register ModbusAddr="174" FunctionCN="电机速度指令" FunctionTC="電機速度指令" FunctionEN="Motor speed command" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="65535" Unit="r/min" RWAttribution="R" Remark="-"/>
+      <Register ModbusAddr="175" FunctionCN="电机实际转速" FunctionTC="電機實際轉速" FunctionEN="Actual motor speed" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="65535" Unit="r/min" RWAttribution="R" Remark="-"/>
+      <Register ModbusAddr="176" FunctionCN="位置指令对应速度" FunctionTC="位置指令對應速度" FunctionEN="Speed corresponding to position command" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="65535" Unit="r/min" RWAttribution="R" Remark="-"/>
+      <Register ModbusAddr="177" FunctionCN="电机给定力矩" FunctionTC="電機給定力矩" FunctionEN="Motor given torque" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="65535" Unit="%" RWAttribution="R" Remark="-"/>
+      <Register ModbusAddr="178" FunctionCN="电机实际力矩" FunctionTC="電機實際力矩" FunctionEN="Actual motor torque " FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="65535" Unit="%" RWAttribution="R" Remark="-"/>
+      <Register ModbusAddr="179" FunctionCN="电机当前电角度" FunctionTC="電機當前電角度" FunctionEN="Current electrical angle of motor" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="65535" Unit="编码器单位" RWAttribution="R" Remark="-"/>
+      <Register ModbusAddr="180" FunctionCN="电机 U 相采样值" FunctionTC="電機U相採樣值" FunctionEN="Motor U phase sampling value" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="65535" Unit="-" RWAttribution="R" Remark="-"/>
+      <Register ModbusAddr="181" FunctionCN="电机 U 相偏置" FunctionTC="電機U相偏置" FunctionEN="Motor U phase offset" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="65535" Unit="-" RWAttribution="R" Remark="-"/>
+      <Register ModbusAddr="182" FunctionCN="电机 V 相采样值" FunctionTC="電機V相採樣值" FunctionEN="Motor V phase sampling value" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="65535" Unit="-" RWAttribution="R" Remark="-"/>
+      <Register ModbusAddr="183" FunctionCN="电机 V 相偏置" FunctionTC="電機V相偏置" FunctionEN="Motor V phase offset" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="65535" Unit="-" RWAttribution="R" Remark="-"/>
+      <Register ModbusAddr="184" FunctionCN="驱动器电压采样值" FunctionTC="驅動器電壓採樣值" FunctionEN="Driver voltage sampling value" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="65535" Unit="-" RWAttribution="R" Remark="-"/>
+      <Register ModbusAddr="185" FunctionCN="电机 U 相电流值" FunctionTC="電機U相電流值" FunctionEN="Motor U phase current value" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="65535" Unit="0.1A" RWAttribution="R" Remark="-"/>
+      <Register ModbusAddr="186" FunctionCN="电机 V 相电流值" FunctionTC="電機V相電流值" FunctionEN="Motor V phase current value" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="65535" Unit="0.1A" RWAttribution="R" Remark="-"/>
+      <Register ModbusAddr="187" FunctionCN="系统状态" FunctionTC="系統狀態" FunctionEN="System status" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="65535" Unit="-" RWAttribution="R" Remark="-"/>
+      <Register ModbusAddr="188" FunctionCN="内部指令状态" FunctionTC="內部指令狀態" FunctionEN="Internal command status" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="65535" Unit="-" RWAttribution="R" Remark="-"/>
+      <Register ModbusAddr="189" FunctionCN="编码器霍尔信号状态" FunctionTC="編碼器霍爾信號狀態" FunctionEN="Hall signal status of encoder" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="65535" Unit="-" RWAttribution="R" Remark="-"/>
+      <Register ModbusAddr="190" FunctionCN="编码器正向校准值" FunctionTC="編碼器正向校準值" FunctionEN="Encoder positive calibration value" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="65535" Unit="-" RWAttribution="R" Remark="-"/>
+      <Register ModbusAddr="191" FunctionCN="编码器负向校准值" FunctionTC="編碼器負向校準值" FunctionEN="Encoder negative calibration value" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="65535" Unit="-" RWAttribution="R" Remark="-"/>
+      <Register ModbusAddr="192" FunctionCN="编码器锁存值" FunctionTC="編碼器鎖存值" FunctionEN="Encoder latch value" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="65535" Unit="-" RWAttribution="R" Remark="-"/>
+      <Register ModbusAddr="193" FunctionCN="编码器锁存霍尔电角度" FunctionTC="編碼器鎖存霍爾電角度" FunctionEN="Encoder lock Hall electrical angle" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="65535" Unit="-" RWAttribution="R" Remark="-"/>
+      <Register ModbusAddr="194" FunctionCN="编码器脉冲计数单元计数值" FunctionTC="編碼器脈衝計數單元計數值" FunctionEN="Encoder pulse counting unit count value" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="65535" Unit="-" RWAttribution="R" Remark="-"/>
+      <Register ModbusAddr="195" FunctionCN="模拟量输入采样值" FunctionTC="模擬量輸入採樣值" FunctionEN="Analog input sampling value" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="65535" Unit="-" RWAttribution="R" Remark="-"/>
+      <Register ModbusAddr="196" FunctionCN="输入PWM信号脉冲占空比" FunctionTC="輸入PWM信號脈沖占空比" FunctionEN="Input PWM signal pulse duty cycle" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="65535" Unit="0.01%" RWAttribution="R" Remark="-"/>
+      <Register ModbusAddr="197" FunctionCN="电机转速PWM输出信号占空比" FunctionTC="電機轉速PWM輸出信號占空比" FunctionEN="Duty cycle of motor speed PWM output signal" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="65535" Unit="0.01%" RWAttribution="R" Remark="-"/>
+      <Register ModbusAddr="198" FunctionCN="输入功能转发选择1" FunctionTC="輸入功能轉發選擇1" FunctionEN="Input function Forward select 1" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="31" Unit="-" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="199" FunctionCN="输入功能转发选择2" FunctionTC="輸入功能轉發選擇2" FunctionEN="Input function Forward select 2" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="31" Unit="-" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="200" FunctionCN="模拟量输入偏置" FunctionTC="模擬量輸入偏置" FunctionEN="Analog input offset" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="5000" Unit="0.001V" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="201" FunctionCN="模拟量输入低通滤波截止频率" FunctionTC="模擬量輸入低通濾波截止頻率" FunctionEN="Analog input low-pass filter cut-off frequency" FunctionKr="" ColumnType="Textbox" Parameter="200" Default="200" Minimum="1" Maximum="3000" Unit="Hz" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="202" FunctionCN="模拟量输入死区" FunctionTC="模擬量輸入死區" FunctionEN="Analog input dead zone" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="2000" Unit="0.001V" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="203" FunctionCN="模拟量输入零漂" FunctionTC="模擬量輸入零漂" FunctionEN="Analog input zero drift" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="2000" Unit="0.001V" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="204" FunctionCN="5V 对应的速度指令" FunctionTC="對應的速度指令" FunctionEN="Corresponding speed command" FunctionKr="" ColumnType="Textbox" Parameter="1000" Default="1000" Minimum="-600" Maximum="6000" Unit=" r/min" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="205" FunctionCN="5V 对应的位置指令" FunctionTC="對應的位置指令" FunctionEN="Corresponding position command" FunctionKr="" ColumnType="Textbox" Parameter="10000" Default="10000" Minimum="-1073741824" Maximum="1073741824" Unit="Command unit" RWAttribution="RW" Remark="int32"/>
+      <Register ModbusAddr="207" FunctionCN="DSP 实际采样电压值" FunctionTC="實際採樣電壓值" FunctionEN="Actual sampling voltage value " FunctionKr="" ColumnType="Textbox" Parameter="10000" Default="10000" Minimum="-1073741824" Maximum="1073741824" Unit="0.001V" RWAttribution="R" Remark="-"/>
+      <Register ModbusAddr="208" FunctionCN="经过零漂、死区、偏置后的电压" FunctionTC="經過零漂、死區、偏置後的電壓" FunctionEN="Voltage after zero drift, dead zone, and offset" FunctionKr="" ColumnType="Textbox" Parameter="10000" Default="10000" Minimum="-1073741824" Maximum="1073741824" Unit="0.001V" RWAttribution="R" Remark="-"/>
+      <Register ModbusAddr="209" FunctionCN="当前输入电压对应的速度" FunctionTC="當前輸入電壓對應的速度" FunctionEN="The speed corresponding to the current input voltage " FunctionKr="" ColumnType="Textbox" Parameter="10000" Default="10000" Minimum="-1073741824" Maximum="1073741824" Unit="r/min" RWAttribution="R" Remark="-"/>
+      <Register ModbusAddr="210" FunctionCN="当前输入电压对应的位置指令" FunctionTC="當前輸入電壓對應的位置指令" FunctionEN="The position command corresponding to the current input voltage" FunctionKr="" ColumnType="Textbox" Parameter="10000" Default="10000" Minimum="-1073741824" Maximum="1073741824" Unit="Command unit" RWAttribution="R" Remark="int32"/>
+      <Register ModbusAddr="212" FunctionCN="位置指令误差阈值" FunctionTC="位置指令誤差閾值" FunctionEN="Position command error threshold" FunctionKr="" ColumnType="Textbox" Parameter="10" Default="10" Minimum="0" Maximum="65535" Unit="Encoder unit" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="213" FunctionCN="模拟量强制启动命令" FunctionTC="模擬量強制啟動命令" FunctionEN="Analog forced start command" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="9" Unit="-" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="214" FunctionCN="模拟量死区处理模式" FunctionTC="模擬量死區處理模式" FunctionEN="Analog dead zone processing mode" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="1" Unit="-" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="215" FunctionCN="指令过载起始检测点" FunctionTC="指令過載起始檢測點" FunctionEN="Command overload starting detection point" FunctionKr="" ColumnType="Textbox" Parameter="100" Default="100" Minimum="0" Maximum="300" Unit="%" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="216" FunctionCN="指令过载峰值检测点" FunctionTC="指令過載峰值檢測點" FunctionEN="Command overload peak detection point " FunctionKr="" ColumnType="Textbox" Parameter="300" Default="300" Minimum="0" Maximum="300" Unit="%" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="217" FunctionCN="指令过载检测时间" FunctionTC="指令過載檢測時間" FunctionEN="Command overload detection time" FunctionKr="" ColumnType="Textbox" Parameter="4000" Default="4000" Minimum="0" Maximum="65535" Unit="ms" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="218" FunctionCN="热过载起始检测点" FunctionTC="熱過載起始檢測點" FunctionEN="Thermal overload starting detection point " FunctionKr="" ColumnType="Textbox" Parameter="100" Default="100" Minimum="0" Maximum="300" Unit="%" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="219" FunctionCN="热过载峰值检测点" FunctionTC="熱過載峰值檢測點" FunctionEN="Thermal overload peak detection point " FunctionKr="" ColumnType="Textbox" Parameter="300" Default="300" Minimum="0" Maximum="300" Unit="%" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="220" FunctionCN="热过载检测时间" FunctionTC="熱過載檢測時間" FunctionEN="Thermal overload detection time" FunctionKr="" ColumnType="Textbox" Parameter="4000" Default="4000" Minimum="0" Maximum="65535" Unit="ms" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="221" FunctionCN="速度饱和输出时间" FunctionTC="速度飽和輸出時間" FunctionEN="Speed saturation output time" FunctionKr="" ColumnType="Textbox" Parameter="5000" Default="5000" Minimum="0" Maximum="65535" Unit="ms" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="222" FunctionCN="速度模式停机模式" FunctionTC="速度模式停機模式" FunctionEN="Speed mode stop mode" FunctionKr="" ColumnType="Combox" Parameter="0" Default="0" Minimum="0" Maximum="4" Unit="-" RWAttribution="RW" Remark="-">
+        <Menu NameCN="不做处理" NameTC="不做處理" NameEN="Don't do processing" NameKr="" Parameter="0"/>
+        <Menu NameCN="转为位置模式锁轴" NameTC="轉為位置模式鎖軸" NameEN="Switch to position mode lock axle" NameKr="" Parameter="1"/>
+        <Menu NameCN="伺服不使能" NameTC="伺服不使能" NameEN="Servo disabled" NameKr="" Parameter="2"/>
+      </Register>
+      <Register ModbusAddr="223" FunctionCN="力矩模式停机模式" FunctionTC="力矩模式停機模式" FunctionEN="Torque mode stop mode" FunctionKr="" ColumnType="Combox" Parameter="0" Default="0" Minimum="0" Maximum="4" Unit="-" RWAttribution="RW" Remark="-">
+        <Menu NameCN="电机运行力矩设定为0" NameTC="電機運行力矩設定為0" NameEN="Motor running torque is set to 0" NameKr="" Parameter="0"/>
+        <Menu NameCN="转为位置模式锁轴" NameTC="轉為位置模式鎖軸" NameEN="Switch to position mode lock axle" NameKr="" Parameter="1"/>
+        <Menu NameCN="伺服不使能" NameTC="伺服不使能" NameEN="Servo disabled" NameKr="" Parameter="2"/>
+        <Menu NameCN="不做处理" NameTC="不做處理" NameEN="Don't do processing" NameKr="" Parameter="3"/>
+      </Register>
+      <Register ModbusAddr="224" FunctionCN="强制启动命令" FunctionTC="強制啟動命令" FunctionEN="Force start command" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="9" Unit="-" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="225" FunctionCN="通讯控制加速度" FunctionTC="通訊控制加速度" FunctionEN="Communication control acceleration " FunctionKr="" ColumnType="Textbox" Parameter="100" Default="100" Minimum="1" Maximum="2000" Unit=" r/s^2" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="226" FunctionCN="通讯控制减速度" FunctionTC="通訊控制減速度" FunctionEN="Communication control deceleration" FunctionKr="" ColumnType="Textbox" Parameter="100" Default="100" Minimum="1" Maximum="2000" Unit="r/s^2" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="227" FunctionCN="通讯控制速度" FunctionTC="通訊控制速度" FunctionEN="Communication control speed " FunctionKr="" ColumnType="Textbox" Parameter="500" Default="500" Minimum="0" Maximum="6000" Unit=" r/min" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="228" FunctionCN="通讯控制行程/位置" FunctionTC="通訊控制行程/位置" FunctionEN="Communication control stroke/position" FunctionKr="" ColumnType="Textbox" Parameter="10000" Default="10000" Minimum="-1073741824" Maximum="1073741824" Unit="Command unit" RWAttribution="RW" Remark="int32"/>
+      <Register ModbusAddr="230" FunctionCN="制动电阻功率" FunctionTC="制動電阻功率" FunctionEN="Braking resistor power" FunctionKr="" ColumnType="Textbox" Parameter="100" Default="100" Minimum="1" Maximum="65535" Unit="W" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="231" FunctionCN="制动电阻阻值" FunctionTC="制動電阻阻值" FunctionEN="Braking resistor resistance" FunctionKr="" ColumnType="Textbox" Parameter="40" Default="40" Minimum="0" Maximum="6000" Unit="Ω" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="232" FunctionCN="制动电阻散热系数" FunctionTC="制動電阻散熱係數" FunctionEN="Braking resistor heat dissipation coefficient" FunctionKr="" ColumnType="Textbox" Parameter="20" Default="20" Minimum="0" Maximum="100" Unit="%" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="233" FunctionCN="制动命令" FunctionTC="製動命令" FunctionEN="Brake command" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="2" Unit="-" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="233" FunctionCN="制动命令" FunctionTC="製動命令" FunctionEN="Brake command" FunctionKr="" ColumnType="Combox" Parameter="0" Default="0" Minimum="0" Maximum="65535" Unit="-" RWAttribution="RW" Remark="-">
+        <Menu NameCN="停止" NameTC="停止" NameEN="Stop" NameKr="" Parameter="0"/>
+        <Menu NameCN="启动" NameTC="启动" NameEN="Start" NameKr="" Parameter="1"/>
+        <Menu NameCN="运行中" NameTC="运行中" NameEN="Running" NameKr="" Parameter="2"/>
+        <Menu NameCN="能耗制动测试" NameTC="能耗制动测试" NameEN="能耗制动测试" NameKr="" Parameter="999"/>
+      </Register>
+      <Register ModbusAddr="234" FunctionCN="编码器电池故障禁止" FunctionTC="编码器电池故障禁止" FunctionEN="编码器电池故障禁止" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="1" Unit="-" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="235" FunctionCN="RS485端口协议类型" FunctionTC="RS485端口协议类型" FunctionEN="RS485端口协议类型" FunctionKr="" ColumnType="Combox" Parameter="0" Default="0" Minimum="0" Maximum="65535" Unit="-" RWAttribution="RW" Remark="-">
+        <Menu NameCN="Modbus RTU" NameTC="Modbus RTU" NameEN="Modbus RTU" NameKr="" Parameter="0"/>
+        <Menu NameCN="自定义协议1" NameTC="自定义协议1" NameEN="自定义协议1" NameKr="" Parameter="1"/>
+        <Menu NameCN="自定义协议2" NameTC="自定义协议2" NameEN="自定义协议2" NameKr="" Parameter="2"/>
+      </Register>
+      <Register ModbusAddr="236" FunctionCN="制动电压阈值" FunctionTC="制动电压阈值" FunctionEN="制动电压阈值" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="65535" Unit="-" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="237" FunctionCN="多段速度指令运行方式" FunctionTC="多段速度指令運行方式" FunctionEN="Multi-segment speed command operation mode" FunctionKr="" ColumnType="Combox" Parameter="2" Default="2" Minimum="0" Maximum="2" Unit="-" RWAttribution="RW" Remark="-">
+        <Menu NameCN="单次运行结束停机" NameTC="單次運行結束停機" NameEN="Stop after single operation" NameKr="" Parameter="0"/>
+        <Menu NameCN="循环运行" NameTC="循環運行" NameEN="Cycle operation" NameKr="" Parameter="1"/>
+        <Menu NameCN="IN切换运行" NameTC="IN切換運行" NameEN="IN switching operation" NameKr="" Parameter="2"/>
+      </Register>
+      <Register ModbusAddr="238" FunctionCN="多段速度指令终点段数" FunctionTC="多段速度指令終點段數" FunctionEN="Multi-segment speed command end segment number" FunctionKr="" ColumnType="Textbox" Parameter="16" Default="16" Minimum="1" Maximum="16" Unit="-" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="239" FunctionCN="多段速度指令运行时间单位" FunctionTC="多段速度指令運行時間單位" FunctionEN="Multi-segment speed command running time unit" FunctionKr="" ColumnType="Combox" Parameter="0" Default="0" Minimum="0" Maximum="1" Unit="-" RWAttribution="RW" Remark="-">
+        <Menu NameCN="0.1s" NameTC="0.1s" NameEN="0.1s" NameKr="" Parameter="0"/>
+        <Menu NameCN="0.1min" NameTC="0.1min" NameEN="0.1min" NameKr="" Parameter="1"/>
+      </Register>
+      <Register ModbusAddr="240" FunctionCN="多段速度指令加速度 1" FunctionTC="多段速度指令加速度1" FunctionEN="Multi-segment speed command acceleration 1" FunctionKr="" ColumnType="Textbox" Parameter="100" Default="100" Minimum="1" Maximum="2000" Unit="r/s^2" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="241" FunctionCN="多段速度指令减速度 1" FunctionTC="多段速度指令減速度1" FunctionEN="Multi-segment speed command deceleration 1" FunctionKr="" ColumnType="Textbox" Parameter="100" Default="100" Minimum="1" Maximum="2000" Unit="r/s^2" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="242" FunctionCN="多段速度指令加速度 2" FunctionTC="多段速度指令加速度2" FunctionEN="Multi-segment speed command acceleration 2" FunctionKr="" ColumnType="Textbox" Parameter="100" Default="100" Minimum="1" Maximum="2000" Unit="r/s^2" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="243" FunctionCN="多段速度指令减速度 2" FunctionTC="多段速度指令減速度2" FunctionEN="Multi-segment speed command deceleration 2" FunctionKr="" ColumnType="Textbox" Parameter="100" Default="100" Minimum="1" Maximum="2000" Unit="r/s^2" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="244" FunctionCN="多段速度指令加速度 3" FunctionTC="多段速度指令加速度3" FunctionEN="Multi-segment speed command acceleration 3" FunctionKr="" ColumnType="Textbox" Parameter="100" Default="100" Minimum="1" Maximum="2000" Unit="r/s^2" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="245" FunctionCN="多段速度指令减速度 3" FunctionTC="多段速度指令減速度3" FunctionEN="Multi-segment speed command deceleration 3" FunctionKr="" ColumnType="Textbox" Parameter="100" Default="100" Minimum="1" Maximum="2000" Unit="r/s^2" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="246" FunctionCN="多段速度指令加速度 4" FunctionTC="多段速度指令加速度4" FunctionEN="Multi-segment speed command acceleration 4" FunctionKr="" ColumnType="Textbox" Parameter="100" Default="100" Minimum="1" Maximum="2000" Unit="r/s^2" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="247" FunctionCN="多段速度指令减速度 4" FunctionTC="多段速度指令減速度4" FunctionEN="Multi-segment speed command deceleration 4" FunctionKr="" ColumnType="Textbox" Parameter="100" Default="100" Minimum="1" Maximum="2000" Unit="r/s^2" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="248" FunctionCN="多段速度指令加速度 5" FunctionTC="多段速度指令加速度5" FunctionEN="Multi-segment speed command acceleration 5" FunctionKr="" ColumnType="Textbox" Parameter="100" Default="100" Minimum="1" Maximum="2000" Unit="r/s^2" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="249" FunctionCN="多段速度指令减速度 5" FunctionTC="多段速度指令減速度5" FunctionEN="Multi-segment speed command deceleration 5" FunctionKr="" ColumnType="Textbox" Parameter="100" Default="100" Minimum="1" Maximum="2000" Unit="r/s^2" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="250" FunctionCN="多段速度指令加速度 6" FunctionTC="多段速度指令加速度6" FunctionEN="Multi-segment speed command acceleration 6" FunctionKr="" ColumnType="Textbox" Parameter="100" Default="100" Minimum="1" Maximum="2000" Unit="r/s^2" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="251" FunctionCN="多段速度指令减速度 6" FunctionTC="多段速度指令減速度6" FunctionEN="Multi-segment speed command deceleration 6" FunctionKr="" ColumnType="Textbox" Parameter="100" Default="100" Minimum="1" Maximum="2000" Unit="r/s^2" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="252" FunctionCN="第 1 段速度指令" FunctionTC="第1段速度指令" FunctionEN="1st segment speed command" FunctionKr="" ColumnType="Textbox" Parameter="500" Default="500" Minimum="-6000" Maximum="6000" Unit="rpm" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="253" FunctionCN="第 1 段指令运行时间" FunctionTC="第1段指令運行時間" FunctionEN="1st segment command running time" FunctionKr="" ColumnType="Textbox" Parameter="10" Default="10" Minimum="0" Maximum="65535" Unit="0.1s/0.1min" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="254" FunctionCN="第 1 段指令加减速选择" FunctionTC="第1段指令加減速選擇" FunctionEN="1st segment command acceleration and deceleration selection" FunctionKr="" ColumnType="Textbox" Parameter="1" Default="1" Minimum="1" Maximum="6" Unit="-" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="255" FunctionCN="第 2 段速度指令" FunctionTC="第2段速度指令" FunctionEN="2nd segment speed command" FunctionKr="" ColumnType="Textbox" Parameter="500" Default="500" Minimum="-6000" Maximum="6000" Unit="rpm" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="256" FunctionCN="第 2 段指令运行时间" FunctionTC="第2段指令運行時間" FunctionEN="2nd segment command running time" FunctionKr="" ColumnType="Textbox" Parameter="10" Default="10" Minimum="0" Maximum="65535" Unit="0.1s/0.1min" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="257" FunctionCN="第 2 段指令加减速选择" FunctionTC="第2段指令加減速選擇" FunctionEN="2nd segment command acceleration and deceleration selection" FunctionKr="" ColumnType="Textbox" Parameter="1" Default="1" Minimum="1" Maximum="6" Unit="-" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="258" FunctionCN="第 3 段速度指令" FunctionTC="第3段速度指令" FunctionEN="3rd segment speed command" FunctionKr="" ColumnType="Textbox" Parameter="500" Default="500" Minimum="-6000" Maximum="6000" Unit="rpm" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="259" FunctionCN="第 3 段指令运行时间" FunctionTC="第3段指令運行時間" FunctionEN="3rd segment command running time" FunctionKr="" ColumnType="Textbox" Parameter="10" Default="10" Minimum="0" Maximum="65535" Unit="0.1s/0.1min" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="260" FunctionCN="第 3 段指令加减速选择" FunctionTC="第3段指令加減速選擇" FunctionEN="3rd segment command acceleration and deceleration selection" FunctionKr="" ColumnType="Textbox" Parameter="1" Default="1" Minimum="1" Maximum="6" Unit="-" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="261" FunctionCN="第 4 段速度指令" FunctionTC="第4段速度指令" FunctionEN="4th segment speed command" FunctionKr="" ColumnType="Textbox" Parameter="500" Default="500" Minimum="-6000" Maximum="6000" Unit="rpm" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="262" FunctionCN="第 4 段指令运行时间" FunctionTC="第4段指令運行時間" FunctionEN="4th segment command running time" FunctionKr="" ColumnType="Textbox" Parameter="10" Default="10" Minimum="0" Maximum="65535" Unit="0.1s/0.1min" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="263" FunctionCN="第 4 段指令加减速选择" FunctionTC="第4段指令加減速選擇" FunctionEN="4th segment command acceleration and deceleration selection" FunctionKr="" ColumnType="Textbox" Parameter="1" Default="1" Minimum="1" Maximum="6" Unit="-" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="264" FunctionCN="第 5 段速度指令" FunctionTC="第5段速度指令" FunctionEN="5th segment speed command" FunctionKr="" ColumnType="Textbox" Parameter="500" Default="500" Minimum="-6000" Maximum="6000" Unit="rpm" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="265" FunctionCN="第 5 段指令运行时间" FunctionTC="第5段指令運行時間" FunctionEN="5th segment command running time" FunctionKr="" ColumnType="Textbox" Parameter="10" Default="10" Minimum="0" Maximum="65535" Unit="0.1s/0.1min" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="266" FunctionCN="第 5 段指令加减速选择" FunctionTC="第5段指令加減速選擇" FunctionEN="5th segment command acceleration and deceleration selection" FunctionKr="" ColumnType="Textbox" Parameter="1" Default="1" Minimum="1" Maximum="6" Unit="-" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="267" FunctionCN="第 6 段速度指令" FunctionTC="第6段速度指令" FunctionEN="6th segment speed command" FunctionKr="" ColumnType="Textbox" Parameter="500" Default="500" Minimum="-6000" Maximum="6000" Unit="rpm" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="268" FunctionCN="第 6 段指令运行时间" FunctionTC="第6段指令運行時間" FunctionEN="6th segment command running time" FunctionKr="" ColumnType="Textbox" Parameter="10" Default="10" Minimum="0" Maximum="65535" Unit="0.1s/0.1min" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="269" FunctionCN="第 6 段指令加减速选择" FunctionTC="第6段指令加減速選擇" FunctionEN="6th segment command acceleration and deceleration selection" FunctionKr="" ColumnType="Textbox" Parameter="1" Default="1" Minimum="1" Maximum="6" Unit="-" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="270" FunctionCN="第 7 段速度指令" FunctionTC="第7段速度指令" FunctionEN="7th segment speed command" FunctionKr="" ColumnType="Textbox" Parameter="500" Default="500" Minimum="-6000" Maximum="6000" Unit="rpm" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="271" FunctionCN="第 7 段指令运行时间" FunctionTC="第7段指令運行時間" FunctionEN="7th segment command running time" FunctionKr="" ColumnType="Textbox" Parameter="10" Default="10" Minimum="0" Maximum="65535" Unit="0.1s/0.1min" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="272" FunctionCN="第 7 段指令加减速选择" FunctionTC="第7段指令加減速選擇" FunctionEN="7th segment command acceleration and deceleration selection" FunctionKr="" ColumnType="Textbox" Parameter="1" Default="1" Minimum="1" Maximum="6" Unit="-" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="273" FunctionCN="第 8 段速度指令" FunctionTC="第8段速度指令" FunctionEN="8th segment speed command" FunctionKr="" ColumnType="Textbox" Parameter="500" Default="500" Minimum="-6000" Maximum="6000" Unit="rpm" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="274" FunctionCN="第 8 段指令运行时间" FunctionTC="第8段指令運行時間" FunctionEN="8th segment command running time" FunctionKr="" ColumnType="Textbox" Parameter="10" Default="10" Minimum="0" Maximum="65535" Unit="0.1s/0.1min" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="275" FunctionCN="第 8 段指令加减速选择" FunctionTC="第8段指令加減速選擇" FunctionEN="8th segment command acceleration and deceleration selection" FunctionKr="" ColumnType="Textbox" Parameter="1" Default="1" Minimum="1" Maximum="6" Unit="-" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="276" FunctionCN="第 9 段速度指令" FunctionTC="第9段速度指令" FunctionEN="9th segment speed command" FunctionKr="" ColumnType="Textbox" Parameter="500" Default="500" Minimum="-6000" Maximum="6000" Unit="rpm" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="277" FunctionCN="第 9 段指令运行时间" FunctionTC="第9段指令運行時間" FunctionEN="9th segment command running time" FunctionKr="" ColumnType="Textbox" Parameter="10" Default="10" Minimum="0" Maximum="65535" Unit="0.1s/0.1min" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="278" FunctionCN="第 9 段指令加减速选择" FunctionTC="第9段指令加減速選擇" FunctionEN="9th segment command acceleration and deceleration selection" FunctionKr="" ColumnType="Textbox" Parameter="1" Default="1" Minimum="1" Maximum="6" Unit="-" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="279" FunctionCN="第 10 段速度指令" FunctionTC="第10段速度指令" FunctionEN="10th segment speed command" FunctionKr="" ColumnType="Textbox" Parameter="500" Default="500" Minimum="-6000" Maximum="6000" Unit="rpm" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="280" FunctionCN="第 10 段指令运行时间" FunctionTC="第10段指令運行時間" FunctionEN="10th segment command running time" FunctionKr="" ColumnType="Textbox" Parameter="10" Default="10" Minimum="0" Maximum="65535" Unit="0.1s/0.1min" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="281" FunctionCN="第 10 段指令加减速选择" FunctionTC="第10段指令加減速選擇" FunctionEN="10th segment command acceleration and deceleration selection" FunctionKr="" ColumnType="Textbox" Parameter="1" Default="1" Minimum="1" Maximum="6" Unit="-" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="282" FunctionCN="第 11 段速度指令" FunctionTC="第11段速度指令" FunctionEN="" FunctionKr="11th segment speed command" ColumnType="Textbox" Parameter="500" Default="500" Minimum="-6000" Maximum="6000" Unit="rpm" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="283" FunctionCN="第 11 段指令运行时间" FunctionTC="第11段指令運行時間" FunctionEN="11th segment command running time" FunctionKr="" ColumnType="Textbox" Parameter="10" Default="10" Minimum="0" Maximum="65535" Unit="0.1s/0.1min" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="284" FunctionCN="第 11 段指令加减速选择" FunctionTC="第11段指令加減速選擇" FunctionEN="11th segment command acceleration and deceleration selection" FunctionKr="" ColumnType="Textbox" Parameter="1" Default="1" Minimum="1" Maximum="6" Unit="-" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="285" FunctionCN="第 12 段速度指令" FunctionTC="第12段速度指令" FunctionEN="12th segment speed command" FunctionKr="" ColumnType="Textbox" Parameter="500" Default="500" Minimum="-6000" Maximum="6000" Unit="rpm" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="286" FunctionCN="第 12 段指令运行时间" FunctionTC="第12段指令運行時間" FunctionEN="12th segment command running time" FunctionKr="" ColumnType="Textbox" Parameter="10" Default="10" Minimum="0" Maximum="65535" Unit="0.1s/0.1min" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="287" FunctionCN="第 12 段指令加减速选择" FunctionTC="第12段指令加減速選擇" FunctionEN="12th segment command acceleration and deceleration selection" FunctionKr="" ColumnType="Textbox" Parameter="1" Default="1" Minimum="1" Maximum="6" Unit="-" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="288" FunctionCN="第 13 段速度指令" FunctionTC="第13段速度指令" FunctionEN="13th segment speed command" FunctionKr="" ColumnType="Textbox" Parameter="500" Default="500" Minimum="-6000" Maximum="6000" Unit="rpm" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="289" FunctionCN="第 13 段指令运行时间" FunctionTC="第13段指令運行時間" FunctionEN="13th segment command running time" FunctionKr="" ColumnType="Textbox" Parameter="10" Default="10" Minimum="0" Maximum="65535" Unit="0.1s/0.1min" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="290" FunctionCN="第 13 段指令加减速选择" FunctionTC="第13段指令加減速選擇" FunctionEN="13th segment command acceleration and deceleration selection" FunctionKr="" ColumnType="Textbox" Parameter="1" Default="1" Minimum="1" Maximum="6" Unit="-" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="291" FunctionCN="第 14 段速度指令" FunctionTC="第14段速度指令" FunctionEN="14th segment speed command" FunctionKr="" ColumnType="Textbox" Parameter="500" Default="500" Minimum="-6000" Maximum="6000" Unit="rpm" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="292" FunctionCN="第 14 段指令运行时间" FunctionTC="第14段指令運行時間" FunctionEN="14th segment command running time" FunctionKr="" ColumnType="Textbox" Parameter="10" Default="10" Minimum="0" Maximum="65535" Unit="0.1s/0.1min" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="293" FunctionCN="第 14 段指令加减速选择" FunctionTC="第14段指令加減速選擇" FunctionEN="14th segment command acceleration and deceleration selection" FunctionKr="" ColumnType="Textbox" Parameter="1" Default="1" Minimum="1" Maximum="6" Unit="-" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="294" FunctionCN="第 15 段速度指令" FunctionTC="第15段速度指令" FunctionEN="15th segment speed command" FunctionKr="" ColumnType="Textbox" Parameter="500" Default="500" Minimum="-6000" Maximum="6000" Unit="rpm" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="295" FunctionCN="第 15 段指令运行时间" FunctionTC="第15段指令運行時間" FunctionEN="15th segment command running time" FunctionKr="" ColumnType="Textbox" Parameter="10" Default="10" Minimum="0" Maximum="65535" Unit="0.1s/0.1min" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="296" FunctionCN="第 15 段指令加减速选择" FunctionTC="第15段指令加減速選擇" FunctionEN="15th segment command acceleration and deceleration selection" FunctionKr="" ColumnType="Textbox" Parameter="1" Default="1" Minimum="1" Maximum="6" Unit="-" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="297" FunctionCN="第 16 段速度指令" FunctionTC="第16段速度指令" FunctionEN="16th segment speed command" FunctionKr="" ColumnType="Textbox" Parameter="500" Default="500" Minimum="-6000" Maximum="6000" Unit="rpm" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="298" FunctionCN="第 16 段指令运行时间" FunctionTC="第16段指令運行時間" FunctionEN="16th segment command running time" FunctionKr="" ColumnType="Textbox" Parameter="10" Default="10" Minimum="0" Maximum="65535" Unit="0.1s/0.1min" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="299" FunctionCN="第 16 段指令加减速选择" FunctionTC="第16段指令加減速選擇" FunctionEN="16th segment command acceleration and deceleration selection" FunctionKr="" ColumnType="Textbox" Parameter="1" Default="1" Minimum="1" Maximum="6" Unit="-" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="300" FunctionCN="多段位置运行方式" FunctionTC="多段位置運行方式" FunctionEN="Multi-segment  position operation mode" FunctionKr="" ColumnType="Combox" Parameter="2" Default="2" Minimum="0" Maximum="2" Unit="-" RWAttribution="RW" Remark="-">
+        <Menu NameCN="单次运行结束停机" NameTC="單次運行結束停機" NameEN="Stop after single operation" NameKr="" Parameter="0"/>
+        <Menu NameCN="循环运行" NameTC="循環運行" NameEN="Cycle operation" NameKr="" Parameter="1"/>
+        <Menu NameCN="IN切换运行" NameTC="IN切換運行" NameEN="IN switching operation" NameKr="" Parameter="2"/>
+      </Register>
+      <Register ModbusAddr="301" FunctionCN="位移指令终点段数" FunctionTC="位移指令終點段數" FunctionEN="Displacement command  end segment number" FunctionKr="" ColumnType="Textbox" Parameter="16" Default="16" Minimum="1" Maximum="16" Unit="-" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="302" FunctionCN="时间单位" FunctionTC="時間單位" FunctionEN="Time unit" FunctionKr="" ColumnType="Combox" Parameter="0" Default="0" Minimum="0" Maximum="1" Unit="-" RWAttribution="RW" Remark="-">
+        <Menu NameCN="ms" NameTC="ms" NameEN="ms" NameKr="" Parameter="0"/>
+        <Menu NameCN="s" NameTC="s" NameEN="s" NameKr="" Parameter="1"/>
+      </Register>
+      <Register ModbusAddr="303" FunctionCN="位移指令类型选择" FunctionTC="位移指令類型選擇" FunctionEN="Displacement command type selection" FunctionKr="" ColumnType="Combox" Parameter="1" Default="1" Minimum="0" Maximum="1" Unit="-" RWAttribution="RW" Remark="-">
+        <Menu NameCN="相对位移指令" NameTC="相對位移指令" NameEN="Relative displacement instruction" NameKr="" Parameter="0"/>
+        <Menu NameCN="绝对位移指令" NameTC="絕對位移指令" NameEN="Absolute displacement instruction" NameKr="" Parameter="1"/>
+      </Register>
+      <Register ModbusAddr="304" FunctionCN="保留" FunctionTC="保留" FunctionEN="Keep" FunctionKr="" ColumnType="Textbox" Parameter="-" Default="-" Minimum="-" Maximum="-" Unit="-" RWAttribution="R" Remark="1"/>
+      <Register ModbusAddr="305" FunctionCN="第 1 段移动位移" FunctionTC="第1段移動位移" FunctionEN="1st segment movement displacement" FunctionKr="" ColumnType="Textbox" Parameter="10000" Default="10000" Minimum="-1073741824" Maximum="1073741824" Unit="Command unit" RWAttribution="RW" Remark="int32"/>
+      <Register ModbusAddr="307" FunctionCN="第 1 段位移最大运行速度" FunctionTC="第1段位移最大運行速度" FunctionEN="1st segment displacement maximum running speed " FunctionKr="" ColumnType="Textbox" Parameter="500" Default="500" Minimum="0" Maximum="6000" Unit="r/min" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="308" FunctionCN="第 1 段位移加减速度" FunctionTC="第1段位移加減速度" FunctionEN="1st segment displacement acceleration and deceleration" FunctionKr="" ColumnType="Textbox" Parameter="100" Default="100" Minimum="1" Maximum="2000" Unit="r/s^2" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="309" FunctionCN="第 1 段位移完成后等待时间" FunctionTC="第1段位移完成後等待時間" FunctionEN="Waiting time after the completion of the 1st segment displacement" FunctionKr="" ColumnType="Textbox" Parameter="500" Default="500" Minimum="0" Maximum="65535" Unit="ms(s)" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="310" FunctionCN="第 2 段移动位移" FunctionTC="第2段移動位移" FunctionEN="2nd segment movement displacement" FunctionKr="" ColumnType="Textbox" Parameter="10000" Default="10000" Minimum="-1073741824" Maximum="1073741824" Unit="指令单位" RWAttribution="RW" Remark="int32"/>
+      <Register ModbusAddr="312" FunctionCN="第 2 段位移最大运行速度" FunctionTC="第2段位移最大運行速度" FunctionEN="2nd segment displacement maximum running speed" FunctionKr="" ColumnType="Textbox" Parameter="500" Default="500" Minimum="0" Maximum="6000" Unit="r/min" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="313" FunctionCN="第 2 段位移加减速度" FunctionTC="第2段位移加減速度" FunctionEN="2nd segment displacement acceleration and deceleration" FunctionKr="" ColumnType="Textbox" Parameter="100" Default="100" Minimum="1" Maximum="2000" Unit="r/s^2" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="314" FunctionCN="第 2 段位移完成后等待时间" FunctionTC="第2段位移完成後等待時間" FunctionEN="Waiting time after the completion of the 2nd segment displacement" FunctionKr="" ColumnType="Textbox" Parameter="500" Default="500" Minimum="0" Maximum="65535" Unit="ms(s)" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="315" FunctionCN="第 3 段移动位移" FunctionTC="第3段移動位移" FunctionEN="3rd segment movement displacement" FunctionKr="" ColumnType="Textbox" Parameter="10000" Default="10000" Minimum="-1073741824" Maximum="1073741824" Unit="指令单位" RWAttribution="RW" Remark="int32"/>
+      <Register ModbusAddr="317" FunctionCN="第 3 段位移最大运行速度" FunctionTC="第3段位移最大運行速度" FunctionEN="3rd segment displacement maximum running speed" FunctionKr="" ColumnType="Textbox" Parameter="500" Default="500" Minimum="0" Maximum="6000" Unit="r/min" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="318" FunctionCN="第 3 段位移加减速度" FunctionTC="第3段位移加減速度" FunctionEN="3rd segment displacement acceleration and deceleration" FunctionKr="" ColumnType="Textbox" Parameter="100" Default="100" Minimum="1" Maximum="2000" Unit="r/s^2" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="319" FunctionCN="第 3 段位移完成后等待时间" FunctionTC="第3段位移完成後等待時間" FunctionEN="Waiting time after the completion of the 3rd segment displacement" FunctionKr="" ColumnType="Textbox" Parameter="500" Default="500" Minimum="0" Maximum="65535" Unit="ms(s)" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="320" FunctionCN="第 4 段移动位移" FunctionTC="第4段移動位移" FunctionEN="4th segment movement displacement" FunctionKr="" ColumnType="Textbox" Parameter="10000" Default="10000" Minimum="-1073741824" Maximum="1073741824" Unit="指令单位" RWAttribution="RW" Remark="int32"/>
+      <Register ModbusAddr="322" FunctionCN="第 4 段位移最大运行速度" FunctionTC="第4段位移最大運行速度" FunctionEN="4th segment displacement maximum running speed" FunctionKr="" ColumnType="Textbox" Parameter="500" Default="500" Minimum="0" Maximum="6000" Unit="r/min" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="323" FunctionCN="第 4 段位移加减速度" FunctionTC="第4段位移加減速度" FunctionEN="4th segment displacement acceleration and deceleration" FunctionKr="" ColumnType="Textbox" Parameter="100" Default="100" Minimum="1" Maximum="2000" Unit="r/s^2" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="324" FunctionCN="第 4 段位移完成后等待时间" FunctionTC="第4段位移完成後等待時間" FunctionEN="Waiting time after the completion of the 4th segment displacement" FunctionKr="" ColumnType="Textbox" Parameter="500" Default="500" Minimum="0" Maximum="65535" Unit="ms(s)" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="325" FunctionCN="第 5 段移动位移" FunctionTC="第5段移動位移" FunctionEN="5th segment movement displacement" FunctionKr="" ColumnType="Textbox" Parameter="10000" Default="10000" Minimum="-1073741824" Maximum="1073741824" Unit="指令单位" RWAttribution="RW" Remark="int32"/>
+      <Register ModbusAddr="327" FunctionCN="第 5 段位移最大运行速度" FunctionTC="第5段位移最大運行速度" FunctionEN="5th segment displacement maximum running speed" FunctionKr="" ColumnType="Textbox" Parameter="500" Default="500" Minimum="0" Maximum="6000" Unit="r/min" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="328" FunctionCN="第 5 段位移加减速度" FunctionTC="第5段位移加減速度" FunctionEN="5th segment displacement acceleration and deceleration" FunctionKr="" ColumnType="Textbox" Parameter="100" Default="100" Minimum="1" Maximum="2000" Unit="r/s^2" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="329" FunctionCN="第 5 段位移完成后等待时间" FunctionTC="第5段位移完成後等待時間" FunctionEN="Waiting time after the completion of the 5th segment displacement" FunctionKr="" ColumnType="Textbox" Parameter="500" Default="500" Minimum="0" Maximum="65535" Unit="ms(s)" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="330" FunctionCN="第 6 段移动位移" FunctionTC="第6段移動位移" FunctionEN="6th segment movement displacement" FunctionKr="" ColumnType="Textbox" Parameter="10000" Default="10000" Minimum="-1073741824" Maximum="1073741824" Unit="指令单位" RWAttribution="RW" Remark="int32"/>
+      <Register ModbusAddr="332" FunctionCN="第 6 段位移最大运行速度" FunctionTC="第6段位移最大運行速度" FunctionEN="6th segment displacement maximum running speed" FunctionKr="" ColumnType="Textbox" Parameter="500" Default="500" Minimum="0" Maximum="6000" Unit="r/min" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="333" FunctionCN="第 6 段位移加减速度" FunctionTC="第6段位移加減速度" FunctionEN="6th segment displacement acceleration and deceleration" FunctionKr="" ColumnType="Textbox" Parameter="100" Default="100" Minimum="1" Maximum="2000" Unit="r/s^2" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="334" FunctionCN="第 6 段位移完成后等待时间" FunctionTC="第6段位移完成後等待時間" FunctionEN="Waiting time after the completion of the 6th segment displacement" FunctionKr="" ColumnType="Textbox" Parameter="500" Default="500" Minimum="0" Maximum="65535" Unit="ms(s)" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="335" FunctionCN="第 7 段移动位移" FunctionTC="第7段移動位移" FunctionEN="7th segment movement displacement" FunctionKr="" ColumnType="Textbox" Parameter="10000" Default="10000" Minimum="-1073741824" Maximum="1073741824" Unit="指令单位" RWAttribution="RW" Remark="int32"/>
+      <Register ModbusAddr="337" FunctionCN="第 7 段位移最大运行速度" FunctionTC="第7段位移最大運行速度" FunctionEN="7th segment displacement maximum running speed" FunctionKr="" ColumnType="Textbox" Parameter="500" Default="500" Minimum="0" Maximum="6000" Unit="r/min" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="338" FunctionCN="第 7 段位移加减速度" FunctionTC="第7段位移加減速度" FunctionEN="7th segment displacement acceleration and deceleration" FunctionKr="" ColumnType="Textbox" Parameter="100" Default="100" Minimum="1" Maximum="2000" Unit="r/s^2" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="339" FunctionCN="第 7 段位移完成后等待时间" FunctionTC="第7段位移完成後等待時間" FunctionEN="Waiting time after the completion of the 7th segment displacement" FunctionKr="" ColumnType="Textbox" Parameter="500" Default="500" Minimum="0" Maximum="65535" Unit="ms(s)" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="340" FunctionCN="第 8 段移动位移" FunctionTC="第8段移動位移" FunctionEN="8th segment movement displacement" FunctionKr="" ColumnType="Textbox" Parameter="10000" Default="10000" Minimum="-1073741824" Maximum="1073741824" Unit="指令单位" RWAttribution="RW" Remark="int32"/>
+      <Register ModbusAddr="342" FunctionCN="第 8 段位移最大运行速度" FunctionTC="第8段位移最大運行速度" FunctionEN="8th segment displacement maximum running speed" FunctionKr="" ColumnType="Textbox" Parameter="500" Default="500" Minimum="0" Maximum="6000" Unit="r/min" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="343" FunctionCN="第 8 段位移加减速度" FunctionTC="第8段位移加減速度" FunctionEN="8th segment displacement acceleration and deceleration" FunctionKr="" ColumnType="Textbox" Parameter="100" Default="100" Minimum="1" Maximum="2000" Unit="r/s^2" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="344" FunctionCN="第 8 段位移完成后等待时间" FunctionTC="第8段位移完成後等待時間" FunctionEN="Waiting time after the completion of the 8th segment displacement" FunctionKr="" ColumnType="Textbox" Parameter="500" Default="500" Minimum="0" Maximum="65535" Unit="ms(s)" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="345" FunctionCN="第 9 段移动位移" FunctionTC="第9段移動位移" FunctionEN="9th segment movement displacement" FunctionKr="" ColumnType="Textbox" Parameter="10000" Default="10000" Minimum="-1073741824" Maximum="1073741824" Unit="指令单位" RWAttribution="RW" Remark="int32"/>
+      <Register ModbusAddr="347" FunctionCN="第 9 段位移最大运行速度" FunctionTC="第9段位移最大運行速度" FunctionEN="9th segment displacement maximum running speed" FunctionKr="" ColumnType="Textbox" Parameter="500" Default="500" Minimum="0" Maximum="6000" Unit="r/min" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="348" FunctionCN="第 9 段位移加减速度" FunctionTC="第9段位移加減速度" FunctionEN="9th segment displacement acceleration and deceleration" FunctionKr="" ColumnType="Textbox" Parameter="100" Default="100" Minimum="1" Maximum="2000" Unit="r/s^2" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="349" FunctionCN="第 9 段位移完成后等待时间" FunctionTC="第9段位移完成後等待時間" FunctionEN="Waiting time after the completion of the 9th segment displacement" FunctionKr="" ColumnType="Textbox" Parameter="500" Default="500" Minimum="0" Maximum="65535" Unit="ms(s)" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="350" FunctionCN="第 10 段移动位移" FunctionTC="第10段移動位移" FunctionEN="10th segment movement displacement" FunctionKr="" ColumnType="Textbox" Parameter="10000" Default="10000" Minimum="-1073741824" Maximum="1073741824" Unit="指令单位" RWAttribution="RW" Remark="int32"/>
+      <Register ModbusAddr="352" FunctionCN="第 10 段位移最大运行速度" FunctionTC="第10段位移最大運行速度" FunctionEN="10th segment displacement maximum running speed" FunctionKr="" ColumnType="Textbox" Parameter="500" Default="500" Minimum="0" Maximum="6000" Unit="r/min" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="353" FunctionCN="第 10 段位移加减速度" FunctionTC="第10段位移加減速度" FunctionEN="10th segment displacement acceleration and deceleration" FunctionKr="" ColumnType="Textbox" Parameter="100" Default="100" Minimum="1" Maximum="2000" Unit="r/s^2" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="354" FunctionCN="第 10 段位移完成后等待时间" FunctionTC="第10段位移完成後等待時間" FunctionEN="Waiting time after the completion of the 10th segment displacement" FunctionKr="" ColumnType="Textbox" Parameter="500" Default="500" Minimum="0" Maximum="65535" Unit="ms(s)" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="355" FunctionCN="第 11 段移动位移" FunctionTC="第11段移動位移" FunctionEN="11th segment movement displacement" FunctionKr="" ColumnType="Textbox" Parameter="10000" Default="10000" Minimum="-1073741824" Maximum="1073741824" Unit="指令单位" RWAttribution="RW" Remark="int32"/>
+      <Register ModbusAddr="357" FunctionCN="第 11 段位移最大运行速度" FunctionTC="第11段位移最大運行速度" FunctionEN="11th segment displacement maximum running speed" FunctionKr="" ColumnType="Textbox" Parameter="500" Default="500" Minimum="0" Maximum="6000" Unit="r/min" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="358" FunctionCN="第 11 段位移加减速度" FunctionTC="第11段位移加減速度" FunctionEN="11th segment displacement acceleration and deceleration" FunctionKr="" ColumnType="Textbox" Parameter="100" Default="100" Minimum="1" Maximum="2000" Unit="r/s^2" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="359" FunctionCN="第 11 段位移完成后等待时间" FunctionTC="第11段位移完成後等待時間" FunctionEN="Waiting time after the completion of the 11th segment displacement" FunctionKr="" ColumnType="Textbox" Parameter="500" Default="500" Minimum="0" Maximum="65535" Unit="ms(s)" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="360" FunctionCN="第 12 段移动位移" FunctionTC="第12段移動位移" FunctionEN="12th segment movement displacement" FunctionKr="" ColumnType="Textbox" Parameter="10000" Default="10000" Minimum="-1073741824" Maximum="1073741824" Unit="指令单位" RWAttribution="RW" Remark="int32"/>
+      <Register ModbusAddr="362" FunctionCN="第 12 段位移最大运行速度" FunctionTC="第12段位移最大運行速度" FunctionEN="12th segment displacement maximum running speed" FunctionKr="" ColumnType="Textbox" Parameter="500" Default="500" Minimum="0" Maximum="6000" Unit="r/min" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="363" FunctionCN="第 12 段位移加减速度" FunctionTC="第12段位移加減速度" FunctionEN="12th segment displacement acceleration and deceleration" FunctionKr="" ColumnType="Textbox" Parameter="100" Default="100" Minimum="1" Maximum="2000" Unit="r/s^2" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="364" FunctionCN="第 12 段位移完成后等待时间" FunctionTC="第12段位移完成後等待時間" FunctionEN="Waiting time after the completion of the 12th segment displacement" FunctionKr="" ColumnType="Textbox" Parameter="500" Default="500" Minimum="0" Maximum="65535" Unit="ms(s)" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="365" FunctionCN="第 13 段移动位移" FunctionTC="第13段移動位移" FunctionEN="13th segment movement displacement" FunctionKr="" ColumnType="Textbox" Parameter="10000" Default="10000" Minimum="-1073741824" Maximum="1073741824" Unit="指令单位" RWAttribution="RW" Remark="int32"/>
+      <Register ModbusAddr="367" FunctionCN="第 13 段位移最大运行速度" FunctionTC="第13段位移最大運行速度" FunctionEN="13th segment displacement maximum running speed" FunctionKr="" ColumnType="Textbox" Parameter="500" Default="500" Minimum="0" Maximum="6000" Unit="r/min" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="368" FunctionCN="第 13 段位移加减速度" FunctionTC="第13段位移加減速度" FunctionEN="13th segment displacement acceleration and deceleration" FunctionKr="" ColumnType="Textbox" Parameter="100" Default="100" Minimum="1" Maximum="2000" Unit="r/s^2" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="369" FunctionCN="第 13 段位移完成后等待时间" FunctionTC="第13段位移完成後等待時間" FunctionEN="Waiting time after the completion of the 13th segment displacement" FunctionKr="" ColumnType="Textbox" Parameter="500" Default="500" Minimum="0" Maximum="65535" Unit="ms(s)" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="370" FunctionCN="第 14 段移动位移" FunctionTC="第14段移動位移" FunctionEN="14th segment movement displacement" FunctionKr="" ColumnType="Textbox" Parameter="10000" Default="10000" Minimum="-1073741824" Maximum="1073741824" Unit="指令单位" RWAttribution="RW" Remark="int32"/>
+      <Register ModbusAddr="372" FunctionCN="第 14 段位移最大运行速度" FunctionTC="第14段位移最大運行速度" FunctionEN="14th segment displacement maximum running speed" FunctionKr="" ColumnType="Textbox" Parameter="500" Default="500" Minimum="0" Maximum="6000" Unit="r/min" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="373" FunctionCN="第 14 段位移加减速度" FunctionTC="第14段位移加減速度" FunctionEN="14th segment displacement acceleration and deceleration" FunctionKr="" ColumnType="Textbox" Parameter="100" Default="100" Minimum="1" Maximum="2000" Unit="r/s^2" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="374" FunctionCN="第 14 段位移完成后等待时间" FunctionTC="第14段位移完成後等待時間" FunctionEN="Waiting time after the completion of the 14th segment displacement" FunctionKr="" ColumnType="Textbox" Parameter="500" Default="500" Minimum="0" Maximum="65535" Unit="ms(s)" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="375" FunctionCN="第 15 段移动位移" FunctionTC="第15段移動位移" FunctionEN="15th segment movement displacement" FunctionKr="" ColumnType="Textbox" Parameter="10000" Default="10000" Minimum="-1073741824" Maximum="1073741824" Unit="指令单位" RWAttribution="RW" Remark="int32"/>
+      <Register ModbusAddr="377" FunctionCN="第 15 段位移最大运行速度" FunctionTC="第15段位移最大運行速度" FunctionEN="15th segment displacement maximum running speed" FunctionKr="" ColumnType="Textbox" Parameter="500" Default="500" Minimum="0" Maximum="6000" Unit="r/min" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="378" FunctionCN="第 15 段位移加减速度" FunctionTC="第15段位移加減速度" FunctionEN="15th segment displacement acceleration and deceleration" FunctionKr="" ColumnType="Textbox" Parameter="100" Default="100" Minimum="1" Maximum="2000" Unit="r/s^2" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="379" FunctionCN="第 15 段位移完成后等待时间" FunctionTC="第15段位移完成後等待時間" FunctionEN="Waiting time after the completion of the 15th segment displacement" FunctionKr="" ColumnType="Textbox" Parameter="500" Default="500" Minimum="0" Maximum="65535" Unit="ms(s)" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="380" FunctionCN="第 16 段移动位移" FunctionTC="第16段移動位移" FunctionEN="16th segment movement displacement" FunctionKr="" ColumnType="Textbox" Parameter="10000" Default="10000" Minimum="-1073741824" Maximum="1073741824" Unit="指令单位" RWAttribution="RW" Remark="int32"/>
+      <Register ModbusAddr="382" FunctionCN="第 16 段位移最大运行速度" FunctionTC="第16段位移最大運行速度" FunctionEN="16th segment displacement maximum running speed" FunctionKr="" ColumnType="Textbox" Parameter="500" Default="500" Minimum="0" Maximum="6000" Unit="r/min" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="383" FunctionCN="第 16 段位移加减速度" FunctionTC="第16段位移加減速度" FunctionEN="16th segment displacement acceleration and deceleration" FunctionKr="" ColumnType="Textbox" Parameter="100" Default="100" Minimum="1" Maximum="2000" Unit="r/s^2" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="384" FunctionCN="第 16 段位移完成后等待时间" FunctionTC="第16段位移完成後等待時間" FunctionEN="Waiting time after the completion of the 16th segment displacement" FunctionKr="" ColumnType="Textbox" Parameter="500" Default="500" Minimum="0" Maximum="65535" Unit="ms(s)" RWAttribution="RW" Remark="-"/>
+	    <Register ModbusAddr="385" FunctionCN="速度显示滤波设置" FunctionTC="速度顯示濾波設置" FunctionEN="Speed display filter settings" FunctionKr="" ColumnType="Textbox" Parameter="15" Default="15" Minimum="0" Maximum="65535" Unit="-" RWAttribution="RW" Remark="-"/>
+	    <Register ModbusAddr="386" FunctionCN="速度给定低通滤波频率" FunctionTC="速度給定低通濾波頻率" FunctionEN="Given the speed and low-pass filtering frequency" FunctionKr="" ColumnType="Textbox" Parameter="3000" Default="3000" Minimum="0" Maximum="3000" Unit="Hz" RWAttribution="RW" Remark="-"/>
+	    <Register ModbusAddr="387" FunctionCN="输入标志寄存器高16位" FunctionTC="輸入標誌寄存器高16位" FunctionEN="The upper 16 bits of the input register" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="65535" Unit="-" RWAttribution="RW" Remark="-"/>
+	    <Register ModbusAddr="388" FunctionCN="保留" FunctionTC="保留" FunctionEN="Reserve(do not change)" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="65535" Unit="-" RWAttribution="RW" Remark="-"/>
+	    <Register ModbusAddr="389" FunctionCN="当前固件PWM中断控制频率" FunctionTC="當前固件PWM中斷控制頻率" FunctionEN="Current firmware PWM interrupt control frequency" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="65535" Unit="-" RWAttribution="RW" Remark="-"/>
+	    <Register ModbusAddr="390" FunctionCN="驱动器故障代码高16位" FunctionTC="驅動器故障代碼高16位" FunctionEN="The driver fault code is 16 bits high" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="65535" Unit="-" RWAttribution="RW" Remark="-"/>
+	    <Register ModbusAddr="391" FunctionCN="保留" FunctionTC="保留" FunctionEN="Reserve(do not change)" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="65535" Unit="-" RWAttribution="RW" Remark="-"/>
+	    <Register ModbusAddr="392" FunctionCN="转矩模式电流给定滤波截止频率" FunctionTC="轉矩模式電流給定濾波截止頻率" FunctionEN="Torque mode current gives filter cutoff frequency" FunctionKr="" ColumnType="Textbox" Parameter="300" Default="300" Minimum="0" Maximum="3000" Unit="Hz" RWAttribution="RW" Remark="-"/>
+	    <Register ModbusAddr="393" FunctionCN="保留" FunctionTC="保留" FunctionEN="Reserve(do not change)" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="65535" Unit="-" RWAttribution="RW" Remark="-"/>
+	    <Register ModbusAddr="394" FunctionCN="保留" FunctionTC="保留" FunctionEN="Reserve(do not change)" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="65535" Unit="-" RWAttribution="RW" Remark="-"/>
+	    <Register ModbusAddr="395" FunctionCN="给定脉冲计数器" FunctionTC="給定脈衝計數器" FunctionEN="Given pulse counter" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="-2147483648" Maximum="2147483647" Unit="encoder" RWAttribution="R" Remark="int32"/>
+	    <Register ModbusAddr="397" FunctionCN="保留" FunctionTC="保留" FunctionEN="Reserve(do not change)" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="65535" Unit="-" RWAttribution="RW" Remark="-"/>
+	    <Register ModbusAddr="398" FunctionCN="驱动器硬件版本" FunctionTC="驅動器硬件版本" FunctionEN="Hardware version of drive" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="65535" Unit="-" RWAttribution="R" Remark="-"/>
+	    <Register ModbusAddr="399" FunctionCN="指令过载报警设置" FunctionTC="指令過載報警設置" FunctionEN="Command overload alarm setting" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="65535" Unit="10ms" RWAttribution="RW" Remark="-"/>
+	    <Register ModbusAddr="400" FunctionCN="失速保护检测速度" FunctionTC="失速保護檢測速度" FunctionEN="Stall protection detection speed" FunctionKr="" ColumnType="Textbox" Parameter="100" Default="100" Minimum="0" Maximum="10000" Unit="rpm" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="401" FunctionCN="失速保护检测时间" FunctionTC="失速保護檢測時間" FunctionEN="Stall protection detection time" FunctionKr="" ColumnType="Textbox" Parameter="1200" Default="1200" Minimum="0" Maximum="65535" Unit="ms" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="402" FunctionCN="堵转报警检测指令速度" FunctionTC="堵轉報警檢測指令速度" FunctionEN="Lock-up alarm detection instruction speed" FunctionKr="" ColumnType="Textbox" Parameter="100" Default="100" Minimum="0" Maximum="10000" Unit="rpm" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="403" FunctionCN="堵转报警反馈速度上限值" FunctionTC="堵轉報警反饋速度上限值" FunctionEN="Upper limit value of locking alarm feedback speed" FunctionKr="" ColumnType="Textbox" Parameter="30" Default="30" Minimum="0" Maximum="10000" Unit="rpm" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="404" FunctionCN="堵转保护检测时间" FunctionTC="堵轉保護檢測時間" FunctionEN="Detection time of locked-rotor protection" FunctionKr="" ColumnType="Textbox" Parameter="1200" Default="1200" Minimum="0" Maximum="65535" Unit="ms" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="405" FunctionCN="自动复位报警次数上限" FunctionTC="自動復位報警次數上限" FunctionEN="Alarm limit when auto reset alarm" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="65535" Unit="-" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="406" FunctionCN="报警计数器清零时间" FunctionTC="報警計數器清零時間" FunctionEN="Alarm counter reset delay times" FunctionKr="" ColumnType="Textbox" Parameter="180" Default="180" Minimum="0" Maximum="65535" Unit="10s" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="407" FunctionCN="堵转报警2速度反馈上限值" FunctionTC="堵轉報警2速度反饋上限值" FunctionEN="Upper limit value of locking alarm feedback speed 2" FunctionKr="" ColumnType="Textbox" Parameter="10" Default="10" Minimum="0" Maximum="65535" Unit="rpm" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="408" FunctionCN="堵转报警2检测时间" FunctionTC="堵轉報警2檢測時間" FunctionEN="Detection time of locked-rotor protection 2" FunctionKr="" ColumnType="Textbox" Parameter="1800" Default="1800" Minimum="0" Maximum="65535" Unit="ms" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="409" FunctionCN="保留" FunctionTC="保留" FunctionEN="Reserve(do not change)" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="65535" Unit="-" RWAttribution="R" Remark="4"/>
+      <Register ModbusAddr="410" FunctionCN="电机ID" FunctionTC="電機ID" FunctionEN="Motor ID" FunctionKr="" ColumnType="Textbox" Parameter="34040" Default="34040" Minimum="0" Maximum="65535" Unit="-" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="411" FunctionCN="额定功率" FunctionTC="額定功率" FunctionEN="rated power" FunctionKr="" ColumnType="Textbox" Parameter="40" Default="40" Minimum="0" Maximum="65535" Unit="0.01kw" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="412" FunctionCN="额定电压" FunctionTC="額定電壓" FunctionEN="rated voltage" FunctionKr="" ColumnType="Textbox" Parameter="48" Default="48" Minimum="0" Maximum="65535" Unit="v" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="413" FunctionCN="额定转速" FunctionTC="額定轉速" FunctionEN="Rated speed" FunctionKr="" ColumnType="Textbox" Parameter="3000" Default="3000" Minimum="0" Maximum="65535" Unit="rpm" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="414" FunctionCN="最大转速" FunctionTC="最大轉速" FunctionEN="maximum speed" FunctionKr="" ColumnType="Textbox" Parameter="5000" Default="5000" Minimum="0" Maximum="65535" Unit="rpm" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="415" FunctionCN="最大转矩" FunctionTC="最大轉矩" FunctionEN="Maximum torque" FunctionKr="" ColumnType="Textbox" Parameter="381" Default="381" Minimum="0" Maximum="65535" Unit="0.01Nm" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="416" FunctionCN="转动惯量" FunctionTC="轉動慣量" FunctionEN="rotary inertia" FunctionKr="" ColumnType="Textbox" Parameter="63" Default="63" Minimum="0" Maximum="65535" Unit="0.01kgcm" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="417" FunctionCN="定子电阻" FunctionTC="定子電阻" FunctionEN="stator resistance" FunctionKr="" ColumnType="Textbox" Parameter="280" Default="280" Minimum="0" Maximum="65535" Unit="0.001Ω" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="418" FunctionCN="定子Q轴电感" FunctionTC="定子Q軸電感" FunctionEN="Stator q-axis inductance" FunctionKr="" ColumnType="Textbox" Parameter="56" Default="56" Minimum="0" Maximum="65535" Unit="0.01mH" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="419" FunctionCN="定子D轴电感" FunctionTC="定子D軸電感" FunctionEN="D-axis inductance of stator" FunctionKr="" ColumnType="Textbox" Parameter="56" Default="56" Minimum="0" Maximum="65535" Unit="0.01mH" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="420" FunctionCN="线反电动势系数" FunctionTC="線反電動勢係數" FunctionEN="Linear back electromotive force coefficient" FunctionKr="" ColumnType="Textbox" Parameter="860" Default="860" Minimum="0" Maximum="65535" Unit="0.01mv/rpm" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="421" FunctionCN="转矩系数" FunctionTC="轉矩係數" FunctionEN="moment coefficient" FunctionKr="" ColumnType="Textbox" Parameter="12" Default="12" Minimum="0" Maximum="65535" Unit="0.01Nm/Arms" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="422" FunctionCN="电气时间常数" FunctionTC="電氣時間常數" FunctionEN="Electrical time constant" FunctionKr="" ColumnType="Textbox" Parameter="360" Default="360" Minimum="0" Maximum="65535" Unit="0.01ms" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="423" FunctionCN="机械时间常数" FunctionTC="機械時間常數" FunctionEN="Mechanical time constant" FunctionKr="" ColumnType="Textbox" Parameter="360" Default="360" Minimum="0" Maximum="65535" Unit="0.01ms" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="424" FunctionCN="多圈编码器多圈位数" FunctionTC="多圈編碼器多圈位數" FunctionEN="Multi-turn encoder multi-turn number" FunctionKr="" ColumnType="Textbox" Parameter="16" Default="16" Minimum="0" Maximum="24" Unit="Bits" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="425-439" FunctionCN="保留" FunctionTC="保留" FunctionEN="Reserve(do not change)" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="65535" Unit="-" RWAttribution="R" Remark="4"/>
+      <Register ModbusAddr="440" FunctionCN="保留" FunctionTC="保留" FunctionEN="Reserve(do not change)" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="65535" Unit="-" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="442" FunctionCN="编码器数据接收不足计数器" FunctionTC="編碼器數據接收不足計數器" FunctionEN="Encoder insufficient data reception counter" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="65535" Unit="-" RWAttribution="R" Remark="-"/>
+      <Register ModbusAddr="443" FunctionCN="编码器接收数据空错误计数器" FunctionTC="編碼器接收數據空錯誤計數器" FunctionEN="" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="65535" Unit="-" RWAttribution="R" Remark="-"/>
+      <Register ModbusAddr="444" FunctionCN="编码器CRC错误计数器" FunctionTC="編碼器CRC錯誤計數器" FunctionEN="Encoder received data null error counter" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="65535" Unit="-" RWAttribution="R" Remark="-"/>
+      <Register ModbusAddr="445" FunctionCN="编码器串口错误计数器" FunctionTC="編碼器串口錯誤計數器" FunctionEN="Encoder serial error counter" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="65535" Unit="-" RWAttribution="R" Remark="-"/>
+      <Register ModbusAddr="446" FunctionCN="编码器连续错误计数器" FunctionTC="編碼器連續錯誤計數器" FunctionEN="Encoder continuous error counter" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="65535" Unit="-" RWAttribution="R" Remark="-"/>
+      <Register ModbusAddr="447" FunctionCN="编码器多圈数据" FunctionTC="編碼器多圈數據" FunctionEN="Encoder multi-turn data" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="-2147483648" Maximum="2147483647" Unit="turn" RWAttribution="R" Remark="int32"/>
+      <Register ModbusAddr="449" FunctionCN="编码器实际位置" FunctionTC="編碼器實際位置" FunctionEN="Actual position of encoder" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="-2147483648" Maximum="2147483647" Unit="pulse" RWAttribution="R" Remark="int32"/>
+      <Register ModbusAddr="451" FunctionCN="编码器命令错误计数器" FunctionTC="編碼器命令錯誤計數器" FunctionEN="Encoder command error counter" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="65535" Unit="-" RWAttribution="R" Remark="-"/>
+      <Register ModbusAddr="452" FunctionCN="编码器状态错误计数器" FunctionTC="編碼器狀態錯誤計數器" FunctionEN="Encoder status error counter" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="65535" Unit="-" RWAttribution="R" Remark="-"/>
+      <Register ModbusAddr="453" FunctionCN="编码器单圈数据" FunctionTC="編碼器單圈數據" FunctionEN="" FunctionKr="Encoder single-turn data" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="2147483647" Unit="encoder" RWAttribution="R" Remark="int32"/>
+      <Register ModbusAddr="455" FunctionCN="拨码状态" FunctionTC="撥碼狀態" FunctionEN="Dialing status" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="0" Maximum="65535" Unit="-" RWAttribution="R" Remark="-"/>
+      <Register ModbusAddr="456" FunctionCN="制动最大持续时间" FunctionTC="制動最大持續時間" FunctionEN="Maximum braking duration" FunctionKr="" ColumnType="Textbox" Parameter="50" Default="50" Minimum="0" Maximum="65535" Unit="ms" RWAttribution="RW" Remark="-"/>
+      <Register ModbusAddr="457" FunctionCN="脉冲信号带宽设定" FunctionTC="脈衝信號帶寬設定" FunctionEN="Pulse bandwidth setting" FunctionKr="" ColumnType="Combox" Parameter="9" Default="9" Minimum="0" Maximum="15" Unit="-" RWAttribution="RW" Remark="-">
+        <Menu NameCN="42MHz" NameTC="42MHz" NameEN="42MHz" NameKr="" Parameter="0"/>
+        <Menu NameCN="21MHz" NameTC="21MHz" NameEN="21MHz" NameKr="" Parameter="1"/>
+        <Menu NameCN="10.5MHz" NameTC="10.5MHz" NameEN="10.5MHz" NameKr="" Parameter="2"/>
+        <Menu NameCN="5.25MHz" NameTC="5.25MHz" NameEN="5.25MHz" NameKr="" Parameter="3"/>
+        <Menu NameCN="3.5MHz" NameTC="3.5MHz" NameEN="3.5MHz" NameKr="" Parameter="4"/>
+        <Menu NameCN="2.625MHz" NameTC="2.625MHz" NameEN="2.625MHz" NameKr="" Parameter="5"/>
+        <Menu NameCN="1.75MHz" NameTC="1.75MHz" NameEN="1.75MHz" NameKr="" Parameter="6"/>
+        <Menu NameCN="1.3125MHz" NameTC="1.3125MHz" NameEN="1.3125MHz" NameKr="" Parameter="7"/>
+        <Menu NameCN="0.875MHz" NameTC="0.875MHz" NameEN="0.875MHz" NameKr="" Parameter="8"/>
+        <Menu NameCN="0.656MHz" NameTC="0.656MHz" NameEN="0.656MHz" NameKr="" Parameter="9"/>
+        <Menu NameCN="0.525MHz" NameTC="0.525MHz" NameEN="0.525MHz" NameKr="" Parameter="10"/>
+        <Menu NameCN="0.4375MHz" NameTC="0.4375MHz" NameEN="0.4375MHz" NameKr="" Parameter="11"/>
+        <Menu NameCN="0.328MHz" NameTC="0.328MHz" NameEN="0.328MHz" NameKr="" Parameter="12"/>
+        <Menu NameCN="0.2625MHz" NameTC="0.2625MHz" NameEN="0.2625MHz" NameKr="" Parameter="13"/>
+        <Menu NameCN="0.2187MHz" NameTC="0.2187MHz" NameEN="0.2187MHz" NameKr="" Parameter="14"/>
+        <Menu NameCN="0.164MHz" NameTC="0.164MHz" NameEN="0.164MHz" NameKr="" Parameter="15"/>
+      </Register>
+      <Register ModbusAddr="458" FunctionCN="零点位置单圈数值" FunctionTC="零點位置單圈數值" FunctionEN="Zero position single lap value" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="-2147483648" Maximum="2147483647" Unit="turn" RWAttribution="RW" Remark="int32"/>
+      <Register ModbusAddr="460" FunctionCN="零点位置多圈数值" FunctionTC="零點位置多圈數值" FunctionEN="Multi-circle value of zero position" FunctionKr="" ColumnType="Textbox" Parameter="0" Default="0" Minimum="-2147483648" Maximum="2147483647" Unit="encoder" RWAttribution="RW" Remark="int32"/>
+	</RegisterSummary>
+    <ToolStripMenuItems>
+      <toolStripMenuItem toolStripMenuItemID="0" NameCN="通讯设置" NameTC="通訊設置" NameEN="Communication Setting" NameKr="" isEnable="1" isVisible="1"/>
+      <toolStripMenuItem toolStripMenuItemID="1" NameCN="设备管理" NameTC="設備管理" NameEN="Device Management" NameKr="" isEnable="1" isVisible="1"/>
+      <toolStripMenuItem toolStripMenuItemID="2" NameCN="参数比较" NameTC="參數比較" NameEN="Parameter Comparison" NameKr="" isEnable="1" isVisible="1"/>
+      <toolStripMenuItem toolStripMenuItemID="3" NameCN="添加xml文件" NameTC="添加xml文件" NameEN="Add xml File" NameKr="" isEnable="1" isVisible="1"/>
+      <toolStripMenuItem toolStripMenuItemID="4" NameCN="常用功能" NameTC="常用功能" NameEN="Common Functions" NameKr="" isEnable="1" isVisible="1"/>
+      <toolStripMenuItem toolStripMenuItemID="5" NameCN="运动测试" NameTC="運動測試" NameEN="MotionTest" NameKr="" isEnable="1" isVisible="1"/>
+      <toolStripMenuItem toolStripMenuItemID="6" NameCN="示波器" NameTC="示波器" NameEN="Scope" NameKr="" isEnable="1" isVisible="1"/>
+      <toolStripMenuItem toolStripMenuItemID="7" NameCN="实时状态" NameTC="实时状态" NameEN="Monitor" NameKr="" isEnable="1" isVisible="1"/>
+      <toolStripMenuItem toolStripMenuItemID="8" NameCN="运动轨迹计算器" NameTC="運動軌跡計算器" NameEN="Trajectory calculator" NameKr="" isEnable="1" isVisible="1"/>
+      <toolStripMenuItem toolStripMenuItemID="9" NameCN="语言(Language)" NameTC="語言(Language)" NameEN="语言(Language)" NameKr="语言(Language)" isEnable="1" isVisible="1"/>
+      <toolStripMenuItem toolStripMenuItemID="10" NameCN="简体中文" NameTC="簡體中文" NameEN="简体中文" NameKr="简体中文" isEnable="1" isVisible="1"/>
+      <toolStripMenuItem toolStripMenuItemID="11" NameCN="繁體中文" NameTC="繁體中文" NameEN="繁體中文" NameKr="繁體中文" isEnable="1" isVisible="1"/>
+      <toolStripMenuItem toolStripMenuItemID="12" NameCN="English" NameTC="English" NameEN="English" NameKr="English" isEnable="1" isVisible="1"/>
+      <toolStripMenuItem toolStripMenuItemID="13" NameCN="한국어" NameTC="한국어" NameEN="한국어" NameKr="한국어" isEnable="1" isVisible="1"/>
+      <toolStripMenuItem toolStripMenuItemID="14" NameCN="关于" NameTC="關於" NameEN="About" NameKr="" isEnable="1" isVisible="1"/>
+      <toolStripMenuItem toolStripMenuItemID="15" NameCN="软件更新" NameTC="軟件更新" NameEN="Software update" NameKr="" isEnable="1" isVisible="1"/>
+      <toolStripMenuItem toolStripMenuItemID="16" NameCN="固件更新" NameTC="固件更新" NameEN="Firmware update" NameKr="" isEnable="1" isVisible="1"/>
+      <toolStripMenuItem toolStripMenuItemID="17" NameCN="管理员入口" NameTC="管理員入口" NameEN="Administrator" NameKr="" isEnable="1" isVisible="1"/>
+      <toolStripMenuItem toolStripMenuItemID="18" NameCN="联系我们" NameTC="聯繫我們" NameEN="Connect us" NameKr="" isEnable="1" isVisible="1"/>
+    </ToolStripMenuItems>
+    <InterfaceLanguage>
+      
+      <SetParameterCtrlItem labelID="0" NameCN="设备名称" NameTC="設備名稱" NameEN="DeviceName" NameKr=""/>
+      <SetParameterCtrlItem labelID="1" NameCN="版本号" NameTC=" 版本號" NameEN="Version" NameKr=""/>
+      <SetParameterCtrlItem labelID="2" NameCN="设备地址" NameTC="設備地址" NameEN="DeviceAddr" NameKr=""/>
+      <SetParameterCtrlItem labelID="3" NameCN="快捷搜索" NameTC="快捷搜索" NameEN="Search" NameKr=""/>
+      <SetParameterCtrlItem labelID="4" NameCN="十进制:" NameTC="十進制:" NameEN="Decimal" NameKr=""/>
+      <SetParameterCtrlItem labelID="5" NameCN="十六进制:" NameTC="十六進制:" NameEN="Hex" NameKr=""/>
+      <SetParameterCtrlItem tableHeaderID="0" NameCN="寄存器地址" NameTC="寄存器地址" NameEN="RegisterAddr" NameKr=""/>
+      <SetParameterCtrlItem tableHeaderID="1" NameCN="功能说明" NameTC="功能說明" NameEN="Function" NameKr=""/>
+      <SetParameterCtrlItem tableHeaderID="2" NameCN="参数值" NameTC="參數值" NameEN="Parameter" NameKr=""/>
+      <SetParameterCtrlItem tableHeaderID="3" NameCN="默认值" NameTC=" 默認值" NameEN="Default" NameKr=""/>
+      <SetParameterCtrlItem tableHeaderID="4" NameCN="单位" NameTC="單位" NameEN="Unit" NameKr=""/>
+      <SetParameterCtrlItem tableHeaderID="5" NameCN="最小值" NameTC="最小值" NameEN="MinValue" NameKr=""/>
+      <SetParameterCtrlItem tableHeaderID="6" NameCN="最大值" NameTC=" 最大值" NameEN="MaxValue" NameKr=""/>
+      <SetParameterCtrlItem tableHeaderID="7" NameCN="属性" NameTC="屬性" NameEN="RWAttribution" NameKr=""/>
+      <SetParameterCtrlItem tableHeaderID="8" NameCN="备注" NameTC="備註" NameEN="Remark" NameKr=""/>
+
+      <MotionCtrlItem tableHeaderID="0" NameCN="寄存器地址" NameTC="寄存器地址" NameEN="RegisterAddr" NameKr=""/>
+      <MotionCtrlItem tableHeaderID="1" NameCN="功能说明" NameTC="功能說明" NameEN="Function" NameKr=""/>
+      <MotionCtrlItem tableHeaderID="2" NameCN="参数值" NameTC=" 參數值" NameEN="Parameter" NameKr=""/>
+      <MotionCtrlItem tableHeaderID="3" NameCN="故障状态" NameTC="故障狀態" NameEN="Parameter2" NameKr=""/>
+      <MotionCtrlItem tableHeaderID="4" NameCN="故障代码" NameTC=" 故障代碼" NameEN="Default" NameKr=""/>
+      <MotionCtrlItem tableHeaderID="5" NameCN="状态指示" NameTC="狀態指示" NameEN="Unit" NameKr=""/>
+
+      
+      <CalcCtrlItem labelID="0" NameCN="速度" NameTC="速度" NameEN="Speed" NameKr=""/>
+      <CalcCtrlItem labelID="1" NameCN="加速度" NameTC="加速度" NameEN="Acc" NameKr=""/>
+      <CalcCtrlItem labelID="2" NameCN="减速度" NameTC="減速度" NameEN="Dec" NameKr=""/>
+      <CalcCtrlItem labelID="3" NameCN="脉冲数/转" NameTC="脈衝數/轉" NameEN="pulse/rev" NameKr=""/>
+      <CalcCtrlItem labelID="4" NameCN="行程" NameTC="行程" NameEN="Distance" NameKr=""/>
+      <CalcCtrlItem labelID="5" NameCN="加速距离" NameTC="加速距離" NameEN="Acc distance" NameKr=""/>
+      <CalcCtrlItem labelID="6" NameCN="减速距离" NameTC="減速距離" NameEN="Dec distance" NameKr=""/>
+      <CalcCtrlItem labelID="7" NameCN="峰值速度" NameTC="峰值速度" NameEN="Max speed" NameKr=""/>
+      <CalcCtrlItem labelID="8" NameCN="加速时间(s)" NameTC="加速時間" NameEN="Acc time(s)" NameKr=""/>
+      <CalcCtrlItem labelID="9" NameCN="减速时间(s)" NameTC=" 減速時間" NameEN="Dec time(s)" NameKr=""/>
+      <CalcCtrlItem labelID="10" NameCN="总时间(s)" NameTC="總時間" NameEN="Total time(s)" NameKr=""/>
+      <CalcCtrlItem buttonID="0" NameCN="更新轨迹计算器" NameTC=" 更新軌跡計算器" NameEN="Update Chart" NameKr=""/>
+      
+      <CommunicationCtrlItem labelID="0" NameCN="串口:" NameTC="串口:" NameEN="Serial" NameKr=""/>
+      <CommunicationCtrlItem labelID="1" NameCN="波特率:" NameTC="波特率:" NameEN="Baud rate" NameKr=""/>
+      <CommunicationCtrlItem labelID="2" NameCN="数据位:" NameTC="數據位:" NameEN="Data bit" NameKr=""/>
+      <CommunicationCtrlItem labelID="3" NameCN="停止位:" NameTC="停止位:" NameEN="Stop bit" NameKr=""/>
+      <CommunicationCtrlItem labelID="4" NameCN="通讯超时(ms):" NameTC="通訊超時(ms)" NameEN="Communication timeout (ms)" NameKr=""/>
+      <CommunicationCtrlItem labelID="5" NameCN="校验位:" NameTC="校驗位:" NameEN="Check bit" NameKr=""/>
+      <CommunicationCtrlItem labelID="6" NameCN="搜索" NameTC="搜索" NameEN="Search" NameKr=""/>
+      <CommunicationCtrlItem comboxID="0" NameCN="38400" NameTC="38400" NameEN="38400" NameKr="38400" isEnable="1"/>
+      <CommunicationCtrlItem buttonID="0" NameCN="打开串口?关闭串口" NameTC="打開串口?關閉串口" NameEN="Open port? Close port" NameKr=""/>
+      <CommunicationCtrlItem buttonID="1" NameCN="搜索" NameTC=" 搜索" NameEN="Search serial port" NameKr=""/>
+      <CommunicationCtrlItem buttonID="2" NameCN="连接?关闭" NameTC="連接?關閉" NameEN="Connect?Close" NameKr=""/>
+      <CommunicationCtrlItem tabpageID="0" NameCN="MobusRTU" NameTC="MobusRTU" NameEN="MobusRTU" NameKr="MobusRTU" isVisible="1"/>
+      <CommunicationCtrlItem tabpageID="1" NameCN="MobusTCP" NameTC="MobusTCP" NameEN="MobusTCP" NameKr="MobusTCP" isVisible="0"/>
+      
+      <CompareFileCtrlItem labelID="0" NameCN="差异总数" NameTC="差異總數" NameEN="Total difference" NameKr=""/>
+      <CompareFileCtrlItem labelID="1" NameCN="当前差异参数" NameTC="當前差異參數" NameEN="Current difference parameter" NameKr=""/>
+      <CompareFileCtrlItem buttonID="0" NameCN="上一个差异" NameTC="上一個差異" NameEN="Previous difference" NameKr=""/>
+      <CompareFileCtrlItem buttonID="1" NameCN="下一个差异" NameTC="下一個差異" NameEN="Next difference" NameKr=""/>
+      <CompareFileCtrlItem checkbxID="0" NameCN="当前驱动器参数" NameTC="當前驅動器參數" NameEN="Current drive parameters" NameKr=""/>
+      <CompareFileCtrlItem tableHeaderID="0" NameCN="寄存器地址" NameTC="寄存器地址" NameEN="RegisterAddr" NameKr=""/>
+      <CompareFileCtrlItem tableHeaderID="1" NameCN="功能说明" NameTC="功能說明" NameEN="Function" NameKr=""/>
+      <CompareFileCtrlItem tableHeaderID="2" NameCN="参数值一" NameTC="參數值一" NameEN="Parameter1" NameKr=""/>
+      <CompareFileCtrlItem tableHeaderID="3" NameCN="参数值二" NameTC="參數值二" NameEN="Parameter2" NameKr=""/>
+      <CompareFileCtrlItem tableHeaderID="4" NameCN="默认值" NameTC="默認值" NameEN="Default" NameKr=""/>
+      <CompareFileCtrlItem tableHeaderID="5" NameCN="单位" NameTC="單位" NameEN="Unit" NameKr=""/>
+      <CompareFileCtrlItem tableHeaderID="6" NameCN="最小值" NameTC="最小值" NameEN="MinValue" NameKr=""/>
+      <CompareFileCtrlItem tableHeaderID="7" NameCN="最大值" NameTC="最大值" NameEN="MaxValue" NameKr=""/>
+    </InterfaceLanguage>
+    <TabpageItems>
+      <tabpageItem tabPageID="0" NameCN="IO输入输出" NameTC=" IO 輸入輸出" NameEN="IO input and output" NameKr="" isVisible="1"/>
+      <tabpageItem tabPageID="1" NameCN="通用参数" NameTC="通用參數" NameEN="IO input and output" NameKr="" isVisible="0"/>
+      <tabpageItem tabPageID="2" NameCN="伺服模式设定" NameTC="伺服模式設定" NameEN="Servo mode setting" NameKr="" isVisible="0"/>
+      <tabpageItem tabPageID="3" NameCN="电流环参数" NameTC="電流環參數" NameEN="Current loop parameters" NameKr="" isVisible="0"/>
+      <tabpageItem tabPageID="4" NameCN="回零模式设定" NameTC="回零模式設定" NameEN="Zero return mode setting" NameKr="" isVisible="0"/>
+      <tabpageItem tabPageID="5" NameCN="无传感器校准" NameTC="無傳感器校準" NameEN="Sensorless calibration" NameKr="" isVisible="0"/>
+      <tabpageItem tabPageID="6" NameCN="校准步骤一" NameTC=" 校準步驟一" NameEN="Calibration step one" NameKr="" isVisible="1"/>
+      <tabpageItem tabPageID="7" NameCN="校准步骤二" NameTC=" 校準步驟二" NameEN="Calibration step two" NameKr="" isVisible="1"/>
+      <tabpageItem tabPageID="8" NameCN="校准步骤三" NameTC=" 校準步驟三" NameEN="Calibration step three" NameKr="" isVisible="1"/>
+    </TabpageItems>
+    <TextboxItems>
+      <textboxItem textboxID="0" NameCN="速度(rpm)" NameTC="速度(rpm)" NameEN="Speed(rpm)" NameKr="" ModbusAddr="80" Parameter="200" RWAtrribute="RW" isEnable="1" isVisible="1"/>
+      <textboxItem textboxID="1" NameCN="加速度(r/s^2)" NameTC="加速度(r/s^2)" NameEN="Acceleration(r/s^2)" NameKr="" ModbusAddr="81" Parameter="200" RWAtrribute="RW" isEnable="1" isVisible="1"/>
+      <textboxItem textboxID="2" NameCN="减速度(r/s^2)" NameTC="減速度(r/s^2)" NameEN="Deceleration(r/s^2)" NameKr="" ModbusAddr="82" Parameter="600" RWAtrribute="RW" isEnable="1" isVisible="1"/>
+      <textboxItem textboxID="3" NameCN="脉冲数(pluse)" NameTC="脈衝數(pluse)" NameEN="pulses(pluse)" NameKr="" ModbusAddr="83" Parameter="100" RWAtrribute="RW" isEnable="1" isVisible="1" Remark="int32"/>
+      <textboxItem textboxID="4" NameCN="等待时间(ms)" NameTC="等待時間(ms)" NameEN="Waiting time(ms)" NameKr="" ModbusAddr="85" Parameter="100" RWAtrribute="RW" isEnable="1" isVisible="1"/>
+      <textboxItem textboxID="5" NameCN="重复次数" NameTC="重複次數" NameEN="Repeat times" NameKr="" ModbusAddr="88" Parameter="0" RWAtrribute="RW" isEnable="1" isVisible="1"/>
+      <textboxItem textboxID="6" NameCN="xxxx" NameTC="" NameEN="" NameKr="" ModbusAddr="0" Parameter="200" RWAtrribute="RW" isEnable="0" isVisible="0"/>
+      <textboxItem textboxID="7" NameCN="急停减速度" NameTC="急停減速度" NameEN="Emergency stop deceleration" NameKr="" ModbusAddr="78" Parameter="500" RWAtrribute="RW" isEnable="0" isVisible="0"/>
+      <!--DRV Calibration-->
+      <textboxItem textboxID="54" NameCN="极对数" NameTC="極對數" NameEN=" Number of pole pairs" NameKr="" ModbusAddr="19" Parameter="4" RWAtrribute="RW" isEnable="1" isVisible="1"/>
+      <textboxItem textboxID="55" NameCN="电机编码器分辨率" NameTC="電機編碼器分辨率" NameEN=" Motor encoder resolution" NameKr="" ModbusAddr="24" Parameter="16384" RWAtrribute="RW" isEnable="1" isVisible="1"/>
+      <textboxItem textboxID="56" NameCN="电机额定电流(0.1A)" NameTC="電機額定電流(0.1A)" NameEN="Motor rated current(0.1A)" NameKr="" ModbusAddr="20" Parameter="70" RWAtrribute="RW" isEnable="1" isVisible="1"/>
+      <textboxItem textboxID="57" NameCN="开环运行力矩(%)" NameTC="開環運行力矩(%)" NameEN="Open loop running torque(%) " NameKr="" ModbusAddr="26" Parameter="70" RWAtrribute="RW" isEnable="1" isVisible="1"/>
+      <textboxItem textboxID="58" NameCN="开环运行加速度(r/s^2)" NameTC="開環運行加速度(r/s^2)" NameEN="Open loop running acceleration(r/s^2) " NameKr="" ModbusAddr="65" Parameter="100" RWAtrribute="RW" isEnable="1" isVisible="1"/>
+      <textboxItem textboxID="59" NameCN="开环运行减速度(r/s^2)" NameTC="開環運行減速度(r/s^2)" NameEN="Open loop running deceleration(r/s^2) " NameKr="" ModbusAddr="66" Parameter="100" RWAtrribute="RW" isEnable="1" isVisible="1"/>
+      <textboxItem textboxID="60" NameCN="开环运行速度(rpm)" NameTC="開環運行速度(rpm)" NameEN="Open loop running speed(rpm)" NameKr="" ModbusAddr="67" Parameter="5" RWAtrribute="RW" isEnable="1" isVisible="1"/>
+      <textboxItem textboxID="61" NameCN="霍尔信号" NameTC="霍爾信號" NameEN=" Hall signal" NameKr="" ModbusAddr="189" Parameter="0" RWAtrribute="R" isEnable="1" isVisible="1"/>
+      <textboxItem textboxID="62" NameCN="编码器当前位置" NameTC="編碼器當前位置" NameEN="Encoder current position" NameKr="" ModbusAddr="172" Parameter="0" RWAtrribute="R" isEnable="1" isVisible="1" Remark="int32"/>
+      <textboxItem textboxID="63" NameCN="校准力矩百分比(%)" NameTC="校準力矩百分比(%)" NameEN="Calibration torque percentage(%) " NameKr="" ModbusAddr="26" Parameter="70" RWAtrribute="RW" isEnable="1" isVisible="1"/>
+      <textboxItem textboxID="64" NameCN="校准加速度(r/s^2)" NameTC="校準加速度(r/s^2)" NameEN="Calibration acceleration(r/s^2) " NameKr="" ModbusAddr="65" Parameter="100" RWAtrribute="RW" isEnable="1" isVisible="1"/>
+      <textboxItem textboxID="65" NameCN="校准减速度(r/s^2)" NameTC="校準減速度(r/s^2)" NameEN="Calibration deceleration(r/s^2) " NameKr="" ModbusAddr="66" Parameter="100" RWAtrribute="RW" isEnable="1" isVisible="1"/>
+      <textboxItem textboxID="66" NameCN="校准速度(rpm)" NameTC="校準速度(rpm)" NameEN="Calibration speed(rpm) " NameKr="" ModbusAddr="67" Parameter="5" RWAtrribute="RW" isEnable="1" isVisible="1"/>
+    </TextboxItems>
+    <ButtonItems>
+      <buttonItem buttonID="0" NameCN="定长正转" NameTC="定長正轉" NameEN="Go Pos CW" NameKr="" ModbusAddr="59" Parameter="1" isEnable="1" isVisible="1"/>
+      <buttonItem buttonID="1" NameCN="定长反转" NameTC="定長反轉" NameEN="Go Pos CCW" NameKr="" ModbusAddr="59" Parameter="2" isEnable="1" isVisible="1"/>
+      <buttonItem buttonID="2" NameCN="连续正转" NameTC="連續正轉" NameEN="Jog CW" NameKr="" ModbusAddr="59" Parameter="3" SlowDownParameter="6" isEnable="1" isVisible="1"/>
+      <buttonItem buttonID="3" NameCN="连续反转" NameTC="連續反轉" NameEN="Jog CCW" NameKr="" ModbusAddr="59" Parameter="4" isEnable="1" isVisible="1"/>
+      <buttonItem buttonID="4" NameCN="启动?停止" NameTC="啟動?停止" NameEN="Start?Stop" NameKr="" ModbusAddr="89" Parameter="1" isEnable="1" isVisible="1"/>
+      <buttonItem buttonID="5" NameCN="保存重启" NameTC="保存重啟" NameEN="Save and restart" NameKr="" ModbusAddr="24" Parameter="3" isEnable="1" isVisible="1"/>
+	  <buttonItem buttonID="6" NameCN="校准" NameTC="校準" NameEN="Calc" NameKr="" ModbusAddr="24" Parameter="3" isEnable="1" isVisible="1"/>
+      <buttonItem buttonID="7" NameCN="测试启动?停止" NameTC="測試啟動?停止" NameEN="Start?Stop" NameKr="" ModbusAddr="24" Parameter="3" isEnable="1" isVisible="1"/>
+      <buttonItem buttonID="8" NameCN="校准" NameTC="校準" NameEN="Calc" NameKr="" ModbusAddr="24" Parameter="3" isEnable="1" isVisible="1"/>
+    </ButtonItems>
+    <ComboBoxItems>
+      <!--Motion control-->
+      <comboxItem comboxID="0" NameCN="控制模式" NameTC="控制模式" NameEN="Control mode" NameKr="" ModbusAddr="0" isEnable="1" isVisible="1">
+        <Menu NameCN="位置模式" NameTC="位置模式" NameEN="Position mode" NameKr="" Parameter="0"/>
+        <Menu NameCN="速度模式" NameTC="速度模式" NameEN="Speed mode" NameKr="" Parameter="1"/>
+        <Menu NameCN="力矩模式" NameTC="力矩模式" NameEN="Torque mode" NameKr="" Parameter="2"/>
+      </comboxItem>
+      <comboxItem comboxID="1" NameCN="强制使能" NameTC="強制使能" NameEN="Force enable" NameKr="" ModbusAddr="44" isEnable="1" isVisible="1">
+        <Menu NameCN="脱机" NameTC="脫機" NameEN="Offline" NameKr="" Parameter="0"/>
+        <Menu NameCN="使能" NameTC="使能" NameEN="Enable" NameKr="" Parameter="1"/>
+      </comboxItem>
+      <comboxItem comboxID="2" NameCN="速度源" NameTC="速度源" NameEN="Speed source" NameKr="" ModbusAddr="2" isEnable="1" isVisible="1">
+        <Menu NameCN="数字给定" NameTC="數字給定" NameEN="Digital given" NameKr="" Parameter="0"/>
+        <Menu NameCN="速度表" NameTC="速度表" NameEN="Speedometer" NameKr="" Parameter="1"/>
+        <Menu NameCN="调试" NameTC="調試" NameEN="Debugging" NameKr="" Parameter="2"/>
+      </comboxItem>
+      <comboxItem comboxID="3" NameCN="脉冲指令来源" NameTC="脈衝指令來源" NameEN="Pulse command source" NameKr="" ModbusAddr="1" isEnable="1" isVisible="1">
+        <Menu NameCN="脉冲指令" NameTC="脈衝指令" NameEN="Pulse command" NameKr="" Parameter="0"/>
+        <Menu NameCN="步进量" NameTC="步進量" NameEN="Step amount" NameKr="" Parameter="1"/>
+        <Menu NameCN="位置表" NameTC="位置表" NameEN="Location table" NameKr="" Parameter="2"/>
+        <Menu NameCN="调试" NameTC="調試" NameEN="Debugging" NameKr="" Parameter="3"/>
+      </comboxItem>
+      <comboxItem comboxID="4" NameCN="演示模式" NameTC="演示模式" NameEN="Demo mode" NameKr="" ModbusAddr="86" isEnable="1" isVisible="1">
+        <Menu NameCN="往复运行" NameTC="往復運行" NameEN="Reciprocating motion" NameKr="" Parameter="0"/>
+        <Menu NameCN="单向运行" NameTC="單向運行" NameEN="Unidirectional motion" NameKr="" Parameter="1"/>
+      </comboxItem>
+      <comboxItem comboxID="5" NameCN="运行方向取反" NameTC="運行方向取反" NameEN="Reverse running direction" NameKr="" ModbusAddr="87" isEnable="1" isVisible="1">
+        <Menu NameCN="正方向" NameTC="正方向" NameEN="Positive direction" NameKr="" Parameter="0"/>
+        <Menu NameCN="反方向" NameTC="反方向" NameEN="Reverse direction" NameKr="" Parameter="1"/>
+      </comboxItem>
+      <comboxItem comboxID="6" NameCN="IN1:" NameTC="IN1:" NameEN="IN1:" NameKr="" ModbusAddr="70" bit="5" isEnable="1" isVisible="1">
+        <Menu NameCN="普通输入" NameTC="普通輸入" NameEN="Common input" NameKr="" Parameter="0"/>
+        <Menu NameCN="PUL(脉冲)" NameTC="PUL(脈沖)" NameEN="Pulse" NameKr="" Parameter="1"/>
+        <Menu NameCN="DIR(方向)" NameTC="DIR(方向)" NameEN="Direction" NameKr="" Parameter="2"/>
+        <Menu NameCN="rsvd(保留)" NameTC="rsvd(保留)" NameEN="reserve" NameKr="" Parameter="3"/>
+        <Menu NameCN="rsvd(保留)" NameTC="rsvd(保留)" NameEN="reserve" NameKr="" Parameter="4"/>
+        <Menu NameCN="伺服使能" NameTC="伺服使能" NameEN="SRV-ON" NameKr="" Parameter="5"/>
+        <Menu NameCN="故障与警告复位" NameTC="故障與警告復位" NameEN="Fault and warning reset" NameKr="" Parameter="6"/>
+        <Menu NameCN="脉冲指令禁止" NameTC="脈沖指令禁止" NameEN="Pulse command disable" NameKr="" Parameter="7"/>
+        <Menu NameCN="急停" NameTC="急停" NameEN="Emergency stop" NameKr="" Parameter="8"/>
+        <Menu NameCN="正向限位开关" NameTC="正向限位開關" NameEN="Positive limit switch" NameKr="" Parameter="9"/>
+        <Menu NameCN="反向限位开关" NameTC="反向限位開關" NameEN="Reverse limit switch" NameKr="" Parameter="10"/>
+        <Menu NameCN="原点开关" NameTC="原點開關" NameEN="origin switch" NameKr="" Parameter="11"/>
+        <Menu NameCN="启动回零" NameTC="啟動回零" NameEN="Start to return zero" NameKr="" Parameter="12"/>
+        <Menu NameCN="多段运行指令切换1" NameTC="多段運行指令切換1" NameEN="Multi-command switch1" NameKr="" Parameter="13"/>
+        <Menu NameCN="多段运行指令切换2" NameTC="多段運行指令切換2" NameEN="Multi-command switch2" NameKr="" Parameter="14"/>
+        <Menu NameCN="多段运行指令切换3" NameTC="多段運行指令切換3" NameEN="Multi-command switch3" NameKr="" Parameter="15"/>
+        <Menu NameCN="多段运行指令切换4" NameTC="多段運行指令切換4" NameEN="Multi-command switch4" NameKr="" Parameter="16"/>
+        <Menu NameCN="rsvd(保留)" NameTC="rsvd(保留)" NameEN="reserve" NameKr="" Parameter="17"/>
+        <Menu NameCN="速度指令方向设定" NameTC="速度指令方向設定" NameEN="Speed instruction dir set" NameKr="" Parameter="18"/>
+        <Menu NameCN="力矩指令方向设定" NameTC="力矩指令方向設定" NameEN="Torque command dir set" NameKr="" Parameter="19"/>
+        <Menu NameCN="rsvd(保留)" NameTC="rsvd(保留)" NameEN="reserve" NameKr="" Parameter="20"/>
+        <Menu NameCN="多功能输入1" NameTC="多功能輸入1" NameEN="Multifunction input 1" NameKr="" Parameter="21"/>
+        <Menu NameCN="多功能输入2" NameTC="多功能輸入2" NameEN="Multifunction input 2" NameKr="" Parameter="22"/>
+        <Menu NameCN="多功能输入3" NameTC="多功能輸入3" NameEN="Multifunction input 3" NameKr="" Parameter="23"/>
+        <Menu NameCN="多功能输入4" NameTC="多功能輸入4" NameEN="Multifunction input 4" NameKr="" Parameter="24"/>
+        <Menu NameCN="多功能输入5" NameTC="多功能輸入5" NameEN="Multifunction input 5" NameKr="" Parameter="25"/>
+        <Menu NameCN="多功能输入6" NameTC="多功能輸入6" NameEN="Multifunction input 6" NameKr="" Parameter="26"/>
+        <Menu NameCN="多功能输入7" NameTC="多功能輸入7" NameEN="Multifunction input 7" NameKr="" Parameter="27"/>
+      </comboxItem>
+      <comboxItem comboxID="7" NameCN="IN2:" NameTC="IN2:" NameEN="IN2:" NameKr="" ModbusAddr="71" bit="5" isEnable="1" isVisible="1">
+        <Menu NameCN="普通输入" NameTC="普通輸入" NameEN="Common input" NameKr="" Parameter="0"/>
+        <Menu NameCN="PUL(脉冲)" NameTC="PUL(脈沖)" NameEN="Pulse" NameKr="" Parameter="1"/>
+        <Menu NameCN="DIR(方向)" NameTC="DIR(方向)" NameEN="Direction" NameKr="" Parameter="2"/>
+        <Menu NameCN="rsvd(保留)" NameTC="rsvd(保留)" NameEN="reserve" NameKr="" Parameter="3"/>
+        <Menu NameCN="rsvd(保留)" NameTC="rsvd(保留)" NameEN="reserve" NameKr="" Parameter="4"/>
+        <Menu NameCN="伺服使能" NameTC="伺服使能" NameEN="SRV-ON" NameKr="" Parameter="5"/>
+        <Menu NameCN="故障与警告复位" NameTC="故障與警告復位" NameEN="Fault and warning reset" NameKr="" Parameter="6"/>
+        <Menu NameCN="脉冲指令禁止" NameTC="脈沖指令禁止" NameEN="Pulse command disable" NameKr="" Parameter="7"/>
+        <Menu NameCN="急停" NameTC="急停" NameEN="Emergency stop" NameKr="" Parameter="8"/>
+        <Menu NameCN="正向限位开关" NameTC="正向限位開關" NameEN="Positive limit switch" NameKr="" Parameter="9"/>
+        <Menu NameCN="反向限位开关" NameTC="反向限位開關" NameEN="Reverse limit switch" NameKr="" Parameter="10"/>
+        <Menu NameCN="原点开关" NameTC="原點開關" NameEN="origin switch" NameKr="" Parameter="11"/>
+        <Menu NameCN="启动回零" NameTC="啟動回零" NameEN="Start to return zero" NameKr="" Parameter="12"/>
+        <Menu NameCN="多段运行指令切换1" NameTC="多段運行指令切換1" NameEN="Multi-command switch1" NameKr="" Parameter="13"/>
+        <Menu NameCN="多段运行指令切换2" NameTC="多段運行指令切換2" NameEN="Multi-command switch2" NameKr="" Parameter="14"/>
+        <Menu NameCN="多段运行指令切换3" NameTC="多段運行指令切換3" NameEN="Multi-command switch3" NameKr="" Parameter="15"/>
+        <Menu NameCN="多段运行指令切换4" NameTC="多段運行指令切換4" NameEN="Multi-command switch4" NameKr="" Parameter="16"/>
+        <Menu NameCN="rsvd(保留)" NameTC="rsvd(保留)" NameEN="reserve" NameKr="" Parameter="17"/>
+        <Menu NameCN="速度指令方向设定" NameTC="速度指令方向設定" NameEN="Speed instruction dir set" NameKr="" Parameter="18"/>
+        <Menu NameCN="力矩指令方向设定" NameTC="力矩指令方向設定" NameEN="Torque command dir set" NameKr="" Parameter="19"/>
+        <Menu NameCN="rsvd(保留)" NameTC="rsvd(保留)" NameEN="reserve" NameKr="" Parameter="20"/>
+        <Menu NameCN="多功能输入1" NameTC="多功能輸入1" NameEN="Multifunction input 1" NameKr="" Parameter="21"/>
+        <Menu NameCN="多功能输入2" NameTC="多功能輸入2" NameEN="Multifunction input 2" NameKr="" Parameter="22"/>
+        <Menu NameCN="多功能输入3" NameTC="多功能輸入3" NameEN="Multifunction input 3" NameKr="" Parameter="23"/>
+        <Menu NameCN="多功能输入4" NameTC="多功能輸入4" NameEN="Multifunction input 4" NameKr="" Parameter="24"/>
+        <Menu NameCN="多功能输入5" NameTC="多功能輸入5" NameEN="Multifunction input 5" NameKr="" Parameter="25"/>
+        <Menu NameCN="多功能输入6" NameTC="多功能輸入6" NameEN="Multifunction input 6" NameKr="" Parameter="26"/>
+        <Menu NameCN="多功能输入7" NameTC="多功能輸入7" NameEN="Multifunction input 7" NameKr="" Parameter="27"/>
+      </comboxItem>
+      <comboxItem comboxID="8" NameCN="IN3:" NameTC="IN3:" NameEN="IN3:" NameKr="" ModbusAddr="72" bit="5" isEnable="1" isVisible="1">
+        <Menu NameCN="普通输入" NameTC="普通輸入" NameEN="Common input" NameKr="" Parameter="0"/>
+        <Menu NameCN="PUL(脉冲)" NameTC="PUL(脈沖)" NameEN="Pulse" NameKr="" Parameter="1"/>
+        <Menu NameCN="DIR(方向)" NameTC="DIR(方向)" NameEN="Direction" NameKr="" Parameter="2"/>
+        <Menu NameCN="rsvd(保留)" NameTC="rsvd(保留)" NameEN="reserve" NameKr="" Parameter="3"/>
+        <Menu NameCN="rsvd(保留)" NameTC="rsvd(保留)" NameEN="reserve" NameKr="" Parameter="4"/>
+        <Menu NameCN="伺服使能" NameTC="伺服使能" NameEN="SRV-ON" NameKr="" Parameter="5"/>
+        <Menu NameCN="故障与警告复位" NameTC="故障與警告復位" NameEN="Fault and warning reset" NameKr="" Parameter="6"/>
+        <Menu NameCN="脉冲指令禁止" NameTC="脈沖指令禁止" NameEN="Pulse command disable" NameKr="" Parameter="7"/>
+        <Menu NameCN="急停" NameTC="急停" NameEN="Emergency stop" NameKr="" Parameter="8"/>
+        <Menu NameCN="正向限位开关" NameTC="正向限位開關" NameEN="Positive limit switch" NameKr="" Parameter="9"/>
+        <Menu NameCN="反向限位开关" NameTC="反向限位開關" NameEN="Reverse limit switch" NameKr="" Parameter="10"/>
+        <Menu NameCN="原点开关" NameTC="原點開關" NameEN="origin switch" NameKr="" Parameter="11"/>
+        <Menu NameCN="启动回零" NameTC="啟動回零" NameEN="Start to return zero" NameKr="" Parameter="12"/>
+        <Menu NameCN="多段运行指令切换1" NameTC="多段運行指令切換1" NameEN="Multi-command switch1" NameKr="" Parameter="13"/>
+        <Menu NameCN="多段运行指令切换2" NameTC="多段運行指令切換2" NameEN="Multi-command switch2" NameKr="" Parameter="14"/>
+        <Menu NameCN="多段运行指令切换3" NameTC="多段運行指令切換3" NameEN="Multi-command switch3" NameKr="" Parameter="15"/>
+        <Menu NameCN="多段运行指令切换4" NameTC="多段運行指令切換4" NameEN="Multi-command switch4" NameKr="" Parameter="16"/>
+        <Menu NameCN="rsvd(保留)" NameTC="rsvd(保留)" NameEN="reserve" NameKr="" Parameter="17"/>
+        <Menu NameCN="速度指令方向设定" NameTC="速度指令方向設定" NameEN="Speed instruction dir set" NameKr="" Parameter="18"/>
+        <Menu NameCN="力矩指令方向设定" NameTC="力矩指令方向設定" NameEN="Torque command dir set" NameKr="" Parameter="19"/>
+        <Menu NameCN="rsvd(保留)" NameTC="rsvd(保留)" NameEN="reserve" NameKr="" Parameter="20"/>
+        <Menu NameCN="多功能输入1" NameTC="多功能輸入1" NameEN="Multifunction input 1" NameKr="" Parameter="21"/>
+        <Menu NameCN="多功能输入2" NameTC="多功能輸入2" NameEN="Multifunction input 2" NameKr="" Parameter="22"/>
+        <Menu NameCN="多功能输入3" NameTC="多功能輸入3" NameEN="Multifunction input 3" NameKr="" Parameter="23"/>
+        <Menu NameCN="多功能输入4" NameTC="多功能輸入4" NameEN="Multifunction input 4" NameKr="" Parameter="24"/>
+        <Menu NameCN="多功能输入5" NameTC="多功能輸入5" NameEN="Multifunction input 5" NameKr="" Parameter="25"/>
+        <Menu NameCN="多功能输入6" NameTC="多功能輸入6" NameEN="Multifunction input 6" NameKr="" Parameter="26"/>
+        <Menu NameCN="多功能输入7" NameTC="多功能輸入7" NameEN="Multifunction input 7" NameKr="" Parameter="27"/>
+      </comboxItem>
+      <comboxItem comboxID="9" NameCN="IN4:" NameTC="IN4:" NameEN="IN4:" NameKr="" ModbusAddr="73" bit="5" isEnable="1" isVisible="1">
+        <Menu NameCN="普通输入" NameTC="普通輸入" NameEN="Common input" NameKr="" Parameter="0"/>
+        <Menu NameCN="PUL(脉冲)" NameTC="PUL(脈沖)" NameEN="Pulse" NameKr="" Parameter="1"/>
+        <Menu NameCN="DIR(方向)" NameTC="DIR(方向)" NameEN="Direction" NameKr="" Parameter="2"/>
+        <Menu NameCN="rsvd(保留)" NameTC="rsvd(保留)" NameEN="reserve" NameKr="" Parameter="3"/>
+        <Menu NameCN="rsvd(保留)" NameTC="rsvd(保留)" NameEN="reserve" NameKr="" Parameter="4"/>
+        <Menu NameCN="伺服使能" NameTC="伺服使能" NameEN="SRV-ON" NameKr="" Parameter="5"/>
+        <Menu NameCN="故障与警告复位" NameTC="故障與警告復位" NameEN="Fault and warning reset" NameKr="" Parameter="6"/>
+        <Menu NameCN="脉冲指令禁止" NameTC="脈沖指令禁止" NameEN="Pulse command disable" NameKr="" Parameter="7"/>
+        <Menu NameCN="急停" NameTC="急停" NameEN="Emergency stop" NameKr="" Parameter="8"/>
+        <Menu NameCN="正向限位开关" NameTC="正向限位開關" NameEN="Positive limit switch" NameKr="" Parameter="9"/>
+        <Menu NameCN="反向限位开关" NameTC="反向限位開關" NameEN="Reverse limit switch" NameKr="" Parameter="10"/>
+        <Menu NameCN="原点开关" NameTC="原點開關" NameEN="origin switch" NameKr="" Parameter="11"/>
+        <Menu NameCN="启动回零" NameTC="啟動回零" NameEN="Start to return zero" NameKr="" Parameter="12"/>
+        <Menu NameCN="多段运行指令切换1" NameTC="多段運行指令切換1" NameEN="Multi-command switch1" NameKr="" Parameter="13"/>
+        <Menu NameCN="多段运行指令切换2" NameTC="多段運行指令切換2" NameEN="Multi-command switch2" NameKr="" Parameter="14"/>
+        <Menu NameCN="多段运行指令切换3" NameTC="多段運行指令切換3" NameEN="Multi-command switch3" NameKr="" Parameter="15"/>
+        <Menu NameCN="多段运行指令切换4" NameTC="多段運行指令切換4" NameEN="Multi-command switch4" NameKr="" Parameter="16"/>
+        <Menu NameCN="rsvd(保留)" NameTC="rsvd(保留)" NameEN="reserve" NameKr="" Parameter="17"/>
+        <Menu NameCN="速度指令方向设定" NameTC="速度指令方向設定" NameEN="Speed instruction dir set" NameKr="" Parameter="18"/>
+        <Menu NameCN="力矩指令方向设定" NameTC="力矩指令方向設定" NameEN="Torque command dir set" NameKr="" Parameter="19"/>
+        <Menu NameCN="rsvd(保留)" NameTC="rsvd(保留)" NameEN="reserve" NameKr="" Parameter="20"/>
+        <Menu NameCN="多功能输入1" NameTC="多功能輸入1" NameEN="Multifunction input 1" NameKr="" Parameter="21"/>
+        <Menu NameCN="多功能输入2" NameTC="多功能輸入2" NameEN="Multifunction input 2" NameKr="" Parameter="22"/>
+        <Menu NameCN="多功能输入3" NameTC="多功能輸入3" NameEN="Multifunction input 3" NameKr="" Parameter="23"/>
+        <Menu NameCN="多功能输入4" NameTC="多功能輸入4" NameEN="Multifunction input 4" NameKr="" Parameter="24"/>
+        <Menu NameCN="多功能输入5" NameTC="多功能輸入5" NameEN="Multifunction input 5" NameKr="" Parameter="25"/>
+        <Menu NameCN="多功能输入6" NameTC="多功能輸入6" NameEN="Multifunction input 6" NameKr="" Parameter="26"/>
+        <Menu NameCN="多功能输入7" NameTC="多功能輸入7" NameEN="Multifunction input 7" NameKr="" Parameter="27"/>
+      </comboxItem>
+      <comboxItem comboxID="10" NameCN="IN5:" NameTC="IN5:" NameEN="IN5:" NameKr="" ModbusAddr="74" bit="5" isEnable="1" isVisible="1">
+        <Menu NameCN="普通输入" NameTC="普通輸入" NameEN="Common input" NameKr="" Parameter="0"/>
+        <Menu NameCN="PUL(脉冲)" NameTC="PUL(脈沖)" NameEN="Pulse" NameKr="" Parameter="1"/>
+        <Menu NameCN="DIR(方向)" NameTC="DIR(方向)" NameEN="Direction" NameKr="" Parameter="2"/>
+        <Menu NameCN="rsvd(保留)" NameTC="rsvd(保留)" NameEN="reserve" NameKr="" Parameter="3"/>
+        <Menu NameCN="rsvd(保留)" NameTC="rsvd(保留)" NameEN="reserve" NameKr="" Parameter="4"/>
+        <Menu NameCN="伺服使能" NameTC="伺服使能" NameEN="SRV-ON" NameKr="" Parameter="5"/>
+        <Menu NameCN="故障与警告复位" NameTC="故障與警告復位" NameEN="Fault and warning reset" NameKr="" Parameter="6"/>
+        <Menu NameCN="脉冲指令禁止" NameTC="脈沖指令禁止" NameEN="Pulse command disable" NameKr="" Parameter="7"/>
+        <Menu NameCN="急停" NameTC="急停" NameEN="Emergency stop" NameKr="" Parameter="8"/>
+        <Menu NameCN="正向限位开关" NameTC="正向限位開關" NameEN="Positive limit switch" NameKr="" Parameter="9"/>
+        <Menu NameCN="反向限位开关" NameTC="反向限位開關" NameEN="Reverse limit switch" NameKr="" Parameter="10"/>
+        <Menu NameCN="原点开关" NameTC="原點開關" NameEN="origin switch" NameKr="" Parameter="11"/>
+        <Menu NameCN="启动回零" NameTC="啟動回零" NameEN="Start to return zero" NameKr="" Parameter="12"/>
+        <Menu NameCN="多段运行指令切换1" NameTC="多段運行指令切換1" NameEN="Multi-command switch1" NameKr="" Parameter="13"/>
+        <Menu NameCN="多段运行指令切换2" NameTC="多段運行指令切換2" NameEN="Multi-command switch2" NameKr="" Parameter="14"/>
+        <Menu NameCN="多段运行指令切换3" NameTC="多段運行指令切換3" NameEN="Multi-command switch3" NameKr="" Parameter="15"/>
+        <Menu NameCN="多段运行指令切换4" NameTC="多段運行指令切換4" NameEN="Multi-command switch4" NameKr="" Parameter="16"/>
+        <Menu NameCN="rsvd(保留)" NameTC="rsvd(保留)" NameEN="reserve" NameKr="" Parameter="17"/>
+        <Menu NameCN="速度指令方向设定" NameTC="速度指令方向設定" NameEN="Speed instruction dir set" NameKr="" Parameter="18"/>
+        <Menu NameCN="力矩指令方向设定" NameTC="力矩指令方向設定" NameEN="Torque command dir set" NameKr="" Parameter="19"/>
+        <Menu NameCN="rsvd(保留)" NameTC="rsvd(保留)" NameEN="reserve" NameKr="" Parameter="20"/>
+        <Menu NameCN="多功能输入1" NameTC="多功能輸入1" NameEN="Multifunction input 1" NameKr="" Parameter="21"/>
+        <Menu NameCN="多功能输入2" NameTC="多功能輸入2" NameEN="Multifunction input 2" NameKr="" Parameter="22"/>
+        <Menu NameCN="多功能输入3" NameTC="多功能輸入3" NameEN="Multifunction input 3" NameKr="" Parameter="23"/>
+        <Menu NameCN="多功能输入4" NameTC="多功能輸入4" NameEN="Multifunction input 4" NameKr="" Parameter="24"/>
+        <Menu NameCN="多功能输入5" NameTC="多功能輸入5" NameEN="Multifunction input 5" NameKr="" Parameter="25"/>
+        <Menu NameCN="多功能输入6" NameTC="多功能輸入6" NameEN="Multifunction input 6" NameKr="" Parameter="26"/>
+        <Menu NameCN="多功能输入7" NameTC="多功能輸入7" NameEN="Multifunction input 7" NameKr="" Parameter="27"/>
+      </comboxItem>
+      <comboxItem comboxID="11" NameCN="IN6:" NameTC="IN6:" NameEN="IN6:" NameKr="" ModbusAddr="75" bit="5" isEnable="1" isVisible="1">
+        <Menu NameCN="普通输入" NameTC="普通輸入" NameEN="Common input" NameKr="" Parameter="0"/>
+        <Menu NameCN="PUL(脉冲)" NameTC="PUL(脈沖)" NameEN="Pulse" NameKr="" Parameter="1"/>
+        <Menu NameCN="DIR(方向)" NameTC="DIR(方向)" NameEN="Direction" NameKr="" Parameter="2"/>
+        <Menu NameCN="rsvd(保留)" NameTC="rsvd(保留)" NameEN="reserve" NameKr="" Parameter="3"/>
+        <Menu NameCN="rsvd(保留)" NameTC="rsvd(保留)" NameEN="reserve" NameKr="" Parameter="4"/>
+        <Menu NameCN="伺服使能" NameTC="伺服使能" NameEN="SRV-ON" NameKr="" Parameter="5"/>
+        <Menu NameCN="故障与警告复位" NameTC="故障與警告復位" NameEN="Fault and warning reset" NameKr="" Parameter="6"/>
+        <Menu NameCN="脉冲指令禁止" NameTC="脈沖指令禁止" NameEN="Pulse command disable" NameKr="" Parameter="7"/>
+        <Menu NameCN="急停" NameTC="急停" NameEN="Emergency stop" NameKr="" Parameter="8"/>
+        <Menu NameCN="正向限位开关" NameTC="正向限位開關" NameEN="Positive limit switch" NameKr="" Parameter="9"/>
+        <Menu NameCN="反向限位开关" NameTC="反向限位開關" NameEN="Reverse limit switch" NameKr="" Parameter="10"/>
+        <Menu NameCN="原点开关" NameTC="原點開關" NameEN="origin switch" NameKr="" Parameter="11"/>
+        <Menu NameCN="启动回零" NameTC="啟動回零" NameEN="Start to return zero" NameKr="" Parameter="12"/>
+        <Menu NameCN="多段运行指令切换1" NameTC="多段運行指令切換1" NameEN="Multi-command switch1" NameKr="" Parameter="13"/>
+        <Menu NameCN="多段运行指令切换2" NameTC="多段運行指令切換2" NameEN="Multi-command switch2" NameKr="" Parameter="14"/>
+        <Menu NameCN="多段运行指令切换3" NameTC="多段運行指令切換3" NameEN="Multi-command switch3" NameKr="" Parameter="15"/>
+        <Menu NameCN="多段运行指令切换4" NameTC="多段運行指令切換4" NameEN="Multi-command switch4" NameKr="" Parameter="16"/>
+        <Menu NameCN="rsvd(保留)" NameTC="rsvd(保留)" NameEN="reserve" NameKr="" Parameter="17"/>
+        <Menu NameCN="速度指令方向设定" NameTC="速度指令方向設定" NameEN="Speed instruction dir set" NameKr="" Parameter="18"/>
+        <Menu NameCN="力矩指令方向设定" NameTC="力矩指令方向設定" NameEN="Torque command dir set" NameKr="" Parameter="19"/>
+        <Menu NameCN="rsvd(保留)" NameTC="rsvd(保留)" NameEN="reserve" NameKr="" Parameter="20"/>
+        <Menu NameCN="多功能输入1" NameTC="多功能輸入1" NameEN="Multifunction input 1" NameKr="" Parameter="21"/>
+        <Menu NameCN="多功能输入2" NameTC="多功能輸入2" NameEN="Multifunction input 2" NameKr="" Parameter="22"/>
+        <Menu NameCN="多功能输入3" NameTC="多功能輸入3" NameEN="Multifunction input 3" NameKr="" Parameter="23"/>
+        <Menu NameCN="多功能输入4" NameTC="多功能輸入4" NameEN="Multifunction input 4" NameKr="" Parameter="24"/>
+        <Menu NameCN="多功能输入5" NameTC="多功能輸入5" NameEN="Multifunction input 5" NameKr="" Parameter="25"/>
+        <Menu NameCN="多功能输入6" NameTC="多功能輸入6" NameEN="Multifunction input 6" NameKr="" Parameter="26"/>
+        <Menu NameCN="多功能输入7" NameTC="多功能輸入7" NameEN="Multifunction input 7" NameKr="" Parameter="27"/>
+      </comboxItem>
+      <comboxItem comboxID="12" NameCN="OUT1:" NameTC="OUT1:" NameEN="OUT1:" NameKr="" ModbusAddr="76" bit="5" isEnable="1" isVisible="1">
+        <Menu NameCN="普通输出" NameTC="普通輸出" NameEN="Normal output" NameKr="" Parameter="0"/>
+        <Menu NameCN="报警输出" NameTC="報警輸出" NameEN="error alarm" NameKr="" Parameter="1"/>
+        <Menu NameCN="抱闸输出" NameTC="抱閘輸出" NameEN="Brake output" NameKr="" Parameter="2"/>
+        <Menu NameCN="定位完成" NameTC="定位完成" NameEN="Positioning is complete" NameKr="" Parameter="3"/>
+        <Menu NameCN="转速到达" NameTC="轉速到達" NameEN="Speed reached" NameKr="" Parameter="4"/>
+        <Menu NameCN="回零完成" NameTC="回零完成" NameEN="Zero return complete" NameKr="" Parameter="5"/>
+        <Menu NameCN="驱动器准备好" NameTC="驅動器準備好" NameEN="Driver ready" NameKr="" Parameter="6"/>
+        <Menu NameCN="力矩到达" NameTC="力矩到達" NameEN="Torque arrive" NameKr="" Parameter="7"/>
+        <Menu NameCN="FUNC1" NameTC="FUNC1" NameEN="FUNC1" NameKr="" Parameter="8"/>
+        <Menu NameCN="FUNC2" NameTC="FUNC2" NameEN="FUNC2" NameKr="" Parameter="9"/>
+        <Menu NameCN="FUNC3" NameTC="FUNC3" NameEN="FUNC3" NameKr="" Parameter="10"/>
+        <Menu NameCN="内部脉冲指令停止" NameTC="內部脈沖指令停止" NameEN="Internal pulse instruction stopped" NameKr="" Parameter="11"/>
+        <Menu NameCN="输入功能转发1" NameTC="輸入功能轉發1" NameEN="Input function forward1" NameKr="" Parameter="12"/>
+        <Menu NameCN="输入功能转发2" NameTC="輸入功能轉發2" NameEN="Input function forward2" NameKr="" Parameter="13"/>
+      </comboxItem>
+      <comboxItem comboxID="13" NameCN="OUT2:" NameTC="OUT2:" NameEN="OUT2:" NameKr="" ModbusAddr="77" bit="5" isEnable="1" isVisible="1">
+        <Menu NameCN="普通输出" NameTC="普通輸出" NameEN="Normal output" NameKr="" Parameter="0"/>
+        <Menu NameCN="报警输出" NameTC="報警輸出" NameEN="error alarm" NameKr="" Parameter="1"/>
+        <Menu NameCN="抱闸输出" NameTC="抱閘輸出" NameEN="Brake output" NameKr="" Parameter="2"/>
+        <Menu NameCN="定位完成" NameTC="定位完成" NameEN="Positioning is complete" NameKr="" Parameter="3"/>
+        <Menu NameCN="转速到达" NameTC="轉速到達" NameEN="Speed reached" NameKr="" Parameter="4"/>
+        <Menu NameCN="回零完成" NameTC="回零完成" NameEN="Zero return complete" NameKr="" Parameter="5"/>
+        <Menu NameCN="驱动器准备好" NameTC="驅動器準備好" NameEN="Driver ready" NameKr="" Parameter="6"/>
+        <Menu NameCN="力矩到达" NameTC="力矩到達" NameEN="Torque arrive" NameKr="" Parameter="7"/>
+        <Menu NameCN="FUNC1" NameTC="FUNC1" NameEN="FUNC1" NameKr="" Parameter="8"/>
+        <Menu NameCN="FUNC2" NameTC="FUNC2" NameEN="FUNC2" NameKr="" Parameter="9"/>
+        <Menu NameCN="FUNC3" NameTC="FUNC3" NameEN="FUNC3" NameKr="" Parameter="10"/>
+        <Menu NameCN="内部脉冲指令停止" NameTC="內部脈沖指令停止" NameEN="Internal pulse instruction stopped" NameKr="" Parameter="11"/>
+        <Menu NameCN="输入功能转发1" NameTC="輸入功能轉發1" NameEN="Input function forward1" NameKr="" Parameter="12"/>
+        <Menu NameCN="输入功能转发2" NameTC="輸入功能轉發2" NameEN="Input function forward2" NameKr="" Parameter="13"/>
+      </comboxItem>
+      <comboxItem comboxID="14" NameCN="OUT3:" NameTC="OUT3:" NameEN="OUT3:" NameKr="" ModbusAddr="78" bit="5" isEnable="1" isVisible="1">
+        <Menu NameCN="普通输出" NameTC="普通輸出" NameEN="Normal output" NameKr="" Parameter="0"/>
+        <Menu NameCN="报警输出" NameTC="報警輸出" NameEN="error alarm" NameKr="" Parameter="1"/>
+        <Menu NameCN="抱闸输出" NameTC="抱閘輸出" NameEN="Brake output" NameKr="" Parameter="2"/>
+        <Menu NameCN="定位完成" NameTC="定位完成" NameEN="Positioning is complete" NameKr="" Parameter="3"/>
+        <Menu NameCN="转速到达" NameTC="轉速到達" NameEN="Speed reached" NameKr="" Parameter="4"/>
+        <Menu NameCN="回零完成" NameTC="回零完成" NameEN="Zero return complete" NameKr="" Parameter="5"/>
+        <Menu NameCN="驱动器准备好" NameTC="驅動器準備好" NameEN="Driver ready" NameKr="" Parameter="6"/>
+        <Menu NameCN="力矩到达" NameTC="力矩到達" NameEN="Torque arrive" NameKr="" Parameter="7"/>
+        <Menu NameCN="FUNC1" NameTC="FUNC1" NameEN="FUNC1" NameKr="" Parameter="8"/>
+        <Menu NameCN="FUNC2" NameTC="FUNC2" NameEN="FUNC2" NameKr="" Parameter="9"/>
+        <Menu NameCN="FUNC3" NameTC="FUNC3" NameEN="FUNC3" NameKr="" Parameter="10"/>
+        <Menu NameCN="内部脉冲指令停止" NameTC="內部脈沖指令停止" NameEN="Internal pulse instruction stopped" NameKr="" Parameter="11"/>
+        <Menu NameCN="输入功能转发1" NameTC="輸入功能轉發1" NameEN="Input function forward1" NameKr="" Parameter="12"/>
+        <Menu NameCN="输入功能转发2" NameTC="輸入功能轉發2" NameEN="Input function forward2" NameKr="" Parameter="13"/>
+      </comboxItem>
+      <comboxItem comboxID="15" NameCN="OUT4:" NameTC="OUT4:" NameEN="OUT4:" NameKr="" ModbusAddr="79" bit="5" isEnable="1" isVisible="1">
+        <Menu NameCN="普通输出" NameTC="普通輸出" NameEN="Normal output" NameKr="" Parameter="0"/>
+        <Menu NameCN="报警输出" NameTC="報警輸出" NameEN="error alarm" NameKr="" Parameter="1"/>
+        <Menu NameCN="抱闸输出" NameTC="抱閘輸出" NameEN="Brake output" NameKr="" Parameter="2"/>
+        <Menu NameCN="定位完成" NameTC="定位完成" NameEN="Positioning is complete" NameKr="" Parameter="3"/>
+        <Menu NameCN="转速到达" NameTC="轉速到達" NameEN="Speed reached" NameKr="" Parameter="4"/>
+        <Menu NameCN="回零完成" NameTC="回零完成" NameEN="Zero return complete" NameKr="" Parameter="5"/>
+        <Menu NameCN="驱动器准备好" NameTC="驅動器準備好" NameEN="Driver ready" NameKr="" Parameter="6"/>
+        <Menu NameCN="力矩到达" NameTC="力矩到達" NameEN="Torque arrive" NameKr="" Parameter="7"/>
+        <Menu NameCN="FUNC1" NameTC="FUNC1" NameEN="FUNC1" NameKr="" Parameter="8"/>
+        <Menu NameCN="FUNC2" NameTC="FUNC2" NameEN="FUNC2" NameKr="" Parameter="9"/>
+        <Menu NameCN="FUNC3" NameTC="FUNC3" NameEN="FUNC3" NameKr="" Parameter="10"/>
+        <Menu NameCN="内部脉冲指令停止" NameTC="內部脈沖指令停止" NameEN="Internal pulse instruction stopped" NameKr="" Parameter="11"/>
+        <Menu NameCN="输入功能转发1" NameTC="輸入功能轉發1" NameEN="Input function forward1" NameKr="" Parameter="12"/>
+        <Menu NameCN="输入功能转发2" NameTC="輸入功能轉發2" NameEN="Input function forward2" NameKr="" Parameter="13"/>
+      </comboxItem>
+      <comboxItem comboxID="16" NameCN="OUT5:" NameTC="OUT5:" NameEN="OUT5:" NameKr="" ModbusAddr="79" bit="5" isEnable="0" isVisible="0">
+        <Menu NameCN="普通输出" NameTC="普通輸出" NameEN="Normal output" NameKr="" Parameter="0"/>
+        <Menu NameCN="报警输出" NameTC="報警輸出" NameEN="error alarm" NameKr="" Parameter="1"/>
+        <Menu NameCN="抱闸输出" NameTC="抱閘輸出" NameEN="Brake output" NameKr="" Parameter="2"/>
+        <Menu NameCN="定位完成" NameTC="定位完成" NameEN="Positioning is complete" NameKr="" Parameter="3"/>
+        <Menu NameCN="转速到达" NameTC="轉速到達" NameEN="Speed reached" NameKr="" Parameter="4"/>
+        <Menu NameCN="回零完成" NameTC="回零完成" NameEN="Zero return complete" NameKr="" Parameter="5"/>
+        <Menu NameCN="驱动器准备好" NameTC="驅動器準備好" NameEN="Driver ready" NameKr="" Parameter="6"/>
+        <Menu NameCN="力矩到达" NameTC="力矩到達" NameEN="Torque arrive" NameKr="" Parameter="7"/>
+        <Menu NameCN="FUNC1" NameTC="FUNC1" NameEN="FUNC1" NameKr="" Parameter="8"/>
+        <Menu NameCN="FUNC2" NameTC="FUNC2" NameEN="FUNC2" NameKr="" Parameter="9"/>
+        <Menu NameCN="FUNC3" NameTC="FUNC3" NameEN="FUNC3" NameKr="" Parameter="10"/>
+        <Menu NameCN="内部脉冲指令停止" NameTC="內部脈沖指令停止" NameEN="Internal pulse instruction stopped" NameKr="" Parameter="11"/>
+        <Menu NameCN="输入功能转发1" NameTC="輸入功能轉發1" NameEN="Input function forward1" NameKr="" Parameter="12"/>
+        <Menu NameCN="输入功能转发2" NameTC="輸入功能轉發2" NameEN="Input function forward2" NameKr="" Parameter="13"/>
+      </comboxItem>
+      <comboxItem comboxID="17" NameCN="OUT6:" NameTC="OUT6:" NameEN="OUT6:" NameKr="" ModbusAddr="79" bit="5" isEnable="0" isVisible="0">
+        <Menu NameCN="普通输出" NameTC="普通輸出" NameEN="Normal output" NameKr="" Parameter="0"/>
+        <Menu NameCN="报警输出" NameTC="報警輸出" NameEN="error alarm" NameKr="" Parameter="1"/>
+        <Menu NameCN="抱闸输出" NameTC="抱閘輸出" NameEN="Brake output" NameKr="" Parameter="2"/>
+        <Menu NameCN="定位完成" NameTC="定位完成" NameEN="Positioning is complete" NameKr="" Parameter="3"/>
+        <Menu NameCN="转速到达" NameTC="轉速到達" NameEN="Speed reached" NameKr="" Parameter="4"/>
+        <Menu NameCN="回零完成" NameTC="回零完成" NameEN="Zero return complete" NameKr="" Parameter="5"/>
+        <Menu NameCN="驱动器准备好" NameTC="驅動器準備好" NameEN="Driver ready" NameKr="" Parameter="6"/>
+        <Menu NameCN="力矩到达" NameTC="力矩到達" NameEN="Torque arrive" NameKr="" Parameter="7"/>
+        <Menu NameCN="FUNC1" NameTC="FUNC1" NameEN="FUNC1" NameKr="" Parameter="8"/>
+        <Menu NameCN="FUNC2" NameTC="FUNC2" NameEN="FUNC2" NameKr="" Parameter="9"/>
+        <Menu NameCN="FUNC3" NameTC="FUNC3" NameEN="FUNC3" NameKr="" Parameter="10"/>
+        <Menu NameCN="内部脉冲指令停止" NameTC="內部脈沖指令停止" NameEN="Internal pulse instruction stopped" NameKr="" Parameter="11"/>
+        <Menu NameCN="输入功能转发1" NameTC="輸入功能轉發1" NameEN="Input function forward1" NameKr="" Parameter="12"/>
+        <Menu NameCN="输入功能转发2" NameTC="輸入功能轉發2" NameEN="Input function forward2" NameKr="" Parameter="13"/>
+      </comboxItem>
+      <!--DRV Calibration-->
+      <comboxItem comboxID="21" NameCN="编码器类型:" NameTC="編碼器類型" NameEN="Encoder type" NameKr="" ModbusAddr="23" isEnable="1" isVisible="1">
+        <Menu NameCN="通讯型单圈编码器" NameTC="通訊型單圈編碼器" NameEN="Communication type single coil encoder" NameKr="" Parameter="5"/>
+        <Menu NameCN="AB" NameTC="AB" NameEN="AB" NameKr="" Parameter="6"/>
+        <Menu NameCN="通讯型多圈编码器" NameTC="通訊型多圈編碼器" NameEN="Communication multiloop encoder" NameKr="" Parameter="10"/>
+      </comboxItem>
+      <comboxItem comboxID="22" NameCN="编码器相序" NameTC="編碼器相序" NameEN="Encoder phase sequence" NameKr="" ModbusAddr="93" isEnable="1" isVisible="1">
+        <Menu NameCN="AB、UVW均不反相" NameTC="AB、UVW均不反相" NameEN="AB、UVW not reversed phase" NameKr="" Parameter="0"/>
+        <Menu NameCN="AB反相、UVW不反相" NameTC="AB反相、UVW不反相" NameEN="AB reversed phase, UVW not reversed phase" NameKr="" Parameter="1"/>
+        <Menu NameCN="AB不反相、UVW反相" NameTC="AB不反相、UVW反相" NameEN="AB not reversed phase, UVW reversed phase" NameKr="" Parameter="2"/>
+        <Menu NameCN="AB、UVW均反相" NameTC="AB、UVW均反相" NameEN="AB、UVW reversed phase" NameKr="" Parameter="3"/>
+      </comboxItem>
+    </ComboBoxItems>
+    <CheckboxItems>
+      <checkboxItem checkboxID="1" NameCN="AutoPI" NameTC="AutoPI" NameEN="AutoPI" NameKr="" ModbusAddr="30" Parameter="1" isEnable="1" isVisible="1"/>
+    </CheckboxItems>
+    <PicboxItems>
+	    <picboxItem picboxID="0" NameCN="常开" NameTC="" NameEN="Frequent on" NameKr="" isEnable="1" isVisible="1"/>
+      <picboxItem picboxID="1" NameCN="常闭" NameTC="" NameEN="Frequent off" NameKr="" isEnable="1" isVisible="1"/>
+     </PicboxItems>
+    <LblItems>
+	    <labelItem labelID="0" NameCN="极性" NameTC="" NameEN="Polarity" NameKr=""/>
+	    <labelItem labelID="1" NameCN="极性" NameTC="" NameEN="Polarity" NameKr=""/>
+	    <labelItem labelID="2" NameCN="极性" NameTC="" NameEN="Polarity" NameKr=""/>
+	    <labelItem labelID="3" NameCN="极性" NameTC="" NameEN="Polarity" NameKr=""/>
+    </LblItems>
+    <MonitorParameter>
+      <TableHeader tableID="0" NameCN="地址" NameTC="地址" NameEN="RegisterAddr" NameKr=""/>
+      <TableHeader tableID="0" NameCN="说明" NameTC="說明" NameEN="Function" NameKr=""/>
+      <TableHeader tableID="0" NameCN="数值" NameTC="數值" NameEN="Parameter" NameKr=""/>
+      <TableHeader tableID="1" NameCN="故障状态" NameTC="故障狀態" NameEN="Fault state" NameKr=""/>
+      <TableHeader tableID="1" NameCN="故障代码" NameTC="故障代碼" NameEN="Fault code" NameKr=""/>
+      <TableHeader tableID="1" NameCN="状态指示" NameTC="狀態指示" NameEN="Status indication" NameKr=""/>
+      <groupboxItem groupboxID="0" NameCN="实时参数" NameTC="實時參數" NameEN="Real-time parameters" NameKr="" isEnable="1" isVisible="1"/>
+      <groupboxItem groupboxID="1" NameCN="故障状态" NameTC="故障狀態" NameEN="Fault state" NameKr="" isEnable="1" isVisible="1"/>
+	  <groupboxItem groupboxID="2" NameCN="IO状态" NameTC="IO狀態" NameEN="IO status" NameKr="" isEnable="1" isVisible="1"/>
+      <buttonItem buttonID="0" NameCN="" NameTC="" NameEN="" NameKr="" ModbusAddr="45" Parameter="1" isEnable="1" isVisible="1"/>
+      <dataGridView dataGridViewID="0" NameCN="驱动器电压" NameTC="驅動器電壓" NameEN="Driver voltage" NameKr="" ModbusAddr="160" Parameter="0" Remark="" ReadRegCount ="38"/>
+      <dataGridView dataGridViewID="0" NameCN="驱动器平均负载率" NameTC="驅動器平均負載率" NameEN="Average load rate of the drive" NameKr="" ModbusAddr="161" Parameter="0" Remark="" ReadRegCount =""/>
+      <dataGridView dataGridViewID="0" NameCN="电机当前位置" NameTC="電機當前位置" NameEN="Current position of motor" NameKr="" ModbusAddr="162" Parameter="0" Remark="int32" ReadRegCount =""/>
+      <dataGridView dataGridViewID="0" NameCN="跟踪误差" NameTC="跟蹤誤差" NameEN="The tracking error" NameKr="" ModbusAddr="164" Parameter="0" Remark="int32" ReadRegCount =""/>
+      <dataGridView dataGridViewID="0" NameCN="外部脉冲计数器" NameTC="外部脈沖計數器" NameEN="External pulse counter" NameKr="" ModbusAddr="166" Parameter="0" Remark="int32" ReadRegCount =""/>
+      <dataGridView dataGridViewID="0" NameCN="内部脉冲计数器" NameTC="內部脈沖計數器" NameEN="Internal pulse counter" NameKr="" ModbusAddr="168" Parameter="0" Remark="int32" ReadRegCount =""/>
+      <dataGridView dataGridViewID="0" NameCN="编码器反馈脉冲计数器" NameTC="編碼器反饋脈沖計數器" NameEN="Encoder feedback pulse counter" NameKr="" ModbusAddr="170" Parameter="0" Remark="int32" ReadRegCount =""/>
+      <dataGridView dataGridViewID="0" NameCN="编码器当前位置" NameTC="編碼器當前位置" NameEN="Current position of encoder" NameKr="" ModbusAddr="172" Parameter="0" Remark="int32" ReadRegCount =""/>
+      <dataGridView dataGridViewID="0" NameCN="电机速度指令" NameTC="電機速度指令" NameEN="Motor speed instruction" NameKr="" ModbusAddr="174" Parameter="0" Remark="short" ReadRegCount =""/>
+      <dataGridView dataGridViewID="0" NameCN="电机实际转速" NameTC="電機實際轉速" NameEN="Actual motor speed" NameKr="" ModbusAddr="175" Parameter="0" Remark="short" ReadRegCount =""/>
+      <dataGridView dataGridViewID="0" NameCN="位置指令对应速度" NameTC="位置指令對應速度" NameEN="The position command corresponds to the speed" NameKr="" ModbusAddr="176" Parameter="0" Remark="short" ReadRegCount =""/>
+      <dataGridView dataGridViewID="0" NameCN="电机给定力矩" NameTC="電機給定力矩" NameEN="Set torque of motor" NameKr="" ModbusAddr="177" Parameter="0" Remark="short" ReadRegCount =""/>
+      <dataGridView dataGridViewID="0" NameCN="电机实际力矩" NameTC="電機實際力矩" NameEN="Actual torque of motor" NameKr="" ModbusAddr="178" Parameter="0" Remark="short" ReadRegCount =""/>
+      <dataGridView dataGridViewID="0" NameCN="电机当前电角度" NameTC="電機當前電角度" NameEN="Current electrical Angle of motor" NameKr="" ModbusAddr="179" Parameter="0" Remark="" ReadRegCount =""/>
+      <dataGridView dataGridViewID="0" NameCN="电机U相电流采样数字值" NameTC="電機U相電流采樣數字值" NameEN="Motor U-phase current sampling digital value" NameKr="" ModbusAddr="180" Parameter="0" Remark="" ReadRegCount =""/>
+      <dataGridView dataGridViewID="0" NameCN="电机U相电流偏置" NameTC="電機U相電流偏置" NameEN="Motor U phase current bias" NameKr="" ModbusAddr="181" Parameter="0" Remark="" ReadRegCount =""/>
+      <dataGridView dataGridViewID="0" NameCN="电机V相电流采样数字值" NameTC="電機V相電流采樣數字值" NameEN="Motor V phase current sampling digital value" NameKr="" ModbusAddr="182" Parameter="0" Remark="" ReadRegCount =""/>
+      <dataGridView dataGridViewID="0" NameCN="电机V相电流采样偏置" NameTC="電機V相電流采樣偏置" NameEN="Motor V phase current sampling bias" NameKr="" ModbusAddr="183" Parameter="0" Remark="" ReadRegCount =""/>
+      <dataGridView dataGridViewID="0" NameCN="电机母线电压采样数字值" NameTC="電機母線電壓采樣數字值" NameEN="Motor busbar voltage sampling digital value" NameKr="" ModbusAddr="184" Parameter="0" Remark="" ReadRegCount =""/>
+      <dataGridView dataGridViewID="0" NameCN="电机U相电流" NameTC="電機U相電流" NameEN="U phase current of motor" NameKr="" ModbusAddr="185" Parameter="0" Remark="short" ReadRegCount =""/>
+      <dataGridView dataGridViewID="0" NameCN="电机V相电流" NameTC="電機V相電流" NameEN="V phase current of motor" NameKr="" ModbusAddr="186" Parameter="0" Remark="short" ReadRegCount =""/>
+      <dataGridView dataGridViewID="0" NameCN="系统运行状态" NameTC="系統運行狀態" NameEN="System running status" NameKr="" ModbusAddr="187" Parameter="0" Remark="" ReadRegCount =""/>
+      <dataGridView dataGridViewID="0" NameCN="内部脉冲指令轨迹状态" NameTC="內部脈沖指令軌跡狀態" NameEN="Internal pulse command trajectory status" NameKr="" ModbusAddr="188" Parameter="0" Remark="" ReadRegCount =""/>
+      <dataGridView dataGridViewID="0" NameCN="电机霍尔编码器状态" NameTC="電機霍爾編碼器狀態" NameEN="Motor Hall encoder status" NameKr="" ModbusAddr="189" Parameter="0" Remark="" ReadRegCount =""/>
+      <dataGridView dataGridViewID="0" NameCN="编码器校准正向值" NameTC="編碼器校準正向值" NameEN="Encoder calibrates positive values" NameKr="" ModbusAddr="190" Parameter="0" Remark="" ReadRegCount =""/>
+      <dataGridView dataGridViewID="0" NameCN="编码器校准负向值" NameTC="編碼器校準負向值" NameEN="Encoder calibration negative value" NameKr="" ModbusAddr="191" Parameter="0" Remark="" ReadRegCount =""/>
+      <dataGridView dataGridViewID="0" NameCN="编码器锁存值" NameTC="編碼器鎖存值" NameEN="Encoder latches values" NameKr="" ModbusAddr="192" Parameter="0" Remark="" ReadRegCount =""/>
+      <dataGridView dataGridViewID="0" NameCN="锁存的霍尔电角度" NameTC="鎖存的霍爾電角度" NameEN="Hall Angle of the latch" NameKr="" ModbusAddr="193" Parameter="0" Remark="" ReadRegCount =""/>
+      <dataGridView dataGridViewID="0" NameCN="编码器脉冲计数单元计数值" NameTC="編碼器脈沖計數單元計數值" NameEN="Encoder pulse counting unit counts values" NameKr="" ModbusAddr="194" Parameter="0" Remark="" ReadRegCount =""/>
+      <dataGridView dataGridViewID="0" NameCN="模拟量输入采样数字值" NameTC="模擬量輸入采樣數字值" NameEN="Analog input sampling digital values" NameKr="" ModbusAddr="195" Parameter="0" Remark="" ReadRegCount =""/>
+      <dataGridView dataGridViewID="0" NameCN="输入PWM信号脉冲占空比" NameTC="輸入PWM信號脈沖占空比" NameEN="Input PWM signal pulse duty cycle" NameKr="" ModbusAddr="196" Parameter="0" Remark="" ReadRegCount =""/>
+      <dataGridView dataGridViewID="0" NameCN="电机转速PWM输出信号占空比" NameTC="電機轉速PWM輸出信號占空比" NameEN="Duty cycle of motor speed PWM output signal" NameKr="" ModbusAddr="197" Parameter="0" Remark="" ReadRegCount =""/>
+      <dataGridView dataGridViewID="0" NameCN="编码器多圈数据" NameTC="編碼器多圈數據" NameEN="Encoder multi-loop data" NameKr="" ModbusAddr="447" Parameter="0" Remark="int32" ReadRegCount ="4"/>
+      <dataGridView dataGridViewID="0" NameCN="编码器实际位置" NameTC="編碼器實際位置" NameEN="Actual position of encoder" NameKr="" ModbusAddr="449" Parameter="0" Remark="int32" ReadRegCount =""/>
+      <dataGridView dataGridViewID="0" NameCN="拨码状态" NameTC="撥碼狀態" NameEN="Switch Button Status" NameKr="" ModbusAddr="455" Parameter="0" Remark="" ReadRegCount =""/>
+      <dataGridView dataGridViewID="0" NameCN="编码器单圈数据" NameTC="編碼器單圈數據" NameEN="Encoder single loop data" NameKr="" ModbusAddr="453" Parameter="0" Remark="int32" ReadRegCount ="2"/>
+      <dataGridView dataGridViewID="1" NameCN="内部电压错误" NameTC="內部電壓錯誤" NameEN="Internal voltage error" NameKr="" ModbusAddr="150" BitOffset="0" Parameter="0" Remark=""/>
+      <dataGridView dataGridViewID="1" NameCN="过流报警" NameTC="過流報警" NameEN="Overcurrent alarm" NameKr="" ModbusAddr="150" BitOffset="1" Parameter="0" Remark=""/>
+      <dataGridView dataGridViewID="1" NameCN="过压报警" NameTC="過壓報警" NameEN="Overvoltage alarm" NameKr="" ModbusAddr="150" BitOffset="2" Parameter="0" Remark=""/>
+      <dataGridView dataGridViewID="1" NameCN="欠压报警" NameTC="欠壓報警" NameEN="Undervoltage alarm" NameKr="" ModbusAddr="150" BitOffset="3" Parameter="0" Remark=""/>
+      <dataGridView dataGridViewID="1" NameCN="过温报警" NameTC="過溫報警" NameEN="Temperature alarm" NameKr="" ModbusAddr="150" BitOffset="4" Parameter="0" Remark=""/>
+      <dataGridView dataGridViewID="1" NameCN="参数存储报警" NameTC="參數存儲報警" NameEN="Parameter storage alarm" NameKr="" ModbusAddr="150" BitOffset="5" Parameter="0" Remark=""/>
+      <dataGridView dataGridViewID="1" NameCN="缺相报警" NameTC="缺相報警" NameEN="Lack of phase alarm" NameKr="" ModbusAddr="150" BitOffset="6" Parameter="0" Remark=""/>
+      <dataGridView dataGridViewID="1" NameCN="超差报警" NameTC="超差報警" NameEN="Tolerance alarm" NameKr="" ModbusAddr="150" BitOffset="7" Parameter="0" Remark=""/>
+      <dataGridView dataGridViewID="1" NameCN="编码器报警" NameTC="編碼器報警" NameEN="Encoder alarm" NameKr="" ModbusAddr="150" BitOffset="8" Parameter="0" Remark=""/>
+      <dataGridView dataGridViewID="1" NameCN="限位报警" NameTC="限位報警" NameEN="Limit alarm" NameKr="" ModbusAddr="150" BitOffset="9" Parameter="0" Remark=""/>
+      <dataGridView dataGridViewID="1" NameCN="热过载报警" NameTC="熱過載報警" NameEN="Thermal overload alarm" NameKr="" ModbusAddr="150" BitOffset="10" Parameter="0" Remark=""/>
+      <dataGridView dataGridViewID="1" NameCN="指令过载报警" NameTC="指令過載報警" NameEN="Instruction overload alarm" NameKr="" ModbusAddr="150" BitOffset="11" Parameter="0" Remark=""/>
+      <dataGridView dataGridViewID="1" NameCN="速度饱和报警" NameTC="速度飽和報警" NameEN="Velocity saturation alarm" NameKr="" ModbusAddr="150" BitOffset="12" Parameter="0" Remark=""/>
+      <dataGridView dataGridViewID="1" NameCN="制动超时报警" NameTC="製動超時報警" NameEN="Brake timeout alarm" NameKr="" ModbusAddr="150" BitOffset="13" Parameter="0" Remark=""/>
+      <dataGridView dataGridViewID="1" NameCN="编码器干扰报警" NameTC="編碼器幹擾報警" NameEN="Encoder interference alarm" NameKr="" ModbusAddr="150" BitOffset="14" Parameter="0" Remark=""/>
+      <dataGridView dataGridViewID="1" NameCN="编码器计数报警" NameTC="編碼器計數報警" NameEN="Encoder count alarm" NameKr="" ModbusAddr="150" BitOffset="15" Parameter="0" Remark=""/>
+      <dataGridView dataGridViewID="1" NameCN="堵转1" NameTC="內部電壓錯誤" NameEN="Internal voltage error" NameKr="" ModbusAddr="390" BitOffset="0" Parameter="0" Remark=""/>
+      <dataGridView dataGridViewID="1" NameCN="堵转2" NameTC="過流報警" NameEN="Overcurrent alarm" NameKr="" ModbusAddr="390" BitOffset="1" Parameter="0" Remark=""/>
+      <dataGridView dataGridViewID="1" NameCN="编码器操作故障1" NameTC="過壓報警" NameEN="Overvoltage alarm" NameKr="" ModbusAddr="390" BitOffset="2" Parameter="0" Remark=""/>
+      <dataGridView dataGridViewID="1" NameCN="编码器操作故障1" NameTC="欠壓報警" NameEN="Undervoltage alarm" NameKr="" ModbusAddr="390" BitOffset="3" Parameter="0" Remark=""/>
+      <dataGridView dataGridViewID="1" NameCN="编码器操作故障1" NameTC="過溫報警" NameEN="Temperature alarm" NameKr="" ModbusAddr="390" BitOffset="4" Parameter="0" Remark=""/>
+      <dataGridView dataGridViewID="1" NameCN="程序运行异常" NameTC="參數存儲報警" NameEN="Parameter storage alarm" NameKr="" ModbusAddr="390" BitOffset="5" Parameter="0" Remark=""/>
+      <dataGridView dataGridViewID="1" NameCN="系统时钟初始化错误" NameTC="缺相報警" NameEN="Lack of phase alarm" NameKr="" ModbusAddr="390" BitOffset="6" Parameter="0" Remark=""/>
+      <dataGridView dataGridViewID="1" NameCN="参数设置错误" NameTC="超差報警" NameEN="Tolerance alarm" NameKr="" ModbusAddr="390" BitOffset="7" Parameter="0" Remark=""/>
+    </MonitorParameter>
+    <ScopeConfiguration channelSum="2" StartModbusAddr="500" CurrentStepModbusAddr="47" CurentSamcnt="100" SampleModbusAddr="54" sampleCount="600" dataSplit="300" sampleRateModbusAddr="53" DriverInternalTime="0.0625" sampleDataType = "int32">
+	    <TableHeader tableID="0" NameCN="Modbus地址" NameTC="地址" NameEN="RegisterAddr" NameKr=""/>
+      <TableHeader tableID="0" NameCN="参数名称" NameTC="參數名稱" NameEN="Parameter name" NameKr=""/>
+      <TableHeader tableID="0" NameCN="参数值" NameTC="參數值" NameEN="Parameter" NameKr=""/>
+      <TableHeader tableID="0" NameCN="单位" NameTC="單位" NameEN="Unit" NameKr=""/>
+      <dataGridView dataGridViewID="0" ModbusAddr="110" NameCN="位置环比例增益1" NameTC="位置環比例增益1" NameEN="Pos_Kp1" NameKr="" Parameter="30" Unit="-" Remark=""/>
+      <dataGridView dataGridViewID="0" ModbusAddr="111" NameCN="速度环比例增益1" NameTC="速度環比例增益1" NameEN="Spd_Kp1" NameKr=""  Parameter="2000" Unit="-" Remark=""/>
+      <dataGridView dataGridViewID="0" ModbusAddr="112" NameCN="速度环积分增益1" NameTC="速度環積分增益1" NameEN="Spd_Ki1" NameKr="" Parameter="0" Unit="-" Remark=""/>
+      <dataGridView dataGridViewID="0" ModbusAddr="113" NameCN="速度饱和增益" NameTC="速度飽和增益" NameEN="Velocity saturation gain" NameKr="" Parameter="0" Unit="-" Remark=""/>
+      <dataGridView dataGridViewID="0" ModbusAddr="118" NameCN="速度反馈滤波频率1" NameTC="速度反饋濾波頻率1" NameEN="Spd_fv1" NameKr=""  Parameter="200" Unit="-" Remark=""/>
+      <dataGridView dataGridViewID="0" ModbusAddr="119" NameCN="速度反馈滤波频率2" NameTC="速度反饋濾波頻率2" NameEN="Spd_fv2" NameKr="" Parameter="600" Unit="-" Remark=""/>
+      <dataGridView dataGridViewID="0" ModbusAddr="124" NameCN="转矩比例增益" NameTC="轉矩比例增益" NameEN="Torque proportional gain" NameKr=""  Parameter="150" Unit="-" Remark=""/>
+      <dataGridView dataGridViewID="0" ModbusAddr="125" NameCN="转矩积分增益" NameTC="轉矩積分增益" NameEN="Torque integral gain" NameKr="" Parameter="80" Unit="-" Remark=""/>
+      <dataGridView dataGridViewID="0" ModbusAddr="126" NameCN="转矩饱和增益" NameTC="轉矩飽和增益" NameEN="Torque saturation gain" NameKr="" Parameter="256" Unit="-" Remark=""/>
+      <dataGridView dataGridViewID="0" ModbusAddr="127" NameCN="电流反馈滤波截止频率" NameTC="電流反饋濾波截止頻率" NameEN="IFdb_Filter" NameKr="" Parameter="0" Unit="mA" Remark=""/>
+      <groupboxItem groupboxID="0" NameCN="采样参数整定" NameTC="採樣參數整定" NameEN="Sampling parameter tuning" NameKr="" isEnable="1" isVisible="1"/>
+      <groupboxItem groupboxID="1" NameCN="采样设置" NameTC="採樣設置" NameEN="Sampling settings" NameKr="" isEnable="1" isVisible="1"/>
+      <comboxItem comboxID="0" NameCN="通道一" NameTC="通道一" NameEN="Channel one" NameKr="" ModbusAddr="51" isEnable="1" isVisible="1">
+        <Menu NameCN="位置误差" NameTC="位置誤差" NameEN="Position error" NameKr="" Parameter="0"/>
+        <Menu NameCN="速度给定" NameTC="速度給定" NameEN="Speed setting" NameKr="" Parameter="1"/>
+        <Menu NameCN="速度反馈" NameTC="速度反饋" NameEN="Speed feedback" NameKr="" Parameter="2"/>
+        <Menu NameCN="电流A参考" NameTC="電流A參考" NameEN="Current A reference" NameKr="" Parameter="3"/>
+        <Menu NameCN="电流A反馈" NameTC="電流A反饋" NameEN="Current A feedback" NameKr="" Parameter="4"/>
+        <Menu NameCN="电流B参考" NameTC="電流B參考" NameEN="Current B reference" NameKr="" Parameter="5"/>
+        <Menu NameCN="电流B反馈" NameTC="電流B反饋" NameEN="Current B feedback" NameKr="" Parameter="6"/>
+        <Menu NameCN="IA A相电流" NameTC="IA A相電流" NameEN="IA A phase current" NameKr="" Parameter="7"/>
+        <Menu NameCN="IB B相电流" NameTC="IB B相電流" NameEN="IB B phase current" NameKr="" Parameter="8"/>
+        <Menu NameCN="IC C相电流" NameTC="IC C相電流" NameEN="IC C phase current" NameKr="" Parameter="9"/>
+        <Menu NameCN="内部位置参考" NameTC="內部位置參考" NameEN="Internal position reference" NameKr="" Parameter="10"/>
+        <Menu NameCN="位置反馈" NameTC="位置反饋" NameEN="Position feedback" NameKr="" Parameter="11"/>
+        <Menu NameCN="位置给定" NameTC="位置給定" NameEN="The position of a given" NameKr="" Parameter="12"/>
+        <Menu NameCN="外部脉冲计数器" NameTC="外部脈沖計數器" NameEN="External pulse counter" NameKr="" Parameter="13"/>
+        <Menu NameCN="脉冲指令速度" NameTC="脈沖指令速度" NameEN="Pulse command speed" NameKr="" Parameter="14"/>
+        <Menu NameCN="母线电压" NameTC="母線電壓" NameEN="Bus voltage" NameKr="" Parameter="15"/>
+        <Menu NameCN="能耗制动状态" NameTC="能耗製動狀態" NameEN="Energy braking" NameKr="" Parameter="16"/>
+        <Menu NameCN="输入端口状态" NameTC="輸入端口狀態" NameEN="Input port status" NameKr="" Parameter="17"/>
+        <Menu NameCN="输出端口状态" NameTC="輸出端口狀態" NameEN="Output port status" NameKr="" Parameter="18"/>
+        <Menu NameCN="实际位置" NameTC="實際位置" NameEN="Actual location" NameKr="" Parameter="19"/>
+        <Menu NameCN="位置误差" NameTC="位置誤差" NameEN="The position error" NameKr="" Parameter="20"/>
+        <Menu NameCN="编码器单圈数据" NameTC="編碼器單圈數據" NameEN="Encoder single loop data" NameKr="" Parameter="21"/>
+        <Menu NameCN="模拟量通道1电压" NameTC="模擬量通道1電壓" NameEN="Analog channel1 voltage" NameKr="" Parameter="22"/>
+        <Menu NameCN="模拟量通道2电压" NameTC="模擬量通道2電壓" NameEN="Analog channel2 voltage" NameKr="" Parameter="23"/>
+        <Menu NameCN="CH24" NameTC="CH24" NameEN="CH24" NameKr="" Parameter="24"/>
+        <Menu NameCN="CH25" NameTC="CH25" NameEN="CH25" NameKr="" Parameter="25"/>
+        <Menu NameCN="CH26" NameTC="CH26" NameEN="CH26" NameKr="" Parameter="26"/>
+        <Menu NameCN="CH27" NameTC="CH27" NameEN="CH27" NameKr="" Parameter="27"/>
+        <Menu NameCN="CH28" NameTC="CH28" NameEN="CH28" NameKr="" Parameter="28"/>
+        <Menu NameCN="CH29" NameTC="CH29" NameEN="CH29" NameKr="" Parameter="29"/>
+        <Menu NameCN="CH30" NameTC="CH30" NameEN="CH30" NameKr="" Parameter="30"/>
+        <Menu NameCN="CH31" NameTC="CH31" NameEN="CH31" NameKr="" Parameter="31"/>
+        <Menu NameCN="实时电流" NameTC="實時電流" NameEN="The real time current" NameKr="" Parameter="32"/>
+        <Menu NameCN="编码器多圈数据" NameTC="編碼器多圈數據" NameEN="Encoder multi-loop data" NameKr="" Parameter="33"/>
+      </comboxItem>
+      <comboxItem comboxID="1" NameCN="通道二" NameTC="通道二" NameEN="Channel Two" NameKr="" ModbusAddr="52" isEnable="1" isVisible="1">
+        <Menu NameCN="位置误差" NameTC="位置誤差" NameEN="Position error" NameKr="" Parameter="0"/>
+        <Menu NameCN="速度给定" NameTC="速度給定" NameEN="Speed setting" NameKr="" Parameter="1"/>
+        <Menu NameCN="速度反馈" NameTC="速度反饋" NameEN="Speed feedback" NameKr="" Parameter="2"/>
+        <Menu NameCN="电流A参考" NameTC="電流A參考" NameEN="Current A reference" NameKr="" Parameter="3"/>
+        <Menu NameCN="电流A反馈" NameTC="電流A反饋" NameEN="Current A feedback" NameKr="" Parameter="4"/>
+        <Menu NameCN="电流B参考" NameTC="電流B參考" NameEN="Current B reference" NameKr="" Parameter="5"/>
+        <Menu NameCN="电流B反馈" NameTC="電流B反饋" NameEN="Current B feedback" NameKr="" Parameter="6"/>
+        <Menu NameCN="IA A相电流" NameTC="IA A相電流" NameEN="IA A phase current" NameKr="" Parameter="7"/>
+        <Menu NameCN="IB B相电流" NameTC="IB B相電流" NameEN="IB B phase current" NameKr="" Parameter="8"/>
+        <Menu NameCN="IC C相电流" NameTC="IC C相電流" NameEN="IC C phase current" NameKr="" Parameter="9"/>
+        <Menu NameCN="内部位置参考" NameTC="內部位置參考" NameEN="Internal position reference" NameKr="" Parameter="10"/>
+        <Menu NameCN="位置反馈" NameTC="位置反饋" NameEN="Position feedback" NameKr="" Parameter="11"/>
+        <Menu NameCN="位置给定" NameTC="位置給定" NameEN="The position of a given" NameKr="" Parameter="12"/>
+        <Menu NameCN="外部脉冲计数器" NameTC="外部脈沖計數器" NameEN="External pulse counter" NameKr="" Parameter="13"/>
+        <Menu NameCN="脉冲指令速度" NameTC="脈沖指令速度" NameEN="Pulse command speed" NameKr="" Parameter="14"/>
+        <Menu NameCN="母线电压" NameTC="母線電壓" NameEN="Bus voltage" NameKr="" Parameter="15"/>
+        <Menu NameCN="能耗制动状态" NameTC="能耗製動狀態" NameEN="Energy braking" NameKr="" Parameter="16"/>
+        <Menu NameCN="输入端口状态" NameTC="輸入端口狀態" NameEN="Input port status" NameKr="" Parameter="17"/>
+        <Menu NameCN="输出端口状态" NameTC="輸出端口狀態" NameEN="Output port status" NameKr="" Parameter="18"/>
+        <Menu NameCN="实际位置" NameTC="實際位置" NameEN="Actual location" NameKr="" Parameter="19"/>
+        <Menu NameCN="位置误差" NameTC="位置誤差" NameEN="The position error" NameKr="" Parameter="20"/>
+        <Menu NameCN="编码器单圈数据" NameTC="編碼器單圈數據" NameEN="Encoder single loop data" NameKr="" Parameter="21"/>
+        <Menu NameCN="模拟量通道1电压" NameTC="模擬量通道1電壓" NameEN="Analog channel1 voltage" NameKr="" Parameter="22"/>
+        <Menu NameCN="模拟量通道2电压" NameTC="模擬量通道2電壓" NameEN="Analog channel2 voltage" NameKr="" Parameter="23"/>
+        <Menu NameCN="CH24" NameTC="CH24" NameEN="CH24" NameKr="" Parameter="24"/>
+        <Menu NameCN="CH25" NameTC="CH25" NameEN="CH25" NameKr="" Parameter="25"/>
+        <Menu NameCN="CH26" NameTC="CH26" NameEN="CH26" NameKr="" Parameter="26"/>
+        <Menu NameCN="CH27" NameTC="CH27" NameEN="CH27" NameKr="" Parameter="27"/>
+        <Menu NameCN="CH28" NameTC="CH28" NameEN="CH28" NameKr="" Parameter="28"/>
+        <Menu NameCN="CH29" NameTC="CH29" NameEN="CH29" NameKr="" Parameter="29"/>
+        <Menu NameCN="CH30" NameTC="CH30" NameEN="CH30" NameKr="" Parameter="30"/>
+        <Menu NameCN="CH31" NameTC="CH31" NameEN="CH31" NameKr="" Parameter="31"/>
+        <Menu NameCN="实时电流" NameTC="實時電流" NameEN="The real time current" NameKr="" Parameter="32"/>
+        <Menu NameCN="编码器多圈数据" NameTC="編碼器多圈數據" NameEN="Encoder multi-loop data" NameKr="" Parameter="33"/>
+      </comboxItem>
+      <numericUpDownItem numericUpdID="0" NameCN="重复采样间隔(ms)" NameTC="重複採樣間隔(ms)" NameEN="Repeat sampling interval" NameKr="" Parameter="100"/>
+      <numericUpDownItem numericUpdID="1" NameCN="采样速度" NameTC="採樣速度" NameEN="Sampling speed" NameKr="" Parameter="1"/>
+      <numericUpDownItem numericUpdID="2" NameCN="采样个数" NameTC="採樣個數" NameEN="Number of samples" NameKr="" Parameter="600"/>
+	    <toolStripMenuItem toolStripMenuItemID="0" NameCN="电流阶跃测试" NameTC="電流階躍測試" NameEN="Current step test" NameKr="" isEnable="1" isVisible="1"/>
+	    <toolStripMenuItem toolStripMenuItemID="1" NameCN="单次采样" NameTC="單次採樣" NameEN="Single sampling" NameKr="" isEnable="1" isVisible="1"/>
+	    <toolStripMenuItem toolStripMenuItemID="2" NameCN="循环采样" NameTC="循環採樣" NameEN="Loop sampling" NameKr="" isEnable="1" isVisible="1"/>
+	    <toolStripMenuItem toolStripMenuItemID="3" NameCN="停止采样" NameTC="停止採樣" NameEN="Stop sampling" NameKr="" isEnable="1" isVisible="1"/>
+	    <toolStripMenuItem toolStripMenuItemID="4" NameCN="快捷键说明" NameTC="快捷鍵說明" NameEN="Shortcut" NameKr="" isEnable="1" isVisible="1"/>
+    </ScopeConfiguration>
+  </Product>
+</RtDriverConfiguration>
