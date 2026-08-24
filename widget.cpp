@@ -12,10 +12,15 @@
 #include <QCoreApplication>
 #include <QDialog>
 #include <QDir>
+#include <QDockWidget>
+#include <QDoubleValidator>
 #include <QFrame>
 #include <QGuiApplication>
+#include <QGridLayout>
+#include <QGroupBox>
 #include <QHeaderView>
 #include <QHBoxLayout>
+#include <QIntValidator>
 #include <QLabel>
 #include <QLineEdit>
 #include <QMenu>
@@ -25,6 +30,7 @@
 #include <QScreen>
 #include <QSizePolicy>
 #include <QSignalBlocker>
+#include <QSlider>
 #include <QSplitter>
 #include <QSpinBox>
 #include <QStackedWidget>
@@ -561,7 +567,23 @@ QWidget *Widget::createMainArea()
     mainStack_->addWidget(createMonitorPage());
     mainStack_->addWidget(createFaultPage());
     mainStack_->addWidget(createScopePage());
-    return mainStack_;
+
+    mainDockWindow_ = new QMainWindow;
+    mainDockWindow_->setObjectName(QStringLiteral("mainDockWindow"));
+    mainDockWindow_->setCentralWidget(mainStack_);
+    mainDockWindow_->setDockOptions(QMainWindow::AnimatedDocks | QMainWindow::AllowNestedDocks);
+    mainDockWindow_->setStyleSheet(QStringLiteral(
+        "QMainWindow#mainDockWindow { background: #CDE8B7; }"
+        "QMainWindow::separator { background: #A8A8A8; width: 3px; height: 3px; }"
+        "QMainWindow::separator:hover { background: #7DAAA6; }"
+        "QDockWidget { background: #F4F4F4; color: #000000; border: 0.5px solid #777777; }"
+        "QDockWidget::title { background: #EDEDED; color: #000000; padding: 2px 3px; text-align: left; }"
+        "QDockWidget::close-button, QDockWidget::float-button { width: 12px; height: 12px; }"));
+    mainDockWindow_->setCorner(Qt::TopLeftCorner, Qt::LeftDockWidgetArea);
+    mainDockWindow_->setCorner(Qt::BottomLeftCorner, Qt::LeftDockWidgetArea);
+    mainDockWindow_->setCorner(Qt::TopRightCorner, Qt::RightDockWidgetArea);
+    mainDockWindow_->setCorner(Qt::BottomRightCorner, Qt::RightDockWidgetArea);
+    return mainDockWindow_;
 }
 
 /**
@@ -1274,13 +1296,13 @@ void Widget::handleNavigationItemClicked(QTreeWidgetItem *item, int column)
 
     if (pageIndex == kJogActionIndex) {
         stopFaultPolling();
-        showToolPlaceholderDialog(QStringLiteral("点动运行"));
+        showDockableRunWindow(QStringLiteral("点动运行"));
         return;
     }
 
     if (pageIndex == kPositionActionIndex) {
         stopFaultPolling();
-        showToolPlaceholderDialog(QStringLiteral("定位运行"));
+        showPositionRunDialog();
         return;
     }
 
@@ -1347,6 +1369,604 @@ void Widget::showToolPlaceholderDialog(const QString &title)
     layout->addLayout(buttonLayout);
 
     dialog.exec();
+}
+
+/**
+ * @brief 显示可停靠的运行工具窗体。
+ * @author mozhengjie
+ * @param title 运行工具窗体标题。
+ */
+void Widget::showDockableRunWindow(const QString &title)
+{
+    if (!mainDockWindow_) {
+        return;
+    }
+
+    QPointer<QDockWidget> *dockRef = title == QStringLiteral("定位运行") ? &positionRunDock_ : &jogRunDock_;
+    QPointer<QDockWidget> *collapsedDockRef = title == QStringLiteral("定位运行")
+                                                  ? &collapsedPositionRunDock_
+                                                  : &collapsedJogRunDock_;
+    if (*collapsedDockRef && (*collapsedDockRef)->isVisible()) {
+        restoreRunDockWindow(title);
+        return;
+    }
+
+    if (*dockRef) {
+        (*dockRef)->show();
+        (*dockRef)->raise();
+        if ((*dockRef)->isFloating()) {
+            (*dockRef)->activateWindow();
+        }
+        return;
+    }
+
+    auto *dock = new QDockWidget(title, mainDockWindow_);
+    *dockRef = dock;
+    dock->setAttribute(Qt::WA_DeleteOnClose);
+    dock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea
+                          | Qt::TopDockWidgetArea | Qt::BottomDockWidgetArea);
+    dock->setFeatures(QDockWidget::DockWidgetClosable
+                      | QDockWidget::DockWidgetMovable
+                      | QDockWidget::DockWidgetFloatable);
+    dock->setContentsMargins(0, 0, 0, 0);
+    dock->setMinimumSize(title == QStringLiteral("定位运行") ? QSize(420, 300) : QSize(180, 100));
+    dock->setWidget(title == QStringLiteral("定位运行") ? createPositionRunPanel() : createJogRunPanel());
+
+    connect(dock, &QObject::destroyed, this, [this, title]() {
+        if (title == QStringLiteral("定位运行")) {
+            positionRunDock_.clear();
+        } else {
+            jogRunDock_.clear();
+        }
+    });
+
+    mainDockWindow_->addDockWidget(Qt::RightDockWidgetArea, dock);
+    dock->setFloating(true);
+    dock->resize(title == QStringLiteral("定位运行") ? QSize(820, 420) : QSize(360, 220));
+    const QPoint floatingPos = mainDockWindow_->mapToGlobal(QPoint(24, 48));
+    dock->move(floatingPos);
+    dock->show();
+    dock->raise();
+    dock->activateWindow();
+}
+
+/**
+ * @brief 将已停靠的运行工具窗体收起为主显示区边缘标签。
+ * @author mozhengjie
+ * @param title 运行工具窗体标题。
+ */
+void Widget::collapseRunDockWindow(const QString &title)
+{
+    if (!mainDockWindow_) {
+        return;
+    }
+
+    QPointer<QDockWidget> *dockRef = title == QStringLiteral("定位运行") ? &positionRunDock_ : &jogRunDock_;
+    QPointer<QDockWidget> *collapsedDockRef = title == QStringLiteral("定位运行")
+                                                  ? &collapsedPositionRunDock_
+                                                  : &collapsedJogRunDock_;
+    Qt::DockWidgetArea *lastArea = title == QStringLiteral("定位运行")
+                                       ? &positionRunLastDockArea_
+                                       : &jogRunLastDockArea_;
+    QSize *lastSize = title == QStringLiteral("定位运行") ? &positionRunLastDockSize_ : &jogRunLastDockSize_;
+    if (!*dockRef) {
+        return;
+    }
+
+    Qt::DockWidgetArea area = (*dockRef)->isFloating() ? *lastArea : mainDockWindow_->dockWidgetArea(*dockRef);
+    if (area == Qt::NoDockWidgetArea) {
+        area = *lastArea;
+    }
+
+    *lastArea = area;
+    *lastSize = (*dockRef)->size();
+    (*dockRef)->hide();
+    mainDockWindow_->removeDockWidget(*dockRef);
+
+    if (*collapsedDockRef) {
+        mainDockWindow_->removeDockWidget(*collapsedDockRef);
+        (*collapsedDockRef)->deleteLater();
+        *collapsedDockRef = nullptr;
+    }
+
+    *collapsedDockRef = createCollapsedRunDock(title, area);
+    mainDockWindow_->addDockWidget(area, *collapsedDockRef);
+    (*collapsedDockRef)->show();
+    (*collapsedDockRef)->raise();
+}
+
+/**
+ * @brief 从边缘标签恢复运行工具停靠窗体。
+ * @author mozhengjie
+ * @param title 运行工具窗体标题。
+ */
+void Widget::restoreRunDockWindow(const QString &title)
+{
+    if (!mainDockWindow_) {
+        return;
+    }
+
+    QPointer<QDockWidget> *dockRef = title == QStringLiteral("定位运行") ? &positionRunDock_ : &jogRunDock_;
+    QPointer<QDockWidget> *collapsedDockRef = title == QStringLiteral("定位运行")
+                                                  ? &collapsedPositionRunDock_
+                                                  : &collapsedJogRunDock_;
+    Qt::DockWidgetArea *lastArea = title == QStringLiteral("定位运行")
+                                       ? &positionRunLastDockArea_
+                                       : &jogRunLastDockArea_;
+    QSize *lastSize = title == QStringLiteral("定位运行") ? &positionRunLastDockSize_ : &jogRunLastDockSize_;
+    if (!*dockRef) {
+        showDockableRunWindow(title);
+        return;
+    }
+
+    if (*collapsedDockRef) {
+        (*collapsedDockRef)->hide();
+        mainDockWindow_->removeDockWidget(*collapsedDockRef);
+    }
+
+    mainDockWindow_->addDockWidget(*lastArea, *dockRef);
+    (*dockRef)->show();
+    (*dockRef)->raise();
+
+    if (lastSize->isValid()) {
+        const int sizeValue = (*lastArea == Qt::LeftDockWidgetArea || *lastArea == Qt::RightDockWidgetArea)
+                                  ? lastSize->width()
+                                  : lastSize->height();
+        mainDockWindow_->resizeDocks({*dockRef}, {sizeValue},
+                                     (*lastArea == Qt::LeftDockWidgetArea || *lastArea == Qt::RightDockWidgetArea)
+                                         ? Qt::Horizontal
+                                         : Qt::Vertical);
+    }
+}
+
+/**
+ * @brief 创建运行工具窗体内部收起工具栏。
+ * @author mozhengjie
+ * @param title 运行工具窗体标题。
+ * @return QWidget* 收起工具栏控件。
+ */
+QWidget *Widget::createRunDockToolbar(const QString &title)
+{
+    auto *toolbar = new QWidget;
+    toolbar->setFixedHeight(22);
+    toolbar->setStyleSheet(QStringLiteral("QWidget { background: #F4F4F4; }"));
+
+    auto *layout = new QHBoxLayout(toolbar);
+    layout->setContentsMargins(2, 0, 2, 0);
+    layout->setSpacing(4);
+
+    auto *caption = new QLabel(title);
+    caption->setStyleSheet(QStringLiteral("QLabel { color: #000000; font-size: 11px; font-weight: 600; }"));
+    layout->addWidget(caption);
+    layout->addStretch(1);
+
+    auto *collapseButton = new QToolButton;
+    collapseButton->setText(QStringLiteral("贴边收起"));
+    collapseButton->setToolTip(QStringLiteral("将%1收起到当前停靠边缘").arg(title));
+    collapseButton->setCursor(Qt::PointingHandCursor);
+    collapseButton->setStyleSheet(QStringLiteral(
+        "QToolButton { background: #FFFFFF; border: 0.5px solid #777777; padding: 1px 6px; color: #000000; }"
+        "QToolButton:hover { background: #EDEDED; }"));
+    connect(collapseButton, &QToolButton::clicked, this, [this, title]() { collapseRunDockWindow(title); });
+    layout->addWidget(collapseButton);
+    return toolbar;
+}
+
+/**
+ * @brief 创建停靠窗体收起后的边缘标签。
+ * @author mozhengjie
+ * @param title 运行工具窗体标题。
+ * @param area 收起前的停靠区域。
+ * @return QDockWidget* 边缘标签停靠窗体。
+ */
+QDockWidget *Widget::createCollapsedRunDock(const QString &title, Qt::DockWidgetArea area)
+{
+    auto *collapsedDock = new QDockWidget(title, mainDockWindow_);
+    collapsedDock->setAllowedAreas(Qt::LeftDockWidgetArea | Qt::RightDockWidgetArea
+                                   | Qt::TopDockWidgetArea | Qt::BottomDockWidgetArea);
+    collapsedDock->setFeatures(QDockWidget::NoDockWidgetFeatures);
+    collapsedDock->setContentsMargins(0, 0, 0, 0);
+
+    auto *emptyTitle = new QWidget(collapsedDock);
+    emptyTitle->setFixedSize(0, 0);
+    collapsedDock->setTitleBarWidget(emptyTitle);
+
+    auto *restoreButton = new QToolButton;
+    restoreButton->setText(title);
+    restoreButton->setToolTip(QStringLiteral("恢复%1").arg(title));
+    restoreButton->setCursor(Qt::PointingHandCursor);
+    restoreButton->setStyleSheet(QStringLiteral(
+        "QToolButton { background: #F4F4F4; border: 0.5px solid #777777; color: #000000; padding: 2px 4px; }"
+        "QToolButton:hover { background: #EDEDED; }"));
+    if (area == Qt::LeftDockWidgetArea || area == Qt::RightDockWidgetArea) {
+        restoreButton->setMinimumSize(26, 96);
+        restoreButton->setMaximumWidth(32);
+    } else {
+        restoreButton->setMinimumSize(120, 24);
+        restoreButton->setMaximumHeight(28);
+    }
+    connect(restoreButton, &QToolButton::clicked, this, [this, title]() { restoreRunDockWindow(title); });
+    collapsedDock->setWidget(restoreButton);
+
+    connect(collapsedDock, &QObject::destroyed, this, [this, title]() {
+        if (title == QStringLiteral("定位运行")) {
+            collapsedPositionRunDock_.clear();
+        } else {
+            collapsedJogRunDock_.clear();
+        }
+    });
+    return collapsedDock;
+}
+
+/**
+ * @brief 显示定位运行独立调试窗体。
+ * @author mozhengjie
+ */
+void Widget::showPositionRunDialog()
+{
+    showDockableRunWindow(QStringLiteral("定位运行"));
+}
+
+/**
+ * @brief 创建点动运行可停靠窗体内容。
+ * @author mozhengjie
+ * @return QWidget* 点动运行内容控件。
+ */
+QWidget *Widget::createJogRunPanel()
+{
+    auto *panel = new QWidget;
+    panel->setMinimumSize(104, 64);
+    panel->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
+    panel->setStyleSheet(QStringLiteral(
+        "QWidget { background: #FFFFFF; }"
+        "QLabel { background: #FFFFFF; color: #000000; font-size: 14px; }"));
+
+    auto *layout = new QVBoxLayout(panel);
+    layout->setContentsMargins(4, 4, 4, 4);
+    layout->setSpacing(0);
+
+    layout->addWidget(createRunDockToolbar(QStringLiteral("点动运行")));
+
+    auto *placeholder = new QLabel(QStringLiteral("点动运行窗体"));
+    placeholder->setAlignment(Qt::AlignCenter);
+    placeholder->setMinimumWidth(0);
+    placeholder->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
+    placeholder->setStyleSheet(QStringLiteral("font-size: 18px; font-weight: 600; color: #000000;"));
+    layout->addWidget(placeholder, 1);
+    return panel;
+}
+
+/**
+ * @brief 创建定位运行可停靠窗体内容。
+ * @author mozhengjie
+ * @return QWidget* 定位运行内容控件。
+ */
+QWidget *Widget::createPositionRunPanel()
+{
+    // 定位运行面板的设计尺寸和压缩边界集中在此处维护，便于后续统一调整。
+    constexpr int kDialogWidth = 820;
+    constexpr int kDialogHeight = 420;
+
+    // 普通数值输入框保持 98px 默认宽度，最小宽度为默认宽度的一半。
+    constexpr int kInputWidth = 98;
+    constexpr int kInputHeight = 18;
+    constexpr int kInputMinWidth = kInputWidth / 2;
+
+    // 按钮默认宽度为 110px，最小宽度为默认宽度的一半。
+    constexpr int kButtonWidth = 110;
+    constexpr int kButtonHeight = 20;
+    constexpr int kButtonMinWidth = kButtonWidth / 2;
+
+    // 正/负极限输入框默认宽度独立设置，最小宽度为默认宽度的一半。
+    constexpr int kLimitWidth = 111;
+    constexpr int kLimitHeight = 22;
+    constexpr int kLimitMinWidth = (kLimitWidth + 1) / 2;
+
+    // 当前位置显示框只读展示，最小宽度为默认宽度的一半。
+    constexpr int kCurrentWidth = 117;
+    constexpr int kCurrentHeight = 22;
+    constexpr int kCurrentMinWidth = (kCurrentWidth + 1) / 2;
+    constexpr int kInputHorizontalGap = 23;
+    constexpr int kStep1VerticalGap = 17;
+    constexpr int kStep2VerticalGap = 8;
+    constexpr int kWaitButtonGap = 16;
+    constexpr int kDefaultNegativeLimit = -200000;
+    constexpr int kDefaultPositiveLimit = 200000;
+
+    auto *panel = new QWidget;
+    panel->setObjectName(QStringLiteral("positionRunPanel"));
+    panel->resize(kDialogWidth, kDialogHeight);
+    // 整体面板最小尺寸限制 dock 被过度压缩，避免内部三块窗体和控件互相覆盖。
+    panel->setMinimumSize(420, 300);
+    panel->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
+    panel->setStyleSheet(QStringLiteral(
+        "QWidget#positionRunPanel { background: #FFFFFF; }"
+        "QGroupBox { background: #F4F4F4; border: 0.65px solid #000000; margin-top: 12px; color: #000000; font-size: 11px; font-weight: 600; }"
+        "QGroupBox::title { subcontrol-origin: margin; subcontrol-position: top center; padding: 0 12px; background: #F4F4F4; color: #000000; }"
+        "QLabel { background: transparent; color: #000000; font-size: 11px; }"
+        "QLineEdit { background: #FFFFFF; border: 0.65px solid #000000; color: #000000; font-size: 11px; min-height: 16px; padding: 1px 3px; }"
+        "QLineEdit[readOnly=\"true\"] { background: #F7F7F7; color: #000000; }"
+        "QPushButton { background: #FFFFFF; border: 0.65px solid #000000; color: #000000; font-size: 11px; min-width: 55px; min-height: 20px; padding: 1px 2px; }"
+        "QPushButton:hover { background: #F3F3F3; }"
+        "QPushButton:pressed { background: #E8E8E8; }"
+        "QPushButton:checked { background: #DDEEFF; }"
+        "QFrame#positionTrack { background: #000000; min-height: 1px; max-height: 1px; }"
+        "QSlider::groove:horizontal { height: 4px; background: #FFFFFF; border: 0.65px solid #000000; }"
+        "QSlider::sub-page:horizontal { background: #D8D8D8; border: 0.65px solid #000000; }"
+        "QSlider::add-page:horizontal { background: #FFFFFF; border: 0.65px solid #000000; }"
+        "QSlider::handle:horizontal { background: #000000; border: 0.65px solid #000000; width: 8px; margin: -5px 0; }"
+        "QSplitter::handle { background: #B8B8B8; }"
+        "QSplitter::handle:hover { background: #8E8E8E; }"));
+
+    auto *rootLayout = new QVBoxLayout(panel);
+    // 根布局只保留 2px 外边距，把可用空间尽量留给 step1/step2/位置展示区域。
+    rootLayout->setContentsMargins(2, 2, 2, 2);
+    rootLayout->setSpacing(0);
+    rootLayout->addWidget(createRunDockToolbar(QStringLiteral("定位运行")));
+
+    auto *numberValidator = new QDoubleValidator(-2147483648.0, 2147483647.0, 3, panel);
+    numberValidator->setNotation(QDoubleValidator::StandardNotation);
+    auto *int32Validator = new QIntValidator(std::numeric_limits<qint32>::min(),
+                                             std::numeric_limits<qint32>::max(),
+                                             panel);
+
+    auto createNumericEdit = [numberValidator](bool readOnly = false) {
+        auto *edit = new QLineEdit;
+        edit->setAlignment(Qt::AlignCenter);
+        edit->resize(kInputWidth, kInputHeight);
+        // 默认按 kInputWidth 显示，窗口变窄时最多压缩到 kInputMinWidth。
+        edit->setMinimumSize(kInputMinWidth, kInputHeight);
+        edit->setMaximumWidth(kInputWidth);
+        edit->setMaximumHeight(kInputHeight);
+        edit->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+        edit->setValidator(numberValidator);
+        edit->setReadOnly(readOnly);
+        return edit;
+    };
+
+    auto createLimitEdit = [int32Validator]() {
+        auto *edit = new QLineEdit;
+        edit->setAlignment(Qt::AlignCenter);
+        edit->resize(kLimitWidth, kLimitHeight);
+        // 极限位置输入框允许压缩，但保留足够宽度显示 int32 边界值。
+        edit->setMinimumSize(kLimitMinWidth, kLimitHeight);
+        edit->setMaximumWidth(kLimitWidth);
+        edit->setMaximumHeight(kLimitHeight);
+        edit->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+        edit->setValidator(int32Validator);
+        return edit;
+    };
+
+    auto createButton = [](const QString &text) {
+        auto *button = new QPushButton(text);
+        button->setCursor(Qt::PointingHandCursor);
+        button->resize(kButtonWidth, kButtonHeight);
+        // 按钮默认宽度较宽，最小宽度用于 dock 压缩时防止按钮互相覆盖。
+        button->setMinimumSize(kButtonMinWidth, kButtonHeight);
+        button->setMaximumWidth(kButtonWidth);
+        button->setMaximumHeight(kButtonHeight);
+        button->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+
+        const int slashIndex = text.indexOf(QLatin1Char('/'));
+        if (slashIndex >= 0) {
+            const QString firstState = text.left(slashIndex);
+            const QString secondState = text.mid(slashIndex + 1);
+            button->setText(firstState);
+            button->setCheckable(true);
+            QObject::connect(button, &QPushButton::toggled, button, [button, firstState, secondState](bool checked) {
+                button->setText(checked ? secondState : firstState);
+            });
+        }
+
+        return button;
+    };
+
+    auto addCompressibleSpacing = [](QHBoxLayout *layout, int preferredWidth) {
+        // 按钮之间默认保留设计间距，空间不足时 spacer 会优先压缩。
+        layout->addSpacerItem(new QSpacerItem(preferredWidth, 0, QSizePolicy::Preferred, QSizePolicy::Minimum));
+    };
+
+    auto addCompressibleRowGap = [](QGridLayout *layout, int row, int preferredHeight) {
+        // 输入行之间默认保留设计间距，竖向空间不足时可压缩到 0。
+        layout->addItem(new QSpacerItem(0, preferredHeight, QSizePolicy::Minimum, QSizePolicy::Preferred),
+                        row,
+                        0,
+                        1,
+                        3);
+    };
+
+    auto addInputRow = [&](QGridLayout *layout, int row, const QString &labelText) {
+        auto *label = new QLabel(labelText);
+        label->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
+        label->setMinimumWidth(0);
+        label->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Fixed);
+        layout->addWidget(label, row, 0);
+        layout->addItem(new QSpacerItem(kInputHorizontalGap, 0, QSizePolicy::Preferred, QSizePolicy::Minimum), row, 1);
+        layout->addWidget(createNumericEdit(), row, 2);
+    };
+
+    auto *outerSplitter = new QSplitter(Qt::Horizontal);
+    outerSplitter->setChildrenCollapsible(false);
+    // 内部左右区域衔接缝控制在 2px，缩小停靠后窗体之间的视觉缝隙。
+    outerSplitter->setHandleWidth(2);
+
+    auto *leftSplitter = new QSplitter(Qt::Vertical);
+    leftSplitter->setChildrenCollapsible(false);
+    // step1 与 step2 的上下分割条同样保持窄手柄，但仍允许拖动调整高度。
+    leftSplitter->setHandleWidth(2);
+    leftSplitter->setMinimumWidth(220);
+    leftSplitter->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
+
+    auto *step1Group = new QGroupBox(QStringLiteral("step1"));
+    // step1 最小宽高用于保护三行输入框和三枚按钮不发生重叠。
+    step1Group->setMinimumWidth(220);
+    step1Group->setMinimumHeight(120);
+    step1Group->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Expanding);
+    auto *step1Layout = new QGridLayout(step1Group);
+    step1Layout->setContentsMargins(27, 25, 27, 18);
+    step1Layout->setHorizontalSpacing(0);
+    step1Layout->setVerticalSpacing(0);
+    // 输入行保留高度下限，防止 step1 被压缩时行高塌陷为 0。
+    step1Layout->setRowMinimumHeight(0, kInputHeight);
+    step1Layout->setRowMinimumHeight(2, kInputHeight);
+    step1Layout->setRowMinimumHeight(4, kInputHeight);
+    step1Layout->setColumnStretch(0, 1);
+    step1Layout->setColumnStretch(1, 0);
+    step1Layout->setColumnStretch(2, 1);
+    addInputRow(step1Layout, 0, QStringLiteral("位置点动速度："));
+    addCompressibleRowGap(step1Layout, 1, kStep1VerticalGap);
+    addInputRow(step1Layout, 2, QStringLiteral("位置点动加速度："));
+    addCompressibleRowGap(step1Layout, 3, kStep1VerticalGap);
+    addInputRow(step1Layout, 4, QStringLiteral("位置点动减速度："));
+    addCompressibleRowGap(step1Layout, 5, kStep1VerticalGap);
+
+    auto *step1ButtonLayout = new QHBoxLayout;
+    step1ButtonLayout->setSpacing(0);
+    step1ButtonLayout->addWidget(createButton(QStringLiteral("使能")));
+    addCompressibleSpacing(step1ButtonLayout, 32);
+    step1ButtonLayout->addWidget(createButton(QStringLiteral("反向")));
+    addCompressibleSpacing(step1ButtonLayout, 32);
+    step1ButtonLayout->addWidget(createButton(QStringLiteral("正向")));
+    step1Layout->addLayout(step1ButtonLayout, 6, 0, 1, 3, Qt::AlignCenter);
+
+    auto *step2Group = new QGroupBox(QStringLiteral("step2"));
+    // step2 控件更多，因此最小高度略高于 step1，给等待时间和按钮区留空间。
+    step2Group->setMinimumWidth(220);
+    step2Group->setMinimumHeight(160);
+    step2Group->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Expanding);
+    auto *step2Layout = new QGridLayout(step2Group);
+    step2Layout->setContentsMargins(27, 25, 27, 18);
+    step2Layout->setHorizontalSpacing(0);
+    step2Layout->setVerticalSpacing(0);
+    step2Layout->setRowMinimumHeight(0, kInputHeight);
+    step2Layout->setRowMinimumHeight(2, kInputHeight);
+    step2Layout->setRowMinimumHeight(4, kInputHeight);
+    step2Layout->setRowMinimumHeight(6, kInputHeight);
+    step2Layout->setRowMinimumHeight(8, kInputHeight);
+    // 第 9 行为空白缓冲行，用于拉开“等待时间”和下方按钮的距离。
+    step2Layout->setRowMinimumHeight(9, 0);
+    step2Layout->setColumnStretch(0, 1);
+    step2Layout->setColumnStretch(1, 0);
+    step2Layout->setColumnStretch(2, 1);
+    addInputRow(step2Layout, 0, QStringLiteral("运行距离："));
+    addCompressibleRowGap(step2Layout, 1, kStep2VerticalGap);
+    addInputRow(step2Layout, 2, QStringLiteral("运行速度（rpm）："));
+    addCompressibleRowGap(step2Layout, 3, kStep2VerticalGap);
+    addInputRow(step2Layout, 4, QStringLiteral("运行加速度："));
+    addCompressibleRowGap(step2Layout, 5, kStep2VerticalGap);
+    addInputRow(step2Layout, 6, QStringLiteral("运行减速度："));
+    addCompressibleRowGap(step2Layout, 7, kStep2VerticalGap);
+    addInputRow(step2Layout, 8, QStringLiteral("等待时间："));
+    addCompressibleRowGap(step2Layout, 9, kWaitButtonGap);
+
+    auto *step2ButtonLayout = new QHBoxLayout;
+    step2ButtonLayout->setSpacing(0);
+    step2ButtonLayout->addWidget(createButton(QStringLiteral("单次/连续")));
+    addCompressibleSpacing(step2ButtonLayout, 28);
+    step2ButtonLayout->addWidget(createButton(QStringLiteral("正向/反向")));
+    addCompressibleSpacing(step2ButtonLayout, 28);
+    step2ButtonLayout->addWidget(createButton(QStringLiteral("运行/暂停")));
+    step2Layout->addLayout(step2ButtonLayout, 10, 0, 1, 3, Qt::AlignCenter);
+
+    leftSplitter->addWidget(step1Group);
+    leftSplitter->addWidget(step2Group);
+    leftSplitter->setSizes({180, 180});
+
+    auto *positionGroup = new QGroupBox(QStringLiteral("位置动态展示"));
+    // 位置展示区保留最小宽度，确保滑动条和正/负极限输入框仍可辨认。
+    positionGroup->setMinimumWidth(170);
+    positionGroup->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Expanding);
+    auto *positionLayout = new QVBoxLayout(positionGroup);
+    positionLayout->setContentsMargins(21, 33, 21, 36);
+    positionLayout->setSpacing(0);
+
+    positionLayout->addStretch(1);
+    auto *currentLabel = new QLabel(QStringLiteral("当前位置"));
+    currentLabel->setAlignment(Qt::AlignCenter);
+    currentLabel->setMinimumWidth(0);
+    currentLabel->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Fixed);
+    auto *currentValueEdit = createNumericEdit(true);
+    currentValueEdit->resize(kCurrentWidth, kCurrentHeight);
+    // 当前值显示框按设计宽度展示，压缩时不低于 kCurrentMinWidth。
+    currentValueEdit->setMinimumSize(kCurrentMinWidth, kCurrentHeight);
+    currentValueEdit->setMaximumWidth(kCurrentWidth);
+    currentValueEdit->setMaximumHeight(kCurrentHeight);
+    currentValueEdit->setText(QStringLiteral("0"));
+    positionLayout->addWidget(currentLabel, 0, Qt::AlignHCenter);
+    positionLayout->addSpacerItem(new QSpacerItem(0, 14, QSizePolicy::Minimum, QSizePolicy::Preferred));
+    positionLayout->addWidget(currentValueEdit, 0, Qt::AlignHCenter);
+    positionLayout->addSpacerItem(new QSpacerItem(0, 14, QSizePolicy::Minimum, QSizePolicy::Preferred));
+
+    auto *positionSlider = new QSlider(Qt::Horizontal);
+    // 滑动条只展示当前位置，宽度跟随位置展示区变化。
+    positionSlider->setMinimumWidth(0);
+    positionSlider->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Fixed);
+    positionSlider->setRange(kDefaultNegativeLimit, kDefaultPositiveLimit);
+    positionSlider->setValue(0);
+    positionSlider->setFocusPolicy(Qt::NoFocus);
+    positionSlider->setAttribute(Qt::WA_TransparentForMouseEvents, true);
+    positionSlider->setToolTip(QStringLiteral("当前位置展示，范围为 int32"));
+    positionLayout->addWidget(positionSlider);
+    positionLayout->addSpacerItem(new QSpacerItem(0, 14, QSizePolicy::Minimum, QSizePolicy::Preferred));
+
+    auto *limitLayout = new QHBoxLayout;
+    // 极限输入区顶部留 13px，默认视觉上与滑动条分开，横向间距交给 stretch 压缩。
+    limitLayout->setContentsMargins(0, 13, 0, 0);
+    limitLayout->setSpacing(0);
+
+    auto *negativeLimitLayout = new QVBoxLayout;
+    negativeLimitLayout->setContentsMargins(0, 0, 0, 0);
+    negativeLimitLayout->setSpacing(0);
+    auto *negativeLimitLabel = new QLabel(QStringLiteral("负极限位置"));
+    negativeLimitLabel->setAlignment(Qt::AlignCenter);
+    negativeLimitLabel->setMinimumWidth(0);
+    negativeLimitLabel->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Fixed);
+    auto *negativeLimitEdit = createLimitEdit();
+    negativeLimitEdit->setText(QString::number(kDefaultNegativeLimit));
+    negativeLimitLayout->addWidget(negativeLimitLabel);
+    negativeLimitLayout->addWidget(negativeLimitEdit);
+
+    auto *positiveLimitLayout = new QVBoxLayout;
+    positiveLimitLayout->setContentsMargins(0, 0, 0, 0);
+    positiveLimitLayout->setSpacing(0);
+    auto *positiveLimitLabel = new QLabel(QStringLiteral("正极限位置"));
+    positiveLimitLabel->setAlignment(Qt::AlignCenter);
+    positiveLimitLabel->setMinimumWidth(0);
+    positiveLimitLabel->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Fixed);
+    auto *positiveLimitEdit = createLimitEdit();
+    positiveLimitEdit->setText(QString::number(kDefaultPositiveLimit));
+    positiveLimitLayout->addWidget(positiveLimitLabel);
+    positiveLimitLayout->addWidget(positiveLimitEdit);
+
+    auto updatePositionSliderRange = [positionSlider, negativeLimitEdit, positiveLimitEdit]() {
+        bool negativeOk = false;
+        bool positiveOk = false;
+        const int negativeLimit = negativeLimitEdit->text().toInt(&negativeOk);
+        const int positiveLimit = positiveLimitEdit->text().toInt(&positiveOk);
+        if (!negativeOk || !positiveOk || negativeLimit >= positiveLimit) {
+            return;
+        }
+
+        const int currentValue = qBound(negativeLimit, positionSlider->value(), positiveLimit);
+        positionSlider->setRange(negativeLimit, positiveLimit);
+        positionSlider->setValue(currentValue);
+    };
+    connect(negativeLimitEdit, &QLineEdit::editingFinished, positionSlider, updatePositionSliderRange);
+    connect(positiveLimitEdit, &QLineEdit::editingFinished, positionSlider, updatePositionSliderRange);
+
+    limitLayout->addLayout(negativeLimitLayout);
+    limitLayout->addStretch(1);
+    limitLayout->addLayout(positiveLimitLayout);
+    positionLayout->addLayout(limitLayout);
+    positionLayout->addStretch(2);
+
+    outerSplitter->addWidget(leftSplitter);
+    outerSplitter->addWidget(positionGroup);
+    // 默认分配：左侧 step 区 500px，右侧位置展示区 320px；用户仍可拖动调整。
+    outerSplitter->setSizes({500, 320});
+    rootLayout->addWidget(outerSplitter);
+
+    return panel;
 }
 
 /**
@@ -2488,5 +3108,3 @@ void Widget::updateParameterTransferProgress(int finished, int total, const QStr
     parameterProgressBar_->setValue(boundedFinished);
     parameterProgressBar_->setFormat(QStringLiteral("%1：%v/%m").arg(prefix));
 }
-
-

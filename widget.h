@@ -9,9 +9,12 @@
 
 #include <QMainWindow>
 #include <QHash>
+#include <QPointer>
 #include <QVector>
 
 class QComboBox;
+class QDialog;
+class QDockWidget;
 class QLabel;
 class QLineEdit;
 class QMenu;
@@ -211,6 +214,64 @@ private:
      * @param title 弹窗标题。
      */
     void showToolPlaceholderDialog(const QString &title);
+
+    /**
+     * @brief 显示可停靠的运行工具窗体。
+     * @author mozhengjie
+     * @param title 运行工具窗体标题。
+     */
+    void showDockableRunWindow(const QString &title);
+
+    /**
+     * @brief 将已停靠的运行工具窗体收起为主显示区边缘标签。
+     * @author mozhengjie
+     * @param title 运行工具窗体标题。
+     */
+    void collapseRunDockWindow(const QString &title);
+
+    /**
+     * @brief 从边缘标签恢复运行工具停靠窗体。
+     * @author mozhengjie
+     * @param title 运行工具窗体标题。
+     */
+    void restoreRunDockWindow(const QString &title);
+
+    /**
+     * @brief 创建运行工具窗体内部收起工具栏。
+     * @author mozhengjie
+     * @param title 运行工具窗体标题。
+     * @return QWidget* 收起工具栏控件。
+     */
+    QWidget *createRunDockToolbar(const QString &title);
+
+    /**
+     * @brief 创建停靠窗体收起后的边缘标签。
+     * @author mozhengjie
+     * @param title 运行工具窗体标题。
+     * @param area 收起前的停靠区域。
+     * @return QDockWidget* 边缘标签停靠窗体。
+     */
+    QDockWidget *createCollapsedRunDock(const QString &title, Qt::DockWidgetArea area);
+
+    /**
+     * @brief 显示定位运行独立调试窗体。
+     * @author mozhengjie
+     */
+    void showPositionRunDialog();
+
+    /**
+     * @brief 创建点动运行可停靠窗体内容。
+     * @author mozhengjie
+     * @return QWidget* 点动运行内容控件。
+     */
+    QWidget *createJogRunPanel();
+
+    /**
+     * @brief 创建定位运行可停靠窗体内容。
+     * @author mozhengjie
+     * @return QWidget* 定位运行内容控件。
+     */
+    QWidget *createPositionRunPanel();
 
     /**
      * @brief 切换保存参数下拉菜单显示状态。
@@ -497,6 +558,7 @@ private:
     QComboBox *modelSelector_ = nullptr;
     QTreeWidget *navigationTree_ = nullptr;
     QStackedWidget *secondaryActionStack_ = nullptr;
+    QMainWindow *mainDockWindow_ = nullptr;
     QStackedWidget *mainStack_ = nullptr;
     QTableView *parameterTable_ = nullptr;
     QTableView *monitorTable_ = nullptr;
@@ -519,6 +581,14 @@ private:
     QLabel *operationStatusLabel_ = nullptr;
     QLabel *selectedModelLabel_ = nullptr;
     QProgressBar *parameterProgressBar_ = nullptr;
+    QPointer<QDockWidget> jogRunDock_;
+    QPointer<QDockWidget> positionRunDock_;
+    QPointer<QDockWidget> collapsedJogRunDock_;
+    QPointer<QDockWidget> collapsedPositionRunDock_;
+    Qt::DockWidgetArea jogRunLastDockArea_ = Qt::RightDockWidgetArea;
+    Qt::DockWidgetArea positionRunLastDockArea_ = Qt::RightDockWidgetArea;
+    QSize jogRunLastDockSize_;
+    QSize positionRunLastDockSize_;
     ModbusClient *modbusClient_ = nullptr;
     CommunicationConfig communicationConfig_;
     QVector<RegisterDefinition> pendingParameterUploadQueue_;
