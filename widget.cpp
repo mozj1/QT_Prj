@@ -352,6 +352,22 @@ QString servoSystemStateText(quint16 stateValue)
         return QStringLiteral("未知状态 0x%1").arg(stateValue, 2, 16, QLatin1Char('0')).toUpper();
     }
 }
+
+/**
+ * @brief 将窗体标题转换为竖排文本，用于竖边收起标签。
+ * @author mozhengjie
+ * @param title 窗体标题。
+ * @return QString 每个字符占一行的竖排文本。
+ */
+QString verticalTabText(const QString &title)
+{
+    QStringList lines;
+    lines.reserve(title.size());
+    for (const QChar character : title) {
+        lines.append(character);
+    }
+    return lines.join(QLatin1Char('\n'));
+}
 } // namespace
 
 /**
@@ -1464,6 +1480,7 @@ void Widget::collapseRunDockWindow(const QString &title)
     mainDockWindow_->removeDockWidget(*dockRef);
 
     if (*collapsedDockRef) {
+        (*collapsedDockRef)->hide();
         mainDockWindow_->removeDockWidget(*collapsedDockRef);
         (*collapsedDockRef)->deleteLater();
         *collapsedDockRef = nullptr;
@@ -1502,6 +1519,8 @@ void Widget::restoreRunDockWindow(const QString &title)
     if (*collapsedDockRef) {
         (*collapsedDockRef)->hide();
         mainDockWindow_->removeDockWidget(*collapsedDockRef);
+        (*collapsedDockRef)->deleteLater();
+        *collapsedDockRef = nullptr;
     }
 
     mainDockWindow_->addDockWidget(*lastArea, *dockRef);
@@ -1571,19 +1590,25 @@ QDockWidget *Widget::createCollapsedRunDock(const QString &title, Qt::DockWidget
     emptyTitle->setFixedSize(0, 0);
     collapsedDock->setTitleBarWidget(emptyTitle);
 
+    const bool vertical = area == Qt::LeftDockWidgetArea || area == Qt::RightDockWidgetArea;
     auto *restoreButton = new QToolButton;
-    restoreButton->setText(title);
+    restoreButton->setText(vertical ? verticalTabText(title) : title);
     restoreButton->setToolTip(QStringLiteral("恢复%1").arg(title));
     restoreButton->setCursor(Qt::PointingHandCursor);
+    restoreButton->setToolButtonStyle(Qt::ToolButtonTextOnly);
     restoreButton->setStyleSheet(QStringLiteral(
         "QToolButton { background: #F4F4F4; border: 0.5px solid #777777; color: #000000; padding: 2px 4px; }"
         "QToolButton:hover { background: #EDEDED; }"));
-    if (area == Qt::LeftDockWidgetArea || area == Qt::RightDockWidgetArea) {
-        restoreButton->setMinimumSize(26, 96);
-        restoreButton->setMaximumWidth(32);
+    if (vertical) {
+        // 竖边标签：固定窄宽，高度随字符数自适应，文字逐字竖排。
+        restoreButton->setFixedWidth(24);
+        restoreButton->setMinimumHeight(title.size() * 18 + 8);
+        restoreButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Minimum);
     } else {
-        restoreButton->setMinimumSize(120, 24);
-        restoreButton->setMaximumHeight(28);
+        // 横边标签：固定矮高，宽度随字符数自适应，文字横向排列。
+        restoreButton->setFixedHeight(24);
+        restoreButton->setMinimumWidth(title.size() * 18 + 16);
+        restoreButton->setSizePolicy(QSizePolicy::Minimum, QSizePolicy::Fixed);
     }
     connect(restoreButton, &QToolButton::clicked, this, [this, title]() { restoreRunDockWindow(title); });
     collapsedDock->setWidget(restoreButton);
