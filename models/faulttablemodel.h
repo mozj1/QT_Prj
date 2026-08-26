@@ -25,6 +25,16 @@ public:
         ColumnCount
     };
 
+    enum FaultDataRole {
+        AddressRole = Qt::UserRole + 300,
+        BitRole,
+        NameRole,
+        ValueTextRole,
+        RemarkRole,
+        ActiveRole,
+        BackgroundColorRole
+    };
+
     /**
      * @brief 构造故障总表模型。
      * @author mozhengjie
@@ -79,6 +89,13 @@ public:
      * @return QVariant 单元格数据。
      */
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
+
+    /**
+     * @brief 返回 QML 可访问的数据角色名称。
+     * @author mozhengjie
+     * @return QHash<int, QByteArray> 角色编号与名称映射。
+     */
+    QHash<int, QByteArray> roleNames() const override;
 
     /**
      * @brief 返回指定单元格交互标志。

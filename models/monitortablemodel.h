@@ -25,6 +25,16 @@ public:
         ColumnCount
     };
 
+    enum MonitorDataRole {
+        SelectedRole = Qt::UserRole + 200,
+        AddressRole,
+        NameRole,
+        ValueTextRole,
+        UnitRole,
+        RemarkRole,
+        BackgroundColorRole
+    };
+
     /**
      * @brief 构造监控总表模型。
      * @author mozhengjie
@@ -56,6 +66,24 @@ public:
     bool updateMonitorValue(const MonitorDefinition &monitor, const QString &value);
 
     /**
+     * @brief 设置监控行勾选状态，勾选项会自动按地址升序置顶。
+     * @author mozhengjie
+     * @param row 监控表行号。
+     * @param checked 是否勾选。
+     * @return bool 设置成功返回 true。
+     */
+    Q_INVOKABLE bool setRowChecked(int row, bool checked);
+
+    /**
+     * @brief 循环查找监控名称中包含关键字的下一行。
+     * @author mozhengjie
+     * @param keyword 搜索关键字。
+     * @param startRow 起始行号。
+     * @return int 匹配行号，未找到返回 -1。
+     */
+    Q_INVOKABLE int findNextNameRow(const QString &keyword, int startRow) const;
+
+    /**
      * @brief 返回模型行数。
      * @author mozhengjie
      * @param parent 父索引。
@@ -79,6 +107,13 @@ public:
      * @return QVariant 单元格数据。
      */
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
+
+    /**
+     * @brief 返回 QML 可访问的数据角色名称。
+     * @author mozhengjie
+     * @return QHash<int, QByteArray> 角色编号与名称映射。
+     */
+    QHash<int, QByteArray> roleNames() const override;
 
     /**
      * @brief 设置指定单元格数据。

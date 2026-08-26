@@ -30,7 +30,23 @@ public:
 
     enum EditDataRole {
         LocalEditRole = Qt::UserRole + 100,
-        SubmitEditRole
+        SubmitEditRole,
+        RowNumberRole,
+        SelectedRole,
+        AddressRole,
+        FunctionRole,
+        ValueTextRole,
+        RawValueRole,
+        DefaultValueRole,
+        UnitRole,
+        MinimumRole,
+        MaximumRole,
+        AttributionRole,
+        EditableRole,
+        PendingSendRole,
+        BackgroundColorRole,
+        ComboBoxRole,
+        ComboOptionsRole
     };
 
     /**
@@ -105,6 +121,42 @@ public:
     bool updateRegisterValue(int startAddress, const QString &value, bool sent);
 
     /**
+     * @brief 设置指定行参数是否被勾选，用于 QML 表格复选框交互。
+     * @author mozhengjie
+     * @param row 参数行号。
+     * @param checked 是否勾选。
+     * @return bool 设置成功返回 true。
+     */
+    Q_INVOKABLE bool setRowChecked(int row, bool checked);
+
+    /**
+     * @brief 本地修改参数值但不下发，离开编辑框时保持浅黄色未发送状态。
+     * @author mozhengjie
+     * @param row 参数行号。
+     * @param value 新参数值。
+     * @return bool 修改成功返回 true。
+     */
+    Q_INVOKABLE bool editLocalValue(int row, const QString &value);
+
+    /**
+     * @brief 确认参数值并触发下发请求，通常由回车键调用。
+     * @author mozhengjie
+     * @param row 参数行号。
+     * @param value 新参数值。
+     * @return bool 提交成功返回 true。
+     */
+    Q_INVOKABLE bool submitValue(int row, const QString &value);
+
+    /**
+     * @brief 循环查找功能说明中包含关键字的下一行。
+     * @author mozhengjie
+     * @param keyword 搜索关键字。
+     * @param startRow 起始行，查找会从下一行开始。
+     * @return int 匹配行号，未找到返回 -1。
+     */
+    Q_INVOKABLE int findNextFunctionRow(const QString &keyword, int startRow) const;
+
+    /**
      * @brief 返回模型行数。
      * @author mozhengjie
      * @param parent 父索引。
@@ -128,6 +180,13 @@ public:
      * @return QVariant 单元格数据。
      */
     QVariant data(const QModelIndex &index, int role = Qt::DisplayRole) const override;
+
+    /**
+     * @brief 返回 QML 可访问的数据角色名称。
+     * @author mozhengjie
+     * @return QHash<int, QByteArray> 角色编号与名称映射。
+     */
+    QHash<int, QByteArray> roleNames() const override;
 
     /**
      * @brief 设置指定单元格数据。

@@ -93,10 +93,43 @@ bool MonitorTableModel::updateMonitorValue(const MonitorDefinition &monitor, con
 
         rows_[rowIndex].currentValue = value;
         const QModelIndex valueIndex = index(rowIndex, ValueColumn);
-        emit dataChanged(valueIndex, valueIndex, {Qt::DisplayRole});
+        emit dataChanged(valueIndex, valueIndex, {Qt::DisplayRole, ValueTextRole});
         return true;
     }
     return false;
+}
+
+bool MonitorTableModel::setRowChecked(int row, bool checked)
+{
+    if (row < 0 || row >= rows_.size()) {
+        return false;
+    }
+
+    if (rows_[row].checked == checked) {
+        return true;
+    }
+
+    rows_[row].checked = checked;
+    sortRowsByCheckedState();
+    return true;
+}
+
+int MonitorTableModel::findNextNameRow(const QString &keyword, int startRow) const
+{
+    const QString trimmedKeyword = keyword.trimmed();
+    if (trimmedKeyword.isEmpty() || rows_.isEmpty()) {
+        return -1;
+    }
+
+    const int rowCount = rows_.size();
+    for (int offset = 1; offset <= rowCount; ++offset) {
+        const int rowIndex = (startRow + offset + rowCount) % rowCount;
+        if (displayName(rows_[rowIndex].definition).contains(trimmedKeyword, Qt::CaseInsensitive)) {
+            return rowIndex;
+        }
+    }
+
+    return -1;
 }
 
 int MonitorTableModel::rowCount(const QModelIndex &parent) const
@@ -117,6 +150,40 @@ QVariant MonitorTableModel::data(const QModelIndex &index, int role) const
 
     const MonitorRow &row = rows_[index.row()];
     const MonitorDefinition &definition = row.definition;
+
+    if (role == SelectedRole) {
+        return row.checked;
+    }
+
+    if (role == AddressRole) {
+        return definition.modbusAddr;
+    }
+
+    if (role == NameRole) {
+        return displayName(definition);
+    }
+
+    if (role == ValueTextRole) {
+        return row.currentValue;
+    }
+
+    if (role == UnitRole) {
+        return definition.unit.isEmpty() ? QStringLiteral("-") : definition.unit;
+    }
+
+    if (role == RemarkRole) {
+        return displayRemark(definition);
+    }
+
+    if (role == BackgroundColorRole) {
+        if (index.column() == SelectColumn) {
+            return QStringLiteral("#EFEFEF");
+        }
+        if (row.checked) {
+            return QStringLiteral("#E5F2D8");
+        }
+        return QStringLiteral("#FFFFFF");
+    }
 
     if (role == Qt::CheckStateRole && index.column() == SelectColumn) {
         return row.checked ? Qt::Checked : Qt::Unchecked;
@@ -176,9 +243,20 @@ bool MonitorTableModel::setData(const QModelIndex &index, const QVariant &value,
         return false;
     }
 
-    rows_[index.row()].checked = value.toInt() == Qt::Checked;
-    sortRowsByCheckedState();
-    return true;
+    return setRowChecked(index.row(), value.toInt() == Qt::Checked);
+}
+
+QHash<int, QByteArray> MonitorTableModel::roleNames() const
+{
+    QHash<int, QByteArray> roles = QAbstractTableModel::roleNames();
+    roles[SelectedRole] = "rowChecked";
+    roles[AddressRole] = "address";
+    roles[NameRole] = "nameText";
+    roles[ValueTextRole] = "valueText";
+    roles[UnitRole] = "unitText";
+    roles[RemarkRole] = "remarkText";
+    roles[BackgroundColorRole] = "backgroundColor";
+    return roles;
 }
 
 Qt::ItemFlags MonitorTableModel::flags(const QModelIndex &index) const

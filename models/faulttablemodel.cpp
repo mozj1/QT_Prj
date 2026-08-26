@@ -48,7 +48,7 @@ bool FaultTableModel::updateFaultRegisterValue(int modbusAddress, quint16 regist
         rows_[rowIndex].active = bitActive;
         rows_[rowIndex].currentValue = newValue;
         const QModelIndex valueIndex = index(rowIndex, ValueColumn);
-        emit dataChanged(valueIndex, valueIndex, {Qt::DisplayRole, Qt::BackgroundRole});
+        emit dataChanged(valueIndex, valueIndex, {Qt::DisplayRole, Qt::BackgroundRole, ValueTextRole, ActiveRole, BackgroundColorRole});
         updated = true;
     }
     return updated;
@@ -88,6 +88,39 @@ QVariant FaultTableModel::data(const QModelIndex &index, int role) const
 
     const FaultRow &row = rows_[index.row()];
     const MonitorDefinition &definition = row.definition;
+
+    if (role == AddressRole) {
+        return definition.modbusAddr;
+    }
+
+    if (role == BitRole) {
+        return definition.bitOffset.isEmpty() ? QStringLiteral("-") : definition.bitOffset;
+    }
+
+    if (role == NameRole) {
+        return displayName(definition);
+    }
+
+    if (role == ValueTextRole) {
+        return row.currentValue;
+    }
+
+    if (role == RemarkRole) {
+        return definition.remark.isEmpty()
+                   ? QStringLiteral("寄存器 %1 bit%2").arg(definition.modbusAddr, definition.bitOffset)
+                   : definition.remark;
+    }
+
+    if (role == ActiveRole) {
+        return row.active;
+    }
+
+    if (role == BackgroundColorRole) {
+        if (index.column() == ValueColumn && row.active) {
+            return QStringLiteral("#FF4D4F");
+        }
+        return QStringLiteral("#FFFFFF");
+    }
 
     if (role == Qt::TextAlignmentRole) {
         const Qt::Alignment alignment = index.column() == NameColumn
@@ -152,6 +185,19 @@ QVariant FaultTableModel::headerData(int section, Qt::Orientation orientation, i
         QStringLiteral("寄存器地址"), QStringLiteral("Bit位"), QStringLiteral("故障说明"),
         QStringLiteral("当前值"), QStringLiteral("备注")};
     return headers.value(section);
+}
+
+QHash<int, QByteArray> FaultTableModel::roleNames() const
+{
+    QHash<int, QByteArray> roles = QAbstractTableModel::roleNames();
+    roles[AddressRole] = "address";
+    roles[BitRole] = "bitText";
+    roles[NameRole] = "nameText";
+    roles[ValueTextRole] = "valueText";
+    roles[RemarkRole] = "remarkText";
+    roles[ActiveRole] = "faultActive";
+    roles[BackgroundColorRole] = "backgroundColor";
+    return roles;
 }
 
 QString FaultTableModel::displayName(const MonitorDefinition &definition)

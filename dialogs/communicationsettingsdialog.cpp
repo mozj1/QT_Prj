@@ -3,6 +3,7 @@
 #include <QComboBox>
 #include <QDialogButtonBox>
 #include <QFormLayout>
+#include <QLineEdit>
 #include <QPushButton>
 #include <QSerialPortInfo>
 #include <QSpinBox>
@@ -11,10 +12,10 @@
 
 namespace {
 /**
- * @brief 按格式文本更新通信参数的数据位、校验位和停止位。
+ * @brief Applies a serial-format display string to a communication configuration.
  * @author mozhengjie
- * @param formatText 通信格式文本。
- * @param config 待更新的通信参数。
+ * @param formatText Format text such as 8N1, 8E1, 8O1, 8N2 or 7E1.
+ * @param config Configuration object to update.
  */
 void applyFormatText(const QString &formatText, CommunicationConfig *config)
 {
@@ -44,13 +45,27 @@ void applyFormatText(const QString &formatText, CommunicationConfig *config)
         config->stopBits = QSerialPort::OneStop;
     }
 }
+
+/**
+ * @brief Centers editable combo-box text when a line edit exists.
+ * @author mozhengjie
+ * @param combo Combo box to update.
+ */
+void centerComboText(QComboBox *combo)
+{
+    if (!combo || !combo->lineEdit()) {
+        return;
+    }
+
+    combo->lineEdit()->setAlignment(Qt::AlignCenter);
+}
 } // namespace
 
 /**
- * @brief 构造通讯设置对话框。
+ * @brief Builds the communication settings dialog with current values as defaults.
  * @author mozhengjie
- * @param config 当前通信参数。
- * @param parent 父窗口指针。
+ * @param config Current communication configuration.
+ * @param parent Parent widget.
  */
 CommunicationSettingsDialog::CommunicationSettingsDialog(const CommunicationConfig &config, QWidget *parent)
     : QDialog(parent)
@@ -75,31 +90,41 @@ CommunicationSettingsDialog::CommunicationSettingsDialog(const CommunicationConf
     portComboBox_ = new QComboBox;
     portComboBox_->setEditable(true);
     populateSerialPorts(config.portName);
+    centerComboText(portComboBox_);
     formLayout->addRow(QStringLiteral("串口："), portComboBox_);
 
     slaveAddressSpinBox_ = new QSpinBox;
     slaveAddressSpinBox_->setRange(1, 247);
+    slaveAddressSpinBox_->setAlignment(Qt::AlignCenter);
     slaveAddressSpinBox_->setValue(config.slaveAddress);
     formLayout->addRow(QStringLiteral("Modbus 地址："), slaveAddressSpinBox_);
 
     baudRateComboBox_ = new QComboBox;
     baudRateComboBox_->setEditable(true);
     populateBaudRates(config.baudRate);
+    centerComboText(baudRateComboBox_);
     formLayout->addRow(QStringLiteral("波特率："), baudRateComboBox_);
 
     formatComboBox_ = new QComboBox;
+    formatComboBox_->setEditable(true);
     populateFormats(config);
+    if (formatComboBox_->lineEdit()) {
+        formatComboBox_->lineEdit()->setReadOnly(true);
+    }
+    centerComboText(formatComboBox_);
     formLayout->addRow(QStringLiteral("通信格式："), formatComboBox_);
 
     timeoutSpinBox_ = new QSpinBox;
     timeoutSpinBox_->setRange(100, 10000);
     timeoutSpinBox_->setSingleStep(100);
     timeoutSpinBox_->setSuffix(QStringLiteral(" ms"));
+    timeoutSpinBox_->setAlignment(Qt::AlignCenter);
     timeoutSpinBox_->setValue(config.responseTimeoutMs);
     formLayout->addRow(QStringLiteral("响应超时："), timeoutSpinBox_);
 
     retrySpinBox_ = new QSpinBox;
     retrySpinBox_->setRange(0, 10);
+    retrySpinBox_->setAlignment(Qt::AlignCenter);
     retrySpinBox_->setValue(config.retryCount);
     formLayout->addRow(QStringLiteral("重试次数："), retrySpinBox_);
 
@@ -114,9 +139,9 @@ CommunicationSettingsDialog::CommunicationSettingsDialog(const CommunicationConf
 }
 
 /**
- * @brief 获取用户确认后的通信参数。
+ * @brief Returns the communication configuration confirmed by the user.
  * @author mozhengjie
- * @return CommunicationConfig 通信参数配置。
+ * @return CommunicationConfig Confirmed communication configuration.
  */
 CommunicationConfig CommunicationSettingsDialog::settings() const
 {
@@ -131,9 +156,9 @@ CommunicationConfig CommunicationSettingsDialog::settings() const
 }
 
 /**
- * @brief 刷新本机可用串口列表。
+ * @brief Populates available local serial ports.
  * @author mozhengjie
- * @param currentPort 当前串口名。
+ * @param currentPort Current port name.
  */
 void CommunicationSettingsDialog::populateSerialPorts(const QString &currentPort)
 {
@@ -155,9 +180,9 @@ void CommunicationSettingsDialog::populateSerialPorts(const QString &currentPort
 }
 
 /**
- * @brief 刷新常用波特率选项。
+ * @brief Populates common baud-rate options.
  * @author mozhengjie
- * @param currentBaudRate 当前波特率。
+ * @param currentBaudRate Current baud rate.
  */
 void CommunicationSettingsDialog::populateBaudRates(int currentBaudRate)
 {
@@ -169,14 +194,17 @@ void CommunicationSettingsDialog::populateBaudRates(int currentBaudRate)
 }
 
 /**
- * @brief 刷新通信格式选项。
+ * @brief Populates supported serial-format options.
  * @author mozhengjie
- * @param config 当前通信参数。
+ * @param config Current communication configuration.
  */
 void CommunicationSettingsDialog::populateFormats(const CommunicationConfig &config)
 {
-    const QStringList formats = {QStringLiteral("8N1"), QStringLiteral("8E1"), QStringLiteral("8O1"),
-                                 QStringLiteral("8N2"), QStringLiteral("7E1")};
+    const QStringList formats = {QStringLiteral("8N1"),
+                                 QStringLiteral("8E1"),
+                                 QStringLiteral("8O1"),
+                                 QStringLiteral("8N2"),
+                                 QStringLiteral("7E1")};
     for (const QString &format : formats) {
         formatComboBox_->addItem(format, format);
     }

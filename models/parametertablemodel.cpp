@@ -190,6 +190,81 @@ void ParameterTableModel::setRegisters(const QVector<RegisterDefinition> &regist
 }
 
 /**
+ * @brief 设置指定行参数是否被勾选，用于 QML 表格复选框交互。
+ * @author mozhengjie
+ * @param row 参数行号。
+ * @param checked 是否勾选。
+ * @return bool 设置成功返回 true。
+ */
+bool ParameterTableModel::setRowChecked(int row, bool checked)
+{
+    if (row < 0 || row >= rows_.size()) {
+        return false;
+    }
+
+    const QModelIndex selectIndex = index(row, SelectColumn);
+    return setData(selectIndex, checked ? Qt::Checked : Qt::Unchecked, Qt::CheckStateRole);
+}
+
+/**
+ * @brief 本地修改参数值但不下发，离开编辑框时保持浅黄色未发送状态。
+ * @author mozhengjie
+ * @param row 参数行号。
+ * @param value 新参数值。
+ * @return bool 修改成功返回 true。
+ */
+bool ParameterTableModel::editLocalValue(int row, const QString &value)
+{
+    if (row < 0 || row >= rows_.size()) {
+        return false;
+    }
+
+    const QModelIndex valueIndex = index(row, ValueColumn);
+    return setData(valueIndex, value, LocalEditRole);
+}
+
+/**
+ * @brief 确认参数值并触发下发请求，通常由回车键调用。
+ * @author mozhengjie
+ * @param row 参数行号。
+ * @param value 新参数值。
+ * @return bool 提交成功返回 true。
+ */
+bool ParameterTableModel::submitValue(int row, const QString &value)
+{
+    if (row < 0 || row >= rows_.size()) {
+        return false;
+    }
+
+    const QModelIndex valueIndex = index(row, ValueColumn);
+    return setData(valueIndex, value, SubmitEditRole);
+}
+
+/**
+ * @brief 循环查找功能说明中包含关键字的下一行。
+ * @author mozhengjie
+ * @param keyword 搜索关键字。
+ * @param startRow 起始行，查找会从下一行开始。
+ * @return int 匹配行号，未找到返回 -1。
+ */
+int ParameterTableModel::findNextFunctionRow(const QString &keyword, int startRow) const
+{
+    const QString trimmedKeyword = keyword.trimmed();
+    if (trimmedKeyword.isEmpty() || rows_.isEmpty()) {
+        return -1;
+    }
+
+    const int normalizedStart = startRow >= 0 && startRow < rows_.size() ? startRow + 1 : 0;
+    for (int offset = 0; offset < rows_.size(); ++offset) {
+        const int row = (normalizedStart + offset) % rows_.size();
+        if (displayName(rows_[row].definition).contains(trimmedKeyword, Qt::CaseInsensitive)) {
+            return row;
+        }
+    }
+    return -1;
+}
+
+/**
  * @brief 获取已勾选的寄存器定义。
  * @author mozhengjie
  * @return QVector<RegisterDefinition> 已勾选寄存器列表，parameter 字段为当前值。
@@ -281,7 +356,9 @@ bool ParameterTableModel::markParameterSendState(int startAddress, bool sent)
 
         rows_[rowIndex].pendingSend = !sent;
         const QModelIndex valueIndex = index(rowIndex, ValueColumn);
-        emit dataChanged(valueIndex, valueIndex, {Qt::BackgroundRole, Qt::ToolTipRole});
+        emit dataChanged(valueIndex,
+                         valueIndex,
+                         {Qt::BackgroundRole, Qt::ToolTipRole, PendingSendRole, BackgroundColorRole});
         return true;
     }
     return false;
@@ -309,7 +386,14 @@ bool ParameterTableModel::updateRegisterValue(int startAddress, const QString &v
         rows_[rowIndex].pendingSend = !sent;
         const QModelIndex valueIndex = index(rowIndex, ValueColumn);
         emit dataChanged(valueIndex, valueIndex,
-                         {Qt::DisplayRole, Qt::EditRole, Qt::BackgroundRole, Qt::ToolTipRole});
+                         {Qt::DisplayRole,
+                          Qt::EditRole,
+                          Qt::BackgroundRole,
+                          Qt::ToolTipRole,
+                          ValueTextRole,
+                          RawValueRole,
+                          PendingSendRole,
+                          BackgroundColorRole});
         return true;
     }
     return false;
@@ -352,6 +436,83 @@ QVariant ParameterTableModel::data(const QModelIndex &index, int role) const
 
     const ParameterRow &row = rows_[index.row()];
     const RegisterDefinition &definition = row.definition;
+    if (role == RowNumberRole) {
+        return index.row() + 1;
+    }
+
+    if (role == SelectedRole) {
+        return row.checked;
+    }
+
+    if (role == AddressRole) {
+        return definition.modbusAddr;
+    }
+
+    if (role == FunctionRole) {
+        return displayName(definition);
+    }
+
+    if (role == ValueTextRole) {
+        return displayCurrentValue(definition, row.currentValue);
+    }
+
+    if (role == RawValueRole) {
+        return row.currentValue;
+    }
+
+    if (role == DefaultValueRole) {
+        return definition.defaultValue;
+    }
+
+    if (role == UnitRole) {
+        return definition.unit;
+    }
+
+    if (role == MinimumRole) {
+        return definition.minimum;
+    }
+
+    if (role == MaximumRole) {
+        return definition.maximum;
+    }
+
+    if (role == AttributionRole) {
+        return definition.rwAttribution;
+    }
+
+    if (role == EditableRole) {
+        return isEditableDefinition(definition);
+    }
+
+    if (role == PendingSendRole) {
+        return row.pendingSend;
+    }
+
+    if (role == BackgroundColorRole) {
+        if (index.column() == SelectColumn) {
+            return QStringLiteral("#EFEFEF");
+        }
+        if (index.column() == ValueColumn && row.pendingSend) {
+            return QStringLiteral("#FFF4B8");
+        }
+        if (!isEditableDefinition(definition)) {
+            return QStringLiteral("#E6E6E6");
+        }
+        return QStringLiteral("#FFFFFF");
+    }
+
+    if (role == ComboBoxRole) {
+        return definition.isComboBox() && !definition.menuOptions.isEmpty();
+    }
+
+    if (role == ComboOptionsRole) {
+        QStringList options;
+        for (const MenuOption &option : definition.menuOptions) {
+            options.append(optionDisplayText(option));
+        }
+        return options;
+    }
+
     if (role == Qt::CheckStateRole && index.column() == SelectColumn) {
         return row.checked ? Qt::Checked : Qt::Unchecked;
     }
@@ -425,6 +586,35 @@ QVariant ParameterTableModel::data(const QModelIndex &index, int role) const
 }
 
 /**
+ * @brief 返回 QML 可访问的数据角色名称。
+ * @author mozhengjie
+ * @return QHash<int, QByteArray> 角色编号与名称映射。
+ */
+QHash<int, QByteArray> ParameterTableModel::roleNames() const
+{
+    QHash<int, QByteArray> roles = QAbstractTableModel::roleNames();
+    roles[Qt::DisplayRole] = "display";
+    roles[Qt::EditRole] = "edit";
+    roles[RowNumberRole] = "rowNumber";
+    roles[SelectedRole] = "rowChecked";
+    roles[AddressRole] = "address";
+    roles[FunctionRole] = "functionName";
+    roles[ValueTextRole] = "valueText";
+    roles[RawValueRole] = "rawValue";
+    roles[DefaultValueRole] = "defaultValue";
+    roles[UnitRole] = "unit";
+    roles[MinimumRole] = "minimumValue";
+    roles[MaximumRole] = "maximumValue";
+    roles[AttributionRole] = "attribution";
+    roles[EditableRole] = "editable";
+    roles[PendingSendRole] = "pendingSend";
+    roles[BackgroundColorRole] = "backgroundColor";
+    roles[ComboBoxRole] = "comboBox";
+    roles[ComboOptionsRole] = "comboOptions";
+    return roles;
+}
+
+/**
  * @brief 设置指定单元格数据。
  * @author mozhengjie
  * @param index 单元格索引。
@@ -441,7 +631,7 @@ bool ParameterTableModel::setData(const QModelIndex &index, const QVariant &valu
     ParameterRow &row = rows_[index.row()];
     if (index.column() == SelectColumn && role == Qt::CheckStateRole) {
         row.checked = value.toInt() == Qt::Checked;
-        emit dataChanged(index, index, {Qt::CheckStateRole});
+        emit dataChanged(index, index, {Qt::CheckStateRole, SelectedRole});
         return true;
     }
 
@@ -460,7 +650,9 @@ bool ParameterTableModel::setData(const QModelIndex &index, const QVariant &valu
         if (requestSend) {
             row.pendingSend = true;
             row.definition.parameter = normalizedValue;
-            emit dataChanged(index, index, {Qt::BackgroundRole, Qt::ToolTipRole});
+            emit dataChanged(index,
+                             index,
+                             {Qt::BackgroundRole, Qt::ToolTipRole, PendingSendRole, BackgroundColorRole});
             emit parameterValueChanged(row.definition, normalizedValue);
         }
         return true;
@@ -469,7 +661,16 @@ bool ParameterTableModel::setData(const QModelIndex &index, const QVariant &valu
     row.currentValue = normalizedValue;
     row.definition.parameter = normalizedValue;
     row.pendingSend = true;
-    emit dataChanged(index, index, {Qt::DisplayRole, Qt::EditRole, Qt::BackgroundRole, Qt::ToolTipRole});
+    emit dataChanged(index,
+                     index,
+                     {Qt::DisplayRole,
+                      Qt::EditRole,
+                      Qt::BackgroundRole,
+                      Qt::ToolTipRole,
+                      ValueTextRole,
+                      RawValueRole,
+                      PendingSendRole,
+                      BackgroundColorRole});
     if (requestSend) {
         emit parameterValueChanged(row.definition, normalizedValue);
     }
