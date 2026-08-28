@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include <QHash>
 #include <QSize>
+#include <QSet>
 #include <QVector>
 
 class AppController;
@@ -105,7 +106,9 @@ private:
     void refreshServoStateLabel();
     void activateDock(QDockWidget *dock);
     void showRunDock(QDockWidget *dock);
+    void closeRunDock(QDockWidget *dock);
     void restoreDockDefaultFloatingSize(QDockWidget *dock);
+    void applyRunDockDefaultEmbeddedSize(QDockWidget *dock, Qt::DockWidgetArea area);
     void placeDockForUserOpen(QDockWidget *dock);
     void handleRunDockTopLevelChanged(QDockWidget *dock, bool floating);
     void handleRunDockLocationChanged(QDockWidget *dock, Qt::DockWidgetArea area);
@@ -135,6 +138,7 @@ private:
     QHash<QDockWidget *, QToolButton *> collapsedTabs_;
     QHash<QDockWidget *, Qt::DockWidgetArea> collapsedAreas_;
     QHash<QDockWidget *, QSize> collapsedDockSizes_;
+    QSet<QDockWidget *> suppressEmbeddedDefaultResizeDocks_;
     QVector<QPushButton *> pageButtons_;
     int activePage_ = 0;
 };

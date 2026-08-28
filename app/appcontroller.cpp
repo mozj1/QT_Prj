@@ -17,6 +17,22 @@ constexpr int kFaultPageIndex = 2;
 constexpr int kFaultRegisterLow = 150;
 constexpr int kFaultRegisterHigh = 390;
 constexpr int kFaultPollIntervalMs = 1000;
+constexpr int kPositionControlModeRegister = 0;
+constexpr int kPositionCommandSourceRegister = 1;
+constexpr int kPositionEnableRegister = 44;
+constexpr int kPositionStepJogRegister = 59;
+constexpr int kPositionJogSpeedRegister = 80;
+constexpr int kPositionJogAccelerationRegister = 81;
+constexpr int kPositionJogDecelerationRegister = 82;
+constexpr int kPositionRunDistanceRegister = 83;
+constexpr int kPositionWaitTimeRegister = 85;
+constexpr int kPositionRepeatFlagRegister = 86;
+constexpr int kPositionDirectionRegister = 87;
+constexpr int kPositionRepeatCountRegister = 88;
+constexpr int kPositionRunPauseRegister = 89;
+constexpr int kPositionCurrentLowRegister = 449;
+constexpr int kPositionCurrentRegisterCount = 2;
+constexpr int kPositionCurrentPollIntervalMs = 100;
 
 /**
  * @brief 将通信格式文本转换为串口数据位、校验位和停止位。
@@ -348,6 +364,7 @@ AppController::AppController(QObject *parent)
     , monitorTimer_(new QTimer(this))
     , servoStateTimer_(new QTimer(this))
     , faultPollTimer_(new QTimer(this))
+    , positionCurrentTimer_(new QTimer(this))
     , connectionStatus_(QStringLiteral("连接状态：断开"))
     , operationStatus_(QStringLiteral("操作状态：空闲"))
     , selectedModelStatus_(QStringLiteral("当前型号：未选择"))
@@ -371,6 +388,8 @@ AppController::AppController(QObject *parent)
     connect(servoStateTimer_, &QTimer::timeout, this, &AppController::pollServoSystemState);
     faultPollTimer_->setInterval(kFaultPollIntervalMs);
     connect(faultPollTimer_, &QTimer::timeout, this, &AppController::pollFaultRegisters);
+    positionCurrentTimer_->setInterval(kPositionCurrentPollIntervalMs);
+    connect(positionCurrentTimer_, &QTimer::timeout, this, &AppController::pollPositionCurrentPosition);
 
     refreshSerialPorts();
     scanXmlModelFiles();
@@ -719,6 +738,215 @@ void AppController::requestMotorResetCommand()
     }
 }
 
+/**
+ * @brief Enters position-run mode, backs up control source registers and initializes panel values.
+ * @author mozhengjie
+ */
+void AppController::enterPositionRunMode()
+{
+    if (!ensureModbusReady(QStringLiteral("定位运行"))) {
+        return;
+    }
+
+    if (positionRunActive_) {
+        if (positionCurrentTimer_ && !positionCurrentTimer_->isActive()) {
+            positionCurrentTimer_->start(kPositionCurrentPollIntervalMs);
+        }
+        pollPositionCurrentPosition();
+        return;
+    }
+
+    positionRunActive_ = true;
+    positionSetupApplied_ = false;
+    positionCurrentPollingPaused_ = false;
+    positionCurrentReadPending_ = false;
+    positionCurrentZeroCaptured_ = false;
+    positionCurrentZero_ = 0;
+    positionModeBackups_.clear();
+    pendingPositionReadMap_.clear();
+    pendingPositionWriteMap_.clear();
+    pendingPositionWriteValueMap_.clear();
+    emit positionPollingPausedChanged(false);
+
+    readPositionRegister(kPositionControlModeRegister, 1, QStringLiteral("position-backup"));
+    readPositionRegister(kPositionCommandSourceRegister, 1, QStringLiteral("position-backup"));
+    readPositionRegister(kPositionEnableRegister, 1, QStringLiteral("position-backup"));
+    readPositionInitialRegisters();
+
+    if (positionCurrentTimer_) {
+        positionCurrentTimer_->start(kPositionCurrentPollIntervalMs);
+    }
+    pollPositionCurrentPosition();
+    updateOperationStatus(QStringLiteral("操作状态：定位运行初始化中"));
+}
+
+/**
+ * @brief Leaves position-run mode and restores the backed-up Pn0/Pn1/Pn44 values.
+ * @author mozhengjie
+ */
+void AppController::leavePositionRunMode()
+{
+    if (!positionRunActive_) {
+        return;
+    }
+
+    if (positionCurrentTimer_) {
+        positionCurrentTimer_->stop();
+    }
+    positionRunActive_ = false;
+    positionSetupApplied_ = false;
+    positionCurrentPollingPaused_ = false;
+    positionCurrentZeroCaptured_ = false;
+    positionCurrentZero_ = 0;
+    emit positionPollingPausedChanged(false);
+
+    if (!modbusClient_ || !modbusClient_->isConnected()) {
+        positionModeBackups_.clear();
+        pendingPositionReadMap_.clear();
+        pendingPositionWriteMap_.clear();
+        pendingPositionWriteValueMap_.clear();
+        positionCurrentReadPending_ = false;
+        positionCurrentZeroCaptured_ = false;
+        positionCurrentZero_ = 0;
+        return;
+    }
+
+    writePositionRawRegister(kPositionStepJogRegister, 6, QStringLiteral("position-stepjog"));
+    if (positionModeBackups_.contains(kPositionControlModeRegister)) {
+        writePositionRawRegister(kPositionControlModeRegister,
+                                 positionModeBackups_.value(kPositionControlModeRegister),
+                                 QStringLiteral("position-restore"));
+    }
+    if (positionModeBackups_.contains(kPositionCommandSourceRegister)) {
+        writePositionRawRegister(kPositionCommandSourceRegister,
+                                 positionModeBackups_.value(kPositionCommandSourceRegister),
+                                 QStringLiteral("position-restore"));
+    }
+    if (positionModeBackups_.contains(kPositionEnableRegister)) {
+        writePositionRawRegister(kPositionEnableRegister,
+                                 positionModeBackups_.value(kPositionEnableRegister),
+                                 QStringLiteral("position-restore"));
+    }
+    positionModeBackups_.clear();
+    updateOperationStatus(QStringLiteral("操作状态：定位运行已关闭，正在恢复控制模式"));
+}
+
+/**
+ * @brief Toggles the 100ms current-position polling state.
+ * @author mozhengjie
+ */
+void AppController::togglePositionCurrentPolling()
+{
+    if (!positionRunActive_) {
+        return;
+    }
+
+    positionCurrentPollingPaused_ = !positionCurrentPollingPaused_;
+    emit positionPollingPausedChanged(positionCurrentPollingPaused_);
+    updateOperationStatus(positionCurrentPollingPaused_
+                              ? QStringLiteral("操作状态：当前位置轮询已暂停")
+                              : QStringLiteral("操作状态：当前位置轮询已恢复"));
+    if (!positionCurrentPollingPaused_) {
+        pollPositionCurrentPosition();
+    }
+}
+
+/**
+ * @brief Writes a position-run numeric input value to its mapped register.
+ * @author mozhengjie
+ * @param address Modbus register address.
+ * @param value Value to write.
+ */
+void AppController::writePositionRunRegister(int address, qint64 value)
+{
+    if (writePositionRawRegister(address, value, QStringLiteral("position-input"))) {
+        updateOperationStatus(QStringLiteral("操作状态：正在下发定位寄存器 %1").arg(address));
+    }
+}
+
+/**
+ * @brief Writes the position-run enable register Pn44.
+ * @author mozhengjie
+ * @param enabled true writes 1, false writes 0.
+ */
+void AppController::writePositionEnable(bool enabled)
+{
+    if (writePositionRawRegister(kPositionEnableRegister, enabled ? 1 : 0, QStringLiteral("position-enable"))) {
+        updateOperationStatus(enabled
+                                  ? QStringLiteral("操作状态：正在使能定位运行")
+                                  : QStringLiteral("操作状态：正在失能定位运行"));
+    }
+}
+
+/**
+ * @brief Writes the single/round-trip/continuous command pair to Pn88 and Pn86.
+ * @author mozhengjie
+ * @param modeIndex 0 single, 1 round-trip, 2 continuous.
+ */
+void AppController::writePositionCycleMode(int modeIndex)
+{
+    const int boundedMode = std::clamp(modeIndex, 0, 2);
+    if (boundedMode == 0) {
+        writePositionRawRegister(kPositionRepeatCountRegister, 1, QStringLiteral("position-cycle"));
+        writePositionRawRegister(kPositionRepeatFlagRegister, 0, QStringLiteral("position-cycle"));
+        updateOperationStatus(QStringLiteral("操作状态：定位运行已切换为单次"));
+        return;
+    }
+
+    writePositionRawRegister(kPositionRepeatCountRegister, 50000, QStringLiteral("position-cycle"));
+    writePositionRawRegister(kPositionRepeatFlagRegister, boundedMode == 2 ? 1 : 0, QStringLiteral("position-cycle"));
+    updateOperationStatus(boundedMode == 2
+                              ? QStringLiteral("操作状态：定位运行已切换为连续")
+                              : QStringLiteral("操作状态：定位运行已切换为往返"));
+}
+
+/**
+ * @brief Writes the position direction register Pn87.
+ * @author mozhengjie
+ * @param reverse true writes reverse, false writes forward.
+ */
+void AppController::writePositionDirection(bool reverse)
+{
+    if (writePositionRawRegister(kPositionDirectionRegister, reverse ? 1 : 0, QStringLiteral("position-direction"))) {
+        updateOperationStatus(reverse
+                                  ? QStringLiteral("操作状态：定位方向已切换为反向")
+                                  : QStringLiteral("操作状态：定位方向已切换为正向"));
+    }
+}
+
+/**
+ * @brief Writes the position run/pause register Pn89.
+ * @author mozhengjie
+ * @param paused true writes pause, false writes run.
+ */
+void AppController::writePositionPause(bool paused)
+{
+    if (writePositionRawRegister(kPositionRunPauseRegister, paused ? 1 : 0, QStringLiteral("position-runpause"))) {
+        updateOperationStatus(paused
+                                  ? QStringLiteral("操作状态：定位运行已暂停")
+                                  : QStringLiteral("操作状态：定位运行已启动"));
+    }
+}
+
+/**
+ * @brief Writes the step1 jog command register Pn59.
+ * @author mozhengjie
+ * @param commandValue 3 reverse, 4 forward, 6 stop.
+ */
+void AppController::writePositionStepJogCommand(int commandValue)
+{
+    const int boundedValue = (commandValue == 3 || commandValue == 4) ? commandValue : 6;
+    if (writePositionRawRegister(kPositionStepJogRegister, boundedValue, QStringLiteral("position-stepjog"))) {
+        if (boundedValue == 4) {
+            updateOperationStatus(QStringLiteral("操作状态：step1 正向点动中"));
+        } else if (boundedValue == 3) {
+            updateOperationStatus(QStringLiteral("操作状态：step1 反向点动中"));
+        } else {
+            updateOperationStatus(QStringLiteral("操作状态：step1 点动已松开"));
+        }
+    }
+}
+
 void AppController::scanXmlModelFiles()
 {
     const QStringList xmlDirectories = {
@@ -991,6 +1219,20 @@ void AppController::handleConnectionStatusChanged(bool connected, const QString 
     pendingParameterReadMap_.clear();
     pendingMonitorReadMap_.clear();
     pendingFaultReadMap_.clear();
+    pendingPositionReadMap_.clear();
+    pendingPositionWriteMap_.clear();
+    pendingPositionWriteValueMap_.clear();
+    positionModeBackups_.clear();
+    positionRunActive_ = false;
+    positionSetupApplied_ = false;
+    positionCurrentPollingPaused_ = false;
+    positionCurrentReadPending_ = false;
+    positionCurrentZeroCaptured_ = false;
+    positionCurrentZero_ = 0;
+    if (positionCurrentTimer_) {
+        positionCurrentTimer_->stop();
+    }
+    emit positionPollingPausedChanged(false);
     stopMonitorPolling();
     stopFaultPolling();
     stopServoStatePolling();
@@ -1011,6 +1253,70 @@ void AppController::handleRegisterReadCompleted(int startAddress,
                                                 const QString &message,
                                                 const QString &requestTag)
 {
+    if (requestTag.startsWith(QStringLiteral("position-backup:"))) {
+        const int address = pendingPositionReadMap_.value(requestTag, startAddress);
+        pendingPositionReadMap_.remove(requestTag);
+        if (!positionRunActive_) {
+            return;
+        }
+
+        if (!success || values.isEmpty()) {
+            updateOperationStatus(QStringLiteral("操作状态：定位模式寄存器 %1 备份失败，%2").arg(address).arg(message));
+            return;
+        }
+
+        positionModeBackups_.insert(address, values.first());
+        if (address == kPositionEnableRegister) {
+            emit positionEnableStateChanged(values.first() == 1);
+        }
+        maybeApplyPositionSetupAfterBackup();
+        return;
+    }
+
+    if (requestTag.startsWith(QStringLiteral("position-init:"))) {
+        const int address = pendingPositionReadMap_.value(requestTag, startAddress);
+        pendingPositionReadMap_.remove(requestTag);
+        if (!positionRunActive_) {
+            return;
+        }
+
+        if (!success || values.isEmpty()) {
+            updateOperationStatus(QStringLiteral("操作状态：定位寄存器 %1 初始化读取失败，%2").arg(address).arg(message));
+            return;
+        }
+
+        if (address == kPositionEnableRegister) {
+            emit positionEnableStateChanged(values.first() == 1);
+        } else {
+            emit positionRegisterValueChanged(address, positionValueFromRegisters(address, values));
+        }
+        return;
+    }
+
+    if (requestTag.startsWith(QStringLiteral("position-current:"))) {
+        pendingPositionReadMap_.remove(requestTag);
+        positionCurrentReadPending_ = false;
+        if (!positionRunActive_) {
+            return;
+        }
+
+        if (success && values.size() >= kPositionCurrentRegisterCount) {
+            const quint32 rawPosition = (static_cast<quint32>(values.at(1)) << 16U) | values.at(0);
+            const qint32 absolutePosition = static_cast<qint32>(rawPosition);
+            if (!positionCurrentZeroCaptured_) {
+                positionCurrentZero_ = absolutePosition;
+                positionCurrentZeroCaptured_ = true;
+            }
+
+            const qint64 relativePosition = static_cast<qint64>(absolutePosition) - positionCurrentZero_;
+            const qint64 boundedPosition = std::clamp(relativePosition,
+                                                      static_cast<qint64>(std::numeric_limits<qint32>::min()),
+                                                      static_cast<qint64>(std::numeric_limits<qint32>::max()));
+            emit positionCurrentPositionChanged(static_cast<qint32>(boundedPosition));
+        }
+        return;
+    }
+
     if (requestTag.startsWith(QStringLiteral("factory-reset-check:"))
         || requestTag.startsWith(QStringLiteral("motor-reset-check:"))) {
         if (!success || values.isEmpty()) {
@@ -1103,6 +1409,33 @@ void AppController::handleRegisterWriteCompleted(int startAddress,
                                                  const QString &message,
                                                  const QString &requestTag)
 {
+    if (requestTag.startsWith(QStringLiteral("position-"))) {
+        const int address = pendingPositionWriteMap_.value(requestTag, startAddress);
+        const qint64 value = pendingPositionWriteValueMap_.value(requestTag, 0);
+        pendingPositionWriteMap_.remove(requestTag);
+        pendingPositionWriteValueMap_.remove(requestTag);
+
+        if (!success) {
+            updateOperationStatus(QStringLiteral("操作状态：定位寄存器 %1 写入失败，%2").arg(address).arg(message));
+            return;
+        }
+
+        if (requestTag.startsWith(QStringLiteral("position-input:"))) {
+            emit positionRegisterValueChanged(address, value);
+            updateOperationStatus(QStringLiteral("操作状态：定位寄存器 %1 写入完成").arg(address));
+        } else if (requestTag.startsWith(QStringLiteral("position-enable:"))) {
+            emit positionEnableStateChanged(value == 1);
+            updateOperationStatus(value == 1
+                                      ? QStringLiteral("操作状态：定位使能已下发")
+                                      : QStringLiteral("操作状态：定位失能已下发"));
+        } else if (requestTag.startsWith(QStringLiteral("position-setup:"))) {
+            updateOperationStatus(QStringLiteral("操作状态：定位模式寄存器 %1 设置完成").arg(address));
+        } else if (requestTag.startsWith(QStringLiteral("position-restore:"))) {
+            updateOperationStatus(QStringLiteral("操作状态：定位模式寄存器 %1 已恢复").arg(address));
+        }
+        return;
+    }
+
     if (requestTag.startsWith(QStringLiteral("save-user:"))
         || requestTag.startsWith(QStringLiteral("save-motor:"))) {
         updateOperationStatus(success
@@ -1375,11 +1708,204 @@ void AppController::updateFaultRegisterSnapshot(int startAddress, const QVector<
     refreshServoAlarmFaultText();
 }
 
+/**
+ * @brief Reads the position-run initialization registers displayed by the QWidget panel.
+ * @author mozhengjie
+ */
+void AppController::readPositionInitialRegisters()
+{
+    const int initialRegisters[] = {kPositionJogSpeedRegister,
+                                    kPositionJogAccelerationRegister,
+                                    kPositionJogDecelerationRegister,
+                                    kPositionRunDistanceRegister,
+                                    kPositionWaitTimeRegister};
+    for (const int address : initialRegisters) {
+        const RegisterDefinition *definition = registerDefinitionForAddress(address);
+        readPositionRegister(address,
+                             definition ? registerCountForParameter(*definition) : 1,
+                             QStringLiteral("position-init"));
+    }
+}
+
+/**
+ * @brief Polls signed 32-bit current position from Pn449/Pn450 when the position panel is active.
+ * @author mozhengjie
+ */
+void AppController::pollPositionCurrentPosition()
+{
+    if (!positionRunActive_ || positionCurrentPollingPaused_ || positionCurrentReadPending_) {
+        return;
+    }
+    if (!modbusClient_ || !modbusClient_->isConnected()) {
+        return;
+    }
+    if (!pendingPositionWriteMap_.isEmpty()) {
+        return;
+    }
+
+    const QString requestTag = QStringLiteral("position-current:%1").arg(++modbusRequestSerial_);
+    pendingPositionReadMap_.insert(requestTag, kPositionCurrentLowRegister);
+    positionCurrentReadPending_ = true;
+    if (!modbusClient_->readHoldingRegisters(kPositionCurrentLowRegister,
+                                             kPositionCurrentRegisterCount,
+                                             requestTag)) {
+        pendingPositionReadMap_.remove(requestTag);
+        positionCurrentReadPending_ = false;
+    }
+}
+
+/**
+ * @brief Sends a tagged position-run register read request.
+ * @author mozhengjie
+ * @param address Modbus register address.
+ * @param registerCount Number of holding registers to read.
+ * @param requestPrefix Position request prefix.
+ * @return bool true when the request is queued.
+ */
+bool AppController::readPositionRegister(int address, int registerCount, const QString &requestPrefix)
+{
+    if (!modbusClient_ || !modbusClient_->isConnected()) {
+        return false;
+    }
+
+    const QString requestTag = QStringLiteral("%1:%2:%3")
+                                   .arg(requestPrefix)
+                                   .arg(address)
+                                   .arg(++modbusRequestSerial_);
+    pendingPositionReadMap_.insert(requestTag, address);
+    if (modbusClient_->readHoldingRegisters(address, qMax(1, registerCount), requestTag)) {
+        return true;
+    }
+
+    pendingPositionReadMap_.remove(requestTag);
+    return false;
+}
+
+/**
+ * @brief Sends a tagged position-run register write request.
+ * @author mozhengjie
+ * @param address Modbus register address.
+ * @param value Value to convert and write.
+ * @param requestPrefix Position request prefix.
+ * @return bool true when the request is queued.
+ */
+bool AppController::writePositionRawRegister(int address, qint64 value, const QString &requestPrefix)
+{
+    if (!ensureModbusReady(QStringLiteral("定位运行"))) {
+        return false;
+    }
+
+    const QVector<quint16> registers = positionRegistersForValue(address, value);
+    if (registers.isEmpty()) {
+        updateOperationStatus(QStringLiteral("操作状态：定位寄存器 %1 数值无效").arg(address));
+        return false;
+    }
+
+    const QString requestTag = QStringLiteral("%1:%2:%3")
+                                   .arg(requestPrefix)
+                                   .arg(address)
+                                   .arg(++modbusRequestSerial_);
+    pendingPositionWriteMap_.insert(requestTag, address);
+    pendingPositionWriteValueMap_.insert(requestTag, value);
+    if (modbusClient_->writeHoldingRegisters(address, registers, requestTag)) {
+        return true;
+    }
+
+    pendingPositionWriteMap_.remove(requestTag);
+    pendingPositionWriteValueMap_.remove(requestTag);
+    return false;
+}
+
+/**
+ * @brief Converts a position-run value to low-word-first Modbus registers.
+ * @author mozhengjie
+ * @param address Modbus register address.
+ * @param value Numeric value to write.
+ * @return QVector<quint16> Register words; empty when conversion fails.
+ */
+QVector<quint16> AppController::positionRegistersForValue(int address, qint64 value) const
+{
+    if (const RegisterDefinition *definition = registerDefinitionForAddress(address)) {
+        QVector<quint16> registers;
+        if (convertParameterValueToRegisters(*definition, QString::number(value), &registers)) {
+            return registers;
+        }
+        return {};
+    }
+
+    if (value < std::numeric_limits<qint16>::min() || value > std::numeric_limits<quint16>::max()) {
+        return {};
+    }
+    return {static_cast<quint16>(value & 0xFFFF)};
+}
+
+/**
+ * @brief Converts low-word-first position-run registers to a display integer.
+ * @author mozhengjie
+ * @param address Modbus register address.
+ * @param values Raw register values.
+ * @return qint64 Display value.
+ */
+qint64 AppController::positionValueFromRegisters(int address, const QVector<quint16> &values) const
+{
+    if (values.isEmpty()) {
+        return 0;
+    }
+
+    if (const RegisterDefinition *definition = registerDefinitionForAddress(address)) {
+        bool ok = false;
+        const qint64 value = parameterValueFromRegisters(*definition, values).toLongLong(&ok);
+        return ok ? value : 0;
+    }
+
+    return values.first();
+}
+
+/**
+ * @brief Finds the XML parameter definition for a Modbus address when available.
+ * @author mozhengjie
+ * @param address Modbus register address.
+ * @return const RegisterDefinition* Matching XML definition, or nullptr.
+ */
+const RegisterDefinition *AppController::registerDefinitionForAddress(int address) const
+{
+    for (const RegisterDefinition &definition : currentConfig_.registers) {
+        int parsedAddress = 0;
+        if (parseSingleAddress(definition.modbusAddr, &parsedAddress) && parsedAddress == address) {
+            return &definition;
+        }
+    }
+    return nullptr;
+}
+
+/**
+ * @brief Applies Pn0/Pn1 position setup after Pn0/Pn1/Pn44 original values have been backed up.
+ * @author mozhengjie
+ */
+void AppController::maybeApplyPositionSetupAfterBackup()
+{
+    if (!positionRunActive_ || positionSetupApplied_) {
+        return;
+    }
+    if (!positionModeBackups_.contains(kPositionControlModeRegister)
+        || !positionModeBackups_.contains(kPositionCommandSourceRegister)
+        || !positionModeBackups_.contains(kPositionEnableRegister)) {
+        return;
+    }
+
+    positionSetupApplied_ = true;
+    writePositionRawRegister(kPositionControlModeRegister, 0, QStringLiteral("position-setup"));
+    writePositionRawRegister(kPositionCommandSourceRegister, 3, QStringLiteral("position-setup"));
+    updateOperationStatus(QStringLiteral("操作状态：定位运行控制模式已下发"));
+}
+
 bool AppController::hasHighPriorityModbusWork() const
 {
     return !pendingParameterUploadQueue_.isEmpty()
            || !pendingParameterDownloadQueue_.isEmpty()
            || !pendingParameterReadMap_.isEmpty()
            || !pendingMonitorReadMap_.isEmpty()
-           || !pendingFaultReadMap_.isEmpty();
+           || !pendingFaultReadMap_.isEmpty()
+           || !pendingPositionReadMap_.isEmpty()
+           || !pendingPositionWriteMap_.isEmpty();
 }

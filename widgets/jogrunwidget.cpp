@@ -1,5 +1,6 @@
 #include "widgets/jogrunwidget.h"
 
+#include <QFont>
 #include <QLabel>
 #include <QVBoxLayout>
 
@@ -17,14 +18,15 @@ JogRunWidget::JogRunWidget(QWidget *parent)
     auto *label = new QLabel(QStringLiteral("点动运行窗体"), this);
     label->setAlignment(Qt::AlignCenter);
     QFont font = label->font();
+    font.setFamily(QStringLiteral("宋体"));
     font.setPointSize(11);
-    font.setBold(true);
+    font.setWeight(QFont::Medium);
     label->setFont(font);
     layout->addWidget(label);
 
     setMinimumSize(80, 60);
     setStyleSheet(QStringLiteral(
-        "JogRunWidget { background: #F4F4F4; color: #000000; border: 1px solid #000000; font-size: 11px; }"
-        "QLabel { background: transparent; color: #000000; font-size: 11px; }"
+        "JogRunWidget { background: #F4F4F4; color: #000000; border: 1px solid #000000; font-family: '宋体'; font-size: 11px; }"
+        "QLabel { background: transparent; color: #000000; font-family: '宋体'; font-size: 11px; }"
     ));
 }

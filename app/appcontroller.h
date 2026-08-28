@@ -264,6 +264,67 @@ public:
      */
     Q_INVOKABLE void requestMotorResetCommand();
 
+    /**
+     * @brief 进入定位运行模式，初始化定位寄存器并启动当前位置轮询。
+     * @author mozhengjie
+     */
+    void enterPositionRunMode();
+
+    /**
+     * @brief 退出定位运行模式，停止当前位置轮询并恢复 Pn0/Pn1/Pn44 原始值。
+     * @author mozhengjie
+     */
+    void leavePositionRunMode();
+
+    /**
+     * @brief 切换当前位置 100ms 轮询的暂停/恢复状态。
+     * @author mozhengjie
+     */
+    void togglePositionCurrentPolling();
+
+    /**
+     * @brief 写入定位运行输入框对应的参数寄存器。
+     * @author mozhengjie
+     * @param address Modbus 寄存器地址。
+     * @param value 写入值。
+     */
+    void writePositionRunRegister(int address, qint64 value);
+
+    /**
+     * @brief 写入定位运行使能寄存器 Pn44。
+     * @author mozhengjie
+     * @param enabled true 写 1，false 写 0。
+     */
+    void writePositionEnable(bool enabled);
+
+    /**
+     * @brief 写入单次/往返/连续运行方式对应的 Pn86/Pn88 组合。
+     * @author mozhengjie
+     * @param modeIndex 0 单次，1 往返，2 连续。
+     */
+    void writePositionCycleMode(int modeIndex);
+
+    /**
+     * @brief 写入定位运行方向寄存器 Pn87。
+     * @author mozhengjie
+     * @param reverse true 反向，false 正向。
+     */
+    void writePositionDirection(bool reverse);
+
+    /**
+     * @brief 写入定位运行/暂停寄存器 Pn89。
+     * @author mozhengjie
+     * @param paused true 暂停，false 运行。
+     */
+    void writePositionPause(bool paused);
+
+    /**
+     * @brief 写入 step1 正/反向点动寄存器 Pn59。
+     * @author mozhengjie
+     * @param commandValue 3 反向，4 正向，6 停止。
+     */
+    void writePositionStepJogCommand(int commandValue);
+
 signals:
     void modelNamesChanged();
     void currentModelIndexChanged();
@@ -277,6 +338,10 @@ signals:
     void monitorIntervalMsChanged();
     void monitorPollingActiveChanged();
     void servoStateChanged();
+    void positionRegisterValueChanged(int address, qint64 value);
+    void positionEnableStateChanged(bool enabled);
+    void positionCurrentPositionChanged(qint32 value);
+    void positionPollingPausedChanged(bool paused);
     void toastRequested(const QString &message);
 
 private:
@@ -319,6 +384,14 @@ private:
     void pollFaultRegisters();
     void requestFaultRegisters(const QString &requestPrefix);
     void updateFaultRegisterSnapshot(int startAddress, const QVector<quint16> &values);
+    void readPositionInitialRegisters();
+    void pollPositionCurrentPosition();
+    bool readPositionRegister(int address, int registerCount, const QString &requestPrefix);
+    bool writePositionRawRegister(int address, qint64 value, const QString &requestPrefix);
+    QVector<quint16> positionRegistersForValue(int address, qint64 value) const;
+    qint64 positionValueFromRegisters(int address, const QVector<quint16> &values) const;
+    const RegisterDefinition *registerDefinitionForAddress(int address) const;
+    void maybeApplyPositionSetupAfterBackup();
     bool hasHighPriorityModbusWork() const;
 
     ParameterTableModel parameterModel_;
@@ -328,6 +401,7 @@ private:
     QTimer *monitorTimer_ = nullptr;
     QTimer *servoStateTimer_ = nullptr;
     QTimer *faultPollTimer_ = nullptr;
+    QTimer *positionCurrentTimer_ = nullptr;
     CommunicationConfig communicationConfig_;
     QVector<DeviceConfig> availableConfigs_;
     DeviceConfig currentConfig_;
@@ -341,6 +415,10 @@ private:
     QHash<QString, RegisterDefinition> pendingParameterReadMap_;
     QHash<QString, MonitorDefinition> pendingMonitorReadMap_;
     QHash<QString, int> pendingFaultReadMap_;
+    QHash<QString, int> pendingPositionReadMap_;
+    QHash<QString, int> pendingPositionWriteMap_;
+    QHash<QString, qint64> pendingPositionWriteValueMap_;
+    QHash<int, quint16> positionModeBackups_;
     int currentModelIndex_ = 0;
     int progressValue_ = 0;
     int progressMaximum_ = 100;
@@ -355,6 +433,12 @@ private:
     bool parameterUploadIsAutomatic_ = false;
     bool monitorPollingActive_ = false;
     bool servoAlarmActive_ = false;
+    bool positionRunActive_ = false;
+    bool positionSetupApplied_ = false;
+    bool positionCurrentPollingPaused_ = false;
+    bool positionCurrentReadPending_ = false;
+    bool positionCurrentZeroCaptured_ = false;
+    qint32 positionCurrentZero_ = 0;
     QString progressText_;
     QString servoStateText_;
 };

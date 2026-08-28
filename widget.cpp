@@ -508,7 +508,7 @@ QWidget *Widget::createLeftPanel()
 
     // 型号选择由 scanXmlModelFiles() 扫描 XML 目录后动态填充。
     auto *modelTitle = new QLabel(QStringLiteral("选择电机型号"));
-    modelTitle->setStyleSheet(QStringLiteral("font-weight: 600; color: #000000;"));
+    modelTitle->setStyleSheet(QStringLiteral("font-weight: 500; color: #000000;"));
     layout->addWidget(modelTitle);
 
     modelSelector_ = new QComboBox;
@@ -617,7 +617,7 @@ QWidget *Widget::createParameterActionPanel()
     layout->setSpacing(6);
 
     auto *title = new QLabel(QStringLiteral("参数操作"));
-    title->setStyleSheet(QStringLiteral("font-weight: 600; color: #000000;"));
+    title->setStyleSheet(QStringLiteral("font-weight: 500; color: #000000;"));
     layout->addWidget(title);
 
     const QStringList actions = {QStringLiteral("上传全部"), QStringLiteral("下载全部"),
@@ -646,7 +646,7 @@ QWidget *Widget::createMonitorActionPanel()
     layout->setSpacing(6);
 
     auto *title = new QLabel(QStringLiteral("监控操作"));
-    title->setStyleSheet(QStringLiteral("font-weight: 600; color: #000000;"));
+    title->setStyleSheet(QStringLiteral("font-weight: 500; color: #000000;"));
     layout->addWidget(title);
 
     auto *intervalLabel = new QLabel(QStringLiteral("监控间隔 ms"));
@@ -684,7 +684,7 @@ QWidget *Widget::createFaultActionPanel()
     layout->setSpacing(6);
 
     auto *title = new QLabel(QStringLiteral("故障操作"));
-    title->setStyleSheet(QStringLiteral("font-weight: 600; color: #000000;"));
+    title->setStyleSheet(QStringLiteral("font-weight: 500; color: #000000;"));
     layout->addWidget(title);
 
     auto *hint = new QLabel(QStringLiteral("点击故障总表启动/关闭 1000ms 故障轮询"));
@@ -710,7 +710,7 @@ QWidget *Widget::createScopeActionPanel()
     layout->setSpacing(6);
 
     auto *title = new QLabel(QStringLiteral("示波器"));
-    title->setStyleSheet(QStringLiteral("font-weight: 600; color: #000000;"));
+    title->setStyleSheet(QStringLiteral("font-weight: 500; color: #000000;"));
     layout->addWidget(title);
 
     auto *hint = new QLabel(QStringLiteral("示波器功能待实现"));
@@ -739,7 +739,7 @@ QWidget *Widget::createParameterPage()
     titleLayout->setSpacing(10);
 
     auto *title = new QLabel(QStringLiteral("参数总表"));
-    title->setStyleSheet(QStringLiteral("font-size: 18px; font-weight: 600; color: #000000;"));
+    title->setStyleSheet(QStringLiteral("font-size: 18px; font-weight: 500; color: #000000;"));
     titleLayout->addWidget(title);
     titleLayout->addStretch(1);
 
@@ -768,7 +768,7 @@ QWidget *Widget::createParameterPage()
     parameterTable_->setEditTriggers(QAbstractItemView::NoEditTriggers);
     parameterTable_->setStyleSheet(QStringLiteral(
         "QTableView { background: #FFFFFF; alternate-background-color: #F1F1F1; gridline-color: #B8B8B8; }"
-        "QHeaderView::section { background: #EFEFEF; border: 1px solid #B8B8B8; padding: 5px; font-weight: 600; color: #000000; }"
+        "QHeaderView::section { background: #EFEFEF; border: 1px solid #B8B8B8; padding: 5px; font-weight: 500; color: #000000; }"
         "QTableView::item { padding: 4px; color: #000000; }"));
     configureFixedTableArea(parameterTable_);
     parameterTable_->setColumnWidth(ParameterTableModel::SelectColumn, 56);
@@ -822,7 +822,7 @@ QWidget *Widget::createMonitorPage()
     titleLayout->setSpacing(10);
 
     auto *title = new QLabel(QStringLiteral("监控总表"));
-    title->setStyleSheet(QStringLiteral("font-size: 18px; font-weight: 600; color: #000000;"));
+    title->setStyleSheet(QStringLiteral("font-size: 18px; font-weight: 500; color: #000000;"));
     titleLayout->addWidget(title);
     titleLayout->addStretch(1);
 
@@ -849,7 +849,7 @@ QWidget *Widget::createMonitorPage()
     monitorTable_->setEditTriggers(QAbstractItemView::NoEditTriggers);
     monitorTable_->setStyleSheet(QStringLiteral(
         "QTableView { background: #FFFFFF; alternate-background-color: #F1F1F1; gridline-color: #B8B8B8; }"
-        "QHeaderView::section { background: #EFEFEF; border: 1px solid #B8B8B8; padding: 5px; font-weight: 600; color: #000000; }"
+        "QHeaderView::section { background: #EFEFEF; border: 1px solid #B8B8B8; padding: 5px; font-weight: 500; color: #000000; }"
         "QTableView::item { padding: 4px; color: #000000; }"));
     configureFixedTableArea(monitorTable_);
     monitorTable_->setColumnWidth(MonitorTableModel::SelectColumn, 56);
@@ -881,7 +881,7 @@ QWidget *Widget::createFaultPage()
     titleLayout->setSpacing(10);
 
     auto *title = new QLabel(QStringLiteral("故障总表"));
-    title->setStyleSheet(QStringLiteral("font-size: 18px; font-weight: 600; color: #000000;"));
+    title->setStyleSheet(QStringLiteral("font-size: 18px; font-weight: 500; color: #000000;"));
     titleLayout->addWidget(title);
     titleLayout->addStretch(1);
     layout->addLayout(titleLayout);
@@ -894,7 +894,7 @@ QWidget *Widget::createFaultPage()
     faultTable_->setEditTriggers(QAbstractItemView::NoEditTriggers);
     faultTable_->setStyleSheet(QStringLiteral(
         "QTableView { background: #FFFFFF; alternate-background-color: #F1F1F1; gridline-color: #B8B8B8; }"
-        "QHeaderView::section { background: #EFEFEF; border: 1px solid #B8B8B8; padding: 5px; font-weight: 600; color: #000000; }"
+        "QHeaderView::section { background: #EFEFEF; border: 1px solid #B8B8B8; padding: 5px; font-weight: 500; color: #000000; }"
         "QTableView::item { padding: 4px; color: #000000; }"));
     configureFixedTableArea(faultTable_);
     faultTable_->setColumnWidth(FaultTableModel::AddressColumn, 110);
@@ -921,7 +921,7 @@ QWidget *Widget::createScopePage()
     layout->setSpacing(8);
 
     auto *title = new QLabel(QStringLiteral("示波器"));
-    title->setStyleSheet(QStringLiteral("font-size: 18px; font-weight: 600; color: #000000;"));
+    title->setStyleSheet(QStringLiteral("font-size: 18px; font-weight: 500; color: #000000;"));
     layout->addWidget(title);
 
     auto *placeholder = new QLabel(QStringLiteral("示波器窗体"));
@@ -1372,7 +1372,7 @@ void Widget::showToolPlaceholderDialog(const QString &title)
 
     auto *placeholder = new QLabel(QStringLiteral("%1窗体").arg(title));
     placeholder->setAlignment(Qt::AlignCenter);
-    placeholder->setStyleSheet(QStringLiteral("font-size: 18px; font-weight: 600;"));
+    placeholder->setStyleSheet(QStringLiteral("font-size: 18px; font-weight: 500;"));
     layout->addWidget(placeholder, 1);
 
     auto *closeButton = new QPushButton(QStringLiteral("关闭"));
@@ -1555,7 +1555,7 @@ QWidget *Widget::createRunDockToolbar(const QString &title)
     layout->setSpacing(4);
 
     auto *caption = new QLabel(title);
-    caption->setStyleSheet(QStringLiteral("QLabel { color: #000000; font-size: 11px; font-weight: 600; }"));
+    caption->setStyleSheet(QStringLiteral("QLabel { color: #000000; font-size: 11px; font-weight: 500; }"));
     layout->addWidget(caption);
     layout->addStretch(1);
 
@@ -1656,7 +1656,7 @@ QWidget *Widget::createJogRunPanel()
     placeholder->setAlignment(Qt::AlignCenter);
     placeholder->setMinimumWidth(0);
     placeholder->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
-    placeholder->setStyleSheet(QStringLiteral("font-size: 18px; font-weight: 600; color: #000000;"));
+    placeholder->setStyleSheet(QStringLiteral("font-size: 18px; font-weight: 500; color: #000000;"));
     layout->addWidget(placeholder, 1);
     return panel;
 }
@@ -1669,44 +1669,67 @@ QWidget *Widget::createJogRunPanel()
 QWidget *Widget::createPositionRunPanel()
 {
     // 定位运行面板的设计尺寸和压缩边界集中在此处维护，便于后续统一调整。
-    constexpr int kDialogWidth = 820;
-    constexpr int kDialogHeight = 420;
+    // kDialogWidth：定位运行浮动窗体的默认设计宽度，影响首次弹出和恢复默认大小时的横向空间。
+    constexpr int kDialogWidth = 1000;
+    // kDialogHeight：定位运行浮动窗体的默认设计高度，影响 step1、step2 和位置展示区的默认纵向空间。
+    constexpr int kDialogHeight = 650;
 
     // 普通数值输入框保持 98px 默认宽度，最小宽度为默认宽度的一半。
-    constexpr int kInputWidth = 98;
+    // kInputWidth：step1/step2 中普通数值输入框的默认宽度。
+    constexpr int kInputWidth = 70;
+    // kInputHeight：step1/step2 中普通数值输入框的固定高度，压缩窗体时不压缩高度。
     constexpr int kInputHeight = 18;
+    // kInputMinWidth：普通数值输入框允许压缩到的最小宽度，防止横向压缩时输入框消失。
     constexpr int kInputMinWidth = kInputWidth / 2;
 
     // 按钮默认宽度为 110px，最小宽度为默认宽度的一半。
-    constexpr int kButtonWidth = 110;
+    // kButtonWidth：使能、方向、单次/连续、运行/暂停等按钮的默认宽度。
+    constexpr int kButtonWidth = 100;
+    // kButtonHeight：所有运行按钮的固定高度，保持按钮文字垂直居中。
     constexpr int kButtonHeight = 20;
+    // kButtonMinWidth：按钮允许压缩到的最小宽度，防止 Dock 嵌入压缩时按钮互相覆盖。
     constexpr int kButtonMinWidth = kButtonWidth / 2;
 
     // 正/负极限输入框默认宽度独立设置，最小宽度为默认宽度的一半。
+    // kLimitWidth：正/负极限位置输入框的默认宽度，需能完整展示常用 int32 位置值。
     constexpr int kLimitWidth = 111;
+    // kLimitHeight：正/负极限位置输入框的固定高度。
     constexpr int kLimitHeight = 22;
+    // kLimitMinWidth：正/负极限位置输入框允许压缩到的最小宽度。
     constexpr int kLimitMinWidth = (kLimitWidth + 1) / 2;
 
     // 当前位置显示框只读展示，最小宽度为默认宽度的一半。
+    // kCurrentWidth：当前位置只读显示框的默认宽度。
     constexpr int kCurrentWidth = 117;
+    // kCurrentHeight：当前位置只读显示框的固定高度。
     constexpr int kCurrentHeight = 22;
+    // kCurrentMinWidth：当前位置只读显示框允许压缩到的最小宽度。
     constexpr int kCurrentMinWidth = (kCurrentWidth + 1) / 2;
+    // kInputHorizontalGap：标签和输入框之间的默认横向间隔，空间不足时由 spacer 优先压缩。
     constexpr int kInputHorizontalGap = 23;
+    // kStep1VerticalGap：step1 三行输入框之间的默认纵向间隔，保持点动参数行距清晰。
     constexpr int kStep1VerticalGap = 17;
-    constexpr int kStep2VerticalGap = 8;
-    constexpr int kWaitButtonGap = 16;
+    // kStep2VerticalGap：step2 五行输入框之间的默认纵向间隔，较小值用于容纳更多参数行。
+    constexpr int kStep2VerticalGap = 4;
+    // kWaitButtonGap：step2“等待时间”输入行和底部按钮之间的默认缓冲高度。
+    constexpr int kWaitButtonGap = 10;
+    // kDefaultNegativeLimit：位置展示滑动条和负极限输入框的默认最小位置。
     constexpr int kDefaultNegativeLimit = -200000;
+    // kDefaultPositiveLimit：位置展示滑动条和正极限输入框的默认最大位置。
     constexpr int kDefaultPositiveLimit = 200000;
 
     auto *panel = new QWidget;
     panel->setObjectName(QStringLiteral("positionRunPanel"));
+    // resize：设置浮动窗体首次创建时的默认显示尺寸，不作为最终压缩下限。
     panel->resize(kDialogWidth, kDialogHeight);
     // 整体面板最小尺寸限制 dock 被过度压缩，避免内部三块窗体和控件互相覆盖。
     panel->setMinimumSize(420, 300);
+    // Ignored 策略允许 QDockWidget/Splitter 在嵌入时按可用空间重新分配面板尺寸。
     panel->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
     panel->setStyleSheet(QStringLiteral(
+        /* 样式表中的 px 值控制字体、边框、输入框最小高度和滑块手柄尺寸；这些值需要与上方控件尺寸常量同步维护。 */
         "QWidget#positionRunPanel { background: #FFFFFF; }"
-        "QGroupBox { background: #F4F4F4; border: 0.65px solid #000000; margin-top: 12px; color: #000000; font-size: 11px; font-weight: 600; }"
+        "QGroupBox { background: #F4F4F4; border: 0.65px solid #000000; margin-top: 12px; color: #000000; font-size: 11px; font-weight: 500; }"
         "QGroupBox::title { subcontrol-origin: margin; subcontrol-position: top center; padding: 0 12px; background: #F4F4F4; color: #000000; }"
         "QLabel { background: transparent; color: #000000; font-size: 11px; }"
         "QLineEdit { background: #FFFFFF; border: 0.65px solid #000000; color: #000000; font-size: 11px; min-height: 16px; padding: 1px 3px; }"
@@ -1726,6 +1749,7 @@ QWidget *Widget::createPositionRunPanel()
     auto *rootLayout = new QVBoxLayout(panel);
     // 根布局只保留 2px 外边距，把可用空间尽量留给 step1/step2/位置展示区域。
     rootLayout->setContentsMargins(2, 2, 2, 2);
+    // 根布局内部间距为 0，避免工具条和主 Splitter 之间产生额外空白。
     rootLayout->setSpacing(0);
     rootLayout->addWidget(createRunDockToolbar(QStringLiteral("定位运行")));
 
@@ -1738,6 +1762,7 @@ QWidget *Widget::createPositionRunPanel()
     auto createNumericEdit = [numberValidator](bool readOnly = false) {
         auto *edit = new QLineEdit;
         edit->setAlignment(Qt::AlignCenter);
+        // resize：给输入框一个默认视觉尺寸，后续由布局根据可用宽度压缩或恢复。
         edit->resize(kInputWidth, kInputHeight);
         // 默认按 kInputWidth 显示，窗口变窄时最多压缩到 kInputMinWidth。
         edit->setMinimumSize(kInputMinWidth, kInputHeight);
@@ -1752,6 +1777,7 @@ QWidget *Widget::createPositionRunPanel()
     auto createLimitEdit = [int32Validator]() {
         auto *edit = new QLineEdit;
         edit->setAlignment(Qt::AlignCenter);
+        // resize：给极限位置输入框一个默认视觉尺寸，区别于普通参数输入框。
         edit->resize(kLimitWidth, kLimitHeight);
         // 极限位置输入框允许压缩，但保留足够宽度显示 int32 边界值。
         edit->setMinimumSize(kLimitMinWidth, kLimitHeight);
@@ -1765,6 +1791,7 @@ QWidget *Widget::createPositionRunPanel()
     auto createButton = [](const QString &text) {
         auto *button = new QPushButton(text);
         button->setCursor(Qt::PointingHandCursor);
+        // resize：给按钮一个默认视觉尺寸，实际嵌入时仍受最小/最大宽度约束。
         button->resize(kButtonWidth, kButtonHeight);
         // 按钮默认宽度较宽，最小宽度用于 dock 压缩时防止按钮互相覆盖。
         button->setMinimumSize(kButtonMinWidth, kButtonHeight);
@@ -1788,11 +1815,13 @@ QWidget *Widget::createPositionRunPanel()
 
     auto addCompressibleSpacing = [](QHBoxLayout *layout, int preferredWidth) {
         // 按钮之间默认保留设计间距，空间不足时 spacer 会优先压缩。
+        // preferredWidth：按钮之间的默认横向间距，不是固定宽度。
         layout->addSpacerItem(new QSpacerItem(preferredWidth, 0, QSizePolicy::Preferred, QSizePolicy::Minimum));
     };
 
     auto addCompressibleRowGap = [](QGridLayout *layout, int row, int preferredHeight) {
         // 输入行之间默认保留设计间距，竖向空间不足时可压缩到 0。
+        // preferredHeight：输入行之间的默认纵向间距，不是固定高度。
         layout->addItem(new QSpacerItem(0, preferredHeight, QSizePolicy::Minimum, QSizePolicy::Preferred),
                         row,
                         0,
@@ -1803,9 +1832,11 @@ QWidget *Widget::createPositionRunPanel()
     auto addInputRow = [&](QGridLayout *layout, int row, const QString &labelText) {
         auto *label = new QLabel(labelText);
         label->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
+        // 标签最小宽度为 0，并使用 Ignored 策略，让输入框在窄窗体中优先保留可用宽度。
         label->setMinimumWidth(0);
         label->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Fixed);
         layout->addWidget(label, row, 0);
+        // kInputHorizontalGap spacer 用于控制标签和输入框的横向间隔，压缩时优先让出空间。
         layout->addItem(new QSpacerItem(kInputHorizontalGap, 0, QSizePolicy::Preferred, QSizePolicy::Minimum), row, 1);
         layout->addWidget(createNumericEdit(), row, 2);
     };
@@ -1819,7 +1850,9 @@ QWidget *Widget::createPositionRunPanel()
     leftSplitter->setChildrenCollapsible(false);
     // step1 与 step2 的上下分割条同样保持窄手柄，但仍允许拖动调整高度。
     leftSplitter->setHandleWidth(2);
+    // 左侧 step 区最小宽度保护 step1/step2 的标签、输入框和按钮基础排列。
     leftSplitter->setMinimumWidth(220);
+    // Ignored 策略允许左侧 step 区在外层 Splitter 中被压缩或拉伸。
     leftSplitter->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
 
     auto *step1Group = new QGroupBox(QStringLiteral("step1"));
@@ -1828,7 +1861,9 @@ QWidget *Widget::createPositionRunPanel()
     step1Group->setMinimumHeight(120);
     step1Group->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Expanding);
     auto *step1Layout = new QGridLayout(step1Group);
-    step1Layout->setContentsMargins(27, 25, 27, 18);
+    // step1 内容边距：左、上、右、下，控制输入行和按钮到分组边框的距离。
+    step1Layout->setContentsMargins(100, 25, 100, 18);
+    // step1 网格自身间距为 0，行距/列距由可压缩 spacer 精确控制。
     step1Layout->setHorizontalSpacing(0);
     step1Layout->setVerticalSpacing(0);
     // 输入行保留高度下限，防止 step1 被压缩时行高塌陷为 0。
@@ -1846,6 +1881,7 @@ QWidget *Widget::createPositionRunPanel()
     addCompressibleRowGap(step1Layout, 5, kStep1VerticalGap);
 
     auto *step1ButtonLayout = new QHBoxLayout;
+    // 按钮布局自身间距为 0，按钮之间的间距交给可压缩 spacer 控制。
     step1ButtonLayout->setSpacing(0);
     step1ButtonLayout->addWidget(createButton(QStringLiteral("使能")));
     addCompressibleSpacing(step1ButtonLayout, 32);
@@ -1860,9 +1896,12 @@ QWidget *Widget::createPositionRunPanel()
     step2Group->setMinimumHeight(160);
     step2Group->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Expanding);
     auto *step2Layout = new QGridLayout(step2Group);
+    // step2 内容边距：左、上、右、下，控制五行输入框和按钮区整体留白。
     step2Layout->setContentsMargins(27, 25, 27, 18);
+    // step2 网格自身间距为 0，实际行距由 kStep2VerticalGap / kWaitButtonGap 控制。
     step2Layout->setHorizontalSpacing(0);
     step2Layout->setVerticalSpacing(0);
+    // step2 输入行保留高度下限，确保窗体压缩时输入框高度不被压扁。
     step2Layout->setRowMinimumHeight(0, kInputHeight);
     step2Layout->setRowMinimumHeight(2, kInputHeight);
     step2Layout->setRowMinimumHeight(4, kInputHeight);
@@ -1885,6 +1924,7 @@ QWidget *Widget::createPositionRunPanel()
     addCompressibleRowGap(step2Layout, 9, kWaitButtonGap);
 
     auto *step2ButtonLayout = new QHBoxLayout;
+    // 按钮布局自身间距为 0，按钮间默认间隔由 addCompressibleSpacing 控制。
     step2ButtonLayout->setSpacing(0);
     step2ButtonLayout->addWidget(createButton(QStringLiteral("单次/连续")));
     addCompressibleSpacing(step2ButtonLayout, 28);
@@ -1895,6 +1935,7 @@ QWidget *Widget::createPositionRunPanel()
 
     leftSplitter->addWidget(step1Group);
     leftSplitter->addWidget(step2Group);
+    // 左侧上下分割默认比例：step1 和 step2 初始高度各 180px，用户可拖动调整。
     leftSplitter->setSizes({180, 180});
 
     auto *positionGroup = new QGroupBox(QStringLiteral("位置动态展示"));
@@ -1902,15 +1943,19 @@ QWidget *Widget::createPositionRunPanel()
     positionGroup->setMinimumWidth(170);
     positionGroup->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Expanding);
     auto *positionLayout = new QVBoxLayout(positionGroup);
+    // 位置展示区内容边距：左、上、右、下，控制当前位置、滑动条和极限输入区的整体留白。
     positionLayout->setContentsMargins(21, 33, 21, 36);
+    // 位置展示区布局间距为 0，局部纵向距离由 spacer 和 stretch 控制。
     positionLayout->setSpacing(0);
 
+    // 顶部 stretch 控制“当前位置”区域在位置展示框中垂直居中的弹性空间。
     positionLayout->addStretch(1);
     auto *currentLabel = new QLabel(QStringLiteral("当前位置"));
     currentLabel->setAlignment(Qt::AlignCenter);
     currentLabel->setMinimumWidth(0);
     currentLabel->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Fixed);
     auto *currentValueEdit = createNumericEdit(true);
+    // 当前位置显示框复用普通输入框创建逻辑后，再覆盖为当前位置专用宽高。
     currentValueEdit->resize(kCurrentWidth, kCurrentHeight);
     // 当前值显示框按设计宽度展示，压缩时不低于 kCurrentMinWidth。
     currentValueEdit->setMinimumSize(kCurrentMinWidth, kCurrentHeight);
@@ -1918,8 +1963,10 @@ QWidget *Widget::createPositionRunPanel()
     currentValueEdit->setMaximumHeight(kCurrentHeight);
     currentValueEdit->setText(QStringLiteral("0"));
     positionLayout->addWidget(currentLabel, 0, Qt::AlignHCenter);
+    // 当前位置标题与数值框之间的默认间距，空间不足时可压缩。
     positionLayout->addSpacerItem(new QSpacerItem(0, 14, QSizePolicy::Minimum, QSizePolicy::Preferred));
     positionLayout->addWidget(currentValueEdit, 0, Qt::AlignHCenter);
+    // 当前值数值框与滑动条之间的默认间距，空间不足时可压缩。
     positionLayout->addSpacerItem(new QSpacerItem(0, 14, QSizePolicy::Minimum, QSizePolicy::Preferred));
 
     auto *positionSlider = new QSlider(Qt::Horizontal);
@@ -1932,6 +1979,7 @@ QWidget *Widget::createPositionRunPanel()
     positionSlider->setAttribute(Qt::WA_TransparentForMouseEvents, true);
     positionSlider->setToolTip(QStringLiteral("当前位置展示，范围为 int32"));
     positionLayout->addWidget(positionSlider);
+    // 滑动条和极限输入区之间的默认纵向间距，空间不足时可压缩。
     positionLayout->addSpacerItem(new QSpacerItem(0, 14, QSizePolicy::Minimum, QSizePolicy::Preferred));
 
     auto *limitLayout = new QHBoxLayout;
@@ -1940,6 +1988,7 @@ QWidget *Widget::createPositionRunPanel()
     limitLayout->setSpacing(0);
 
     auto *negativeLimitLayout = new QVBoxLayout;
+    // 单个极限输入组无外边距，整体外边距由 limitLayout 统一控制。
     negativeLimitLayout->setContentsMargins(0, 0, 0, 0);
     negativeLimitLayout->setSpacing(0);
     auto *negativeLimitLabel = new QLabel(QStringLiteral("负极限位置"));
@@ -1952,6 +2001,7 @@ QWidget *Widget::createPositionRunPanel()
     negativeLimitLayout->addWidget(negativeLimitEdit);
 
     auto *positiveLimitLayout = new QVBoxLayout;
+    // 单个极限输入组无外边距，避免左右两个输入组在窄窗口下额外占用空间。
     positiveLimitLayout->setContentsMargins(0, 0, 0, 0);
     positiveLimitLayout->setSpacing(0);
     auto *positiveLimitLabel = new QLabel(QStringLiteral("正极限位置"));
@@ -1980,9 +2030,11 @@ QWidget *Widget::createPositionRunPanel()
     connect(positiveLimitEdit, &QLineEdit::editingFinished, positionSlider, updatePositionSliderRange);
 
     limitLayout->addLayout(negativeLimitLayout);
+    // stretch 负责拉开正/负极限输入组，窗体变窄时优先压缩这段空白。
     limitLayout->addStretch(1);
     limitLayout->addLayout(positiveLimitLayout);
     positionLayout->addLayout(limitLayout);
+    // 底部 stretch 控制极限输入区以下的弹性留白，防止内容贴底。
     positionLayout->addStretch(2);
 
     outerSplitter->addWidget(leftSplitter);

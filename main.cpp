@@ -3,6 +3,7 @@
 
 #include <QCoreApplication>
 #include <QApplication>
+#include <QFont>
 #include <QLocale>
 #include <QQuickStyle>
 #include <QTranslator>
@@ -17,6 +18,11 @@
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
+
+    QFont uiFont(QStringLiteral("宋体"));
+    uiFont.setWeight(QFont::Light);
+    app.setFont(uiFont);
+
     QQuickStyle::setStyle(QStringLiteral("Fusion"));
 
     QTranslator translator;

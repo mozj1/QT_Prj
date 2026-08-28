@@ -21,6 +21,7 @@
 #include <QQmlContext>
 #include <QQuickItem>
 #include <QQuickWidget>
+#include <QScrollArea>
 #include <QScreen>
 #include <QSignalBlocker>
 #include <QSizePolicy>
@@ -47,10 +48,63 @@ constexpr int kLeftPanelPreferredWidth = 220;
 constexpr int kLeftPanelMinimumWidth = 170;
 constexpr int kStatusBarPreferredHeight = 28;
 constexpr int kStatusBarMinimumHeight = 24;
-constexpr int kRunDockMinimumWidth = 80;
-constexpr int kRunDockMinimumHeight = 60;
-constexpr int kRunDockDefaultWidth = 437;
-constexpr int kRunDockDefaultHeight = 259;
+constexpr int kRunDockMinimumWidth = 56;
+constexpr int kRunDockMinimumHeight = 42;
+constexpr int kRunDockDefaultWidth = 540;
+constexpr int kRunDockDefaultHeight = 340;
+constexpr int kRunDockDefaultRightWidth = 360;
+constexpr int kRunDockDefaultBottomHeight = 220;
+
+/**
+ * @brief 运行 Dock 的可压缩内容容器，用滚动视口隔离内部控件的 minimumSizeHint 对外层 Dock 的限制。
+ * @author mozhengjie
+ */
+class RunDockScrollArea final : public QScrollArea
+{
+public:
+    /**
+     * @brief 构造可压缩滚动容器并承载运行面板内容。
+     * @author mozhengjie
+     * @param contentWidget 运行面板内容控件。
+     * @param parent 父控件指针。
+     */
+    explicit RunDockScrollArea(QWidget *contentWidget, QWidget *parent = nullptr)
+        : QScrollArea(parent)
+    {
+        setObjectName(QStringLiteral("runDockScrollArea"));
+        setFrameShape(QFrame::NoFrame);
+        setWidgetResizable(true);
+        setHorizontalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+        setVerticalScrollBarPolicy(Qt::ScrollBarAsNeeded);
+        setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
+        setMinimumSize(kRunDockMinimumWidth, kRunDockMinimumHeight);
+        viewport()->setAutoFillBackground(true);
+        setStyleSheet(QStringLiteral(
+            "QScrollArea#runDockScrollArea { background: #F4F4F4; }"
+            "QScrollArea#runDockScrollArea > QWidget { background: #F4F4F4; }"));
+        setWidget(contentWidget);
+    }
+
+    /**
+     * @brief 返回外层 Dock 允许压缩到的最小尺寸，避免内部布局提示提前卡住主分割线。
+     * @author mozhengjie
+     * @return QSize Dock 内容视口最小尺寸。
+     */
+    QSize minimumSizeHint() const override
+    {
+        return QSize(kRunDockMinimumWidth, kRunDockMinimumHeight);
+    }
+
+    /**
+     * @brief 返回运行 Dock 默认建议尺寸，保持首次弹出时的设计尺寸不受滚动容器影响。
+     * @author mozhengjie
+     * @return QSize Dock 内容建议尺寸。
+     */
+    QSize sizeHint() const override
+    {
+        return QSize(kRunDockDefaultWidth, kRunDockDefaultHeight);
+    }
+};
 
 /**
  * @brief Applies a serial-format display string to a communication configuration.
@@ -172,7 +226,9 @@ public:
 
         auto *label = new QLabel(title, this);
         label->setAlignment(Qt::AlignLeft | Qt::AlignVCenter);
-        label->setStyleSheet(QStringLiteral("QLabel { color: #000000; background: transparent; font-size: 11px; font-weight: bold; }"));
+        label->setMinimumWidth(0);
+        label->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Fixed);
+        label->setStyleSheet(QStringLiteral("QLabel { color: #000000; background: transparent; font-family: '宋体'; font-size: 11px; font-weight: 500; }"));
         layout->addWidget(label);
         layout->addStretch(1);
         auto *closeButton = new QToolButton(this);
@@ -180,7 +236,7 @@ public:
         closeButton->setFixedSize(18, 18);
         closeButton->setCursor(Qt::PointingHandCursor);
         closeButton->setStyleSheet(QStringLiteral(
-            "QToolButton { background: #FFFFFF; border: 1px solid #9E9E9E; color: #000000; font-size: 10px; padding: 0px; }"
+            "QToolButton { background: #FFFFFF; border: 1px solid #9E9E9E; color: #000000; font-family: '宋体'; font-size: 10px; padding: 0px; }"
             "QToolButton:hover { background: #FADDE1; border-color: #C78B91; }"));
         connect(closeButton, &QToolButton::clicked, this, [this]() {
             if (closeCallback_) {
@@ -318,6 +374,7 @@ void MainWindow::setActivePage(int pageIndex)
  */
 void MainWindow::showPositionDock()
 {
+    appController_->enterPositionRunMode();
     showRunDock(positionDock_);
 }
 
@@ -569,9 +626,9 @@ QWidget *MainWindow::createBottomStatusBar()
 
     layout->addWidget(connectionStatusLabel_);
     layout->addWidget(selectedModelStatusLabel_);
-    layout->addWidget(progressBar_);
-    layout->addStretch(1);
     layout->addWidget(servoStateLabel_);
+    layout->addStretch(1);
+    layout->addWidget(progressBar_);
     layout->addWidget(operationStatusLabel_);
     return statusBar;
 }
@@ -650,8 +707,8 @@ QDockWidget *MainWindow::createRunDock(const QString &title, QWidget *contentWid
                       QDockWidget::DockWidgetClosable);
     dock->setTitleBarWidget(new RunDockTitleBar(title, dock, [this, dock]() {
         collapseRunDock(dock);
-    }, [dock]() {
-        dock->hide();
+    }, [this, dock]() {
+        closeRunDock(dock);
     }, dock));
 
     connect(dock, &QDockWidget::topLevelChanged, this, [this, dock](bool floating) {
@@ -661,10 +718,10 @@ QDockWidget *MainWindow::createRunDock(const QString &title, QWidget *contentWid
         handleRunDockLocationChanged(dock, area);
     });
 
-    contentWidget->setParent(dock);
     contentWidget->setMinimumSize(kRunDockMinimumWidth, kRunDockMinimumHeight);
-    contentWidget->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
-    dock->setWidget(contentWidget);
+    contentWidget->setSizePolicy(QSizePolicy::Ignored, QSizePolicy::Ignored);
+    auto *scrollArea = new RunDockScrollArea(contentWidget, dock);
+    dock->setWidget(scrollArea);
     dock->setMinimumSize(kRunDockMinimumWidth, kRunDockMinimumHeight);
     dock->resize(kRunDockDefaultWidth, kRunDockDefaultHeight);
     return dock;
@@ -692,12 +749,12 @@ QPushButton *MainWindow::createShellButton(const QString &text)
 void MainWindow::configureShellStyle()
 {
     setStyleSheet(QStringLiteral(
-        "QWidget { color: #000000; font-size: 14px; }"
+        "QWidget { color: #000000; font-family: '宋体'; font-size: 14px; }"
         "#mainShell, #contentDockHost { background: #FFFFFF; }"
         "#topBar { background: #D9F2F0; border: 1px solid #7DAAA6; }"
         "#leftPanel { background: #FFF8DA; border: 1px solid #C8B56A; }"
         "#bottomStatusBar { background: #FADDE1; border: 1px solid #C78B91; }"
-        "QLabel#sectionTitle { font-weight: bold; }"
+        "QLabel#sectionTitle { font-weight: 500; }"
         "QPushButton { background: #FFFFFF; border: 1px solid #9E9E9E; padding: 4px 10px; color: #000000; }"
         "QPushButton:hover { background: #E5F2D8; border-color: #7DAAA6; }"
         "QPushButton:pressed { background: #D4E8C5; }"
@@ -711,7 +768,7 @@ void MainWindow::configureShellStyle()
         "QSplitter::handle { background: #A8A8A8; }"
         "QSplitter::handle:hover { background: #7DAAA6; }"
         "QDockWidget { background: #F4F4F4; color: #000000; titlebar-close-icon: none; titlebar-normal-icon: none; }"
-        "QDockWidget::title { background: #D9F2F0; border: 1px solid #7DAAA6; padding: 4px; text-align: left; color: #000000; }"
+        "QDockWidget::title { background: #D9F2F0; border: 1px solid #7DAAA6; padding: 4px; text-align: left; color: #000000; font-family: '宋体'; font-weight: 500; }"
         "QMainWindow::separator { background: #A8A8A8; width: 4px; height: 4px; }"
         "QMainWindow::separator:hover { background: #7DAAA6; }"
         "QProgressBar { background: #FFFFFF; border: 1px solid #9E9E9E; color: #000000; text-align: center; }"
@@ -734,6 +791,28 @@ void MainWindow::configureConnections()
     connect(appController_, &AppController::monitorIntervalMsChanged, this, &MainWindow::refreshMonitorControls);
     connect(appController_, &AppController::monitorPollingActiveChanged, this, &MainWindow::refreshMonitorControls);
     connect(appController_, &AppController::servoStateChanged, this, &MainWindow::refreshServoStateLabel);
+    connect(positionRunWidget_, &PositionRunWidget::positionRegisterWriteRequested,
+            appController_, &AppController::writePositionRunRegister);
+    connect(positionRunWidget_, &PositionRunWidget::positionEnableWriteRequested,
+            appController_, &AppController::writePositionEnable);
+    connect(positionRunWidget_, &PositionRunWidget::positionCycleModeChanged,
+            appController_, &AppController::writePositionCycleMode);
+    connect(positionRunWidget_, &PositionRunWidget::positionDirectionChanged,
+            appController_, &AppController::writePositionDirection);
+    connect(positionRunWidget_, &PositionRunWidget::positionRunPauseChanged,
+            appController_, &AppController::writePositionPause);
+    connect(positionRunWidget_, &PositionRunWidget::positionStepJogCommandRequested,
+            appController_, &AppController::writePositionStepJogCommand);
+    connect(positionRunWidget_, &PositionRunWidget::currentPositionPollingToggleRequested,
+            appController_, &AppController::togglePositionCurrentPolling);
+    connect(appController_, &AppController::positionRegisterValueChanged,
+            positionRunWidget_, &PositionRunWidget::setRegisterValue);
+    connect(appController_, &AppController::positionEnableStateChanged,
+            positionRunWidget_, &PositionRunWidget::setEnableState);
+    connect(appController_, &AppController::positionCurrentPositionChanged,
+            positionRunWidget_, &PositionRunWidget::setCurrentPosition);
+    connect(appController_, &AppController::positionPollingPausedChanged,
+            positionRunWidget_, &PositionRunWidget::setCurrentPositionPollingPaused);
 }
 
 /**
@@ -789,9 +868,9 @@ void MainWindow::showTransientMessage(const QString &title, const QString &messa
     auto *box = new QMessageBox(QMessageBox::Information, title, message, QMessageBox::NoButton, this);
     box->setAttribute(Qt::WA_DeleteOnClose);
     box->setStyleSheet(QStringLiteral(
-        "QMessageBox { background: #FFFFFF; }"
+        "QMessageBox { background: #FFFFFF; font-family: '宋体'; }"
         "QLabel { color: #000000; background: transparent; }"
-        "QPushButton { background: #FFFFFF; border: 1px solid #A8A8A8; padding: 4px 12px; color: #000000; }"));
+        "QPushButton { background: #FFFFFF; border: 1px solid #A8A8A8; padding: 4px 12px; color: #000000; font-family: '宋体'; }"));
     box->show();
     QTimer::singleShot(2000, box, &QMessageBox::accept);
 }
@@ -929,8 +1008,8 @@ void MainWindow::refreshServoStateLabel()
     servoStateLabel_->setText(appController_->servoStateText());
     const bool alarm = appController_->servoAlarmActive();
     servoStateLabel_->setStyleSheet(alarm
-                                        ? QStringLiteral("QLabel#servoStateLabel { background: #FF4D4F; border: 1px solid #C00000; padding: 1px 6px; color: #000000; }")
-                                        : QStringLiteral("QLabel#servoStateLabel { background: transparent; border: 1px solid transparent; padding: 1px 6px; color: #000000; }"));
+                                        ? QStringLiteral("QLabel#servoStateLabel { background: #FF4D4F; border: 1px solid #C00000; padding: 1px 6px; color: #000000; font-family: '宋体'; }")
+                                        : QStringLiteral("QLabel#servoStateLabel { background: transparent; border: 1px solid transparent; padding: 1px 6px; color: #000000; font-family: '宋体'; }"));
 }
 
 /**
@@ -981,6 +1060,23 @@ void MainWindow::showRunDock(QDockWidget *dock)
 }
 
 /**
+ * @brief Closes a run dock and performs panel-specific shutdown work.
+ * @author mozhengjie
+ * @param dock Dock widget to close.
+ */
+void MainWindow::closeRunDock(QDockWidget *dock)
+{
+    if (!dock) {
+        return;
+    }
+
+    if (dock == positionDock_ && appController_) {
+        appController_->leavePositionRunMode();
+    }
+    dock->hide();
+}
+
+/**
  * @brief Restores the run dock to the configured default floating size.
  * @author mozhengjie
  * @param dock Dock widget to resize.
@@ -992,6 +1088,29 @@ void MainWindow::restoreDockDefaultFloatingSize(QDockWidget *dock)
     }
 
     dock->resize(kRunDockDefaultWidth, kRunDockDefaultHeight);
+}
+
+/**
+ * @brief Applies fixed default size when a run dock is embedded into the right or bottom area.
+ * @author mozhengjie
+ * @param dock Dock widget to resize.
+ * @param area Embedded dock area.
+ */
+void MainWindow::applyRunDockDefaultEmbeddedSize(QDockWidget *dock, Qt::DockWidgetArea area)
+{
+    if (!dock || !contentDockHost_ || dock->isFloating() || !dock->isVisible()) {
+        return;
+    }
+
+    if (area == Qt::RightDockWidgetArea) {
+        contentDockHost_->resizeDocks({dock},
+                                      {qMax(kRunDockMinimumWidth, kRunDockDefaultRightWidth)},
+                                      Qt::Horizontal);
+    } else if (area == Qt::BottomDockWidgetArea) {
+        contentDockHost_->resizeDocks({dock},
+                                      {qMax(kRunDockMinimumHeight, kRunDockDefaultBottomHeight)},
+                                      Qt::Vertical);
+    }
 }
 
 /**
@@ -1041,8 +1160,17 @@ void MainWindow::handleRunDockTopLevelChanged(QDockWidget *dock, bool floating)
         return;
     }
 
-    QTimer::singleShot(0, this, [this, dock]() {
-        handleRunDockLocationChanged(dock, contentDockHost_->dockWidgetArea(dock));
+    const bool suppressDefaultResize = suppressEmbeddedDefaultResizeDocks_.contains(dock);
+    QTimer::singleShot(0, this, [this, dock, suppressDefaultResize]() {
+        if (!dock || !contentDockHost_) {
+            return;
+        }
+
+        const Qt::DockWidgetArea area = contentDockHost_->dockWidgetArea(dock);
+        handleRunDockLocationChanged(dock, area);
+        if (!suppressDefaultResize) {
+            applyRunDockDefaultEmbeddedSize(dock, area);
+        }
     });
 }
 
@@ -1127,6 +1255,7 @@ void MainWindow::restoreCollapsedDock(QDockWidget *dock)
     }
 
     const Qt::DockWidgetArea area = collapsedAreas_.value(dock, Qt::RightDockWidgetArea);
+    suppressEmbeddedDefaultResizeDocks_.insert(dock);
     if (area == Qt::RightDockWidgetArea || area == Qt::BottomDockWidgetArea) {
         contentDockHost_->addDockWidget(area, dock);
     }
@@ -1146,6 +1275,9 @@ void MainWindow::restoreCollapsedDock(QDockWidget *dock)
     }
     updatePositionDockLayout();
     positionCollapsedTabs();
+    QTimer::singleShot(0, this, [this, dock]() {
+        suppressEmbeddedDefaultResizeDocks_.remove(dock);
+    });
 }
 
 /**
@@ -1168,7 +1300,7 @@ QToolButton *MainWindow::ensureCollapsedTab(QDockWidget *dock, Qt::DockWidgetAre
     tab->setProperty("dockArea", int(area));
     tab->setCursor(Qt::PointingHandCursor);
     tab->setStyleSheet(QStringLiteral(
-        "QToolButton { background: #D9F2F0; border: 1px solid #7DAAA6; color: #000000; font-size: 11px; padding: 2px; }"
+        "QToolButton { background: #D9F2F0; border: 1px solid #7DAAA6; color: #000000; font-family: '宋体'; font-size: 11px; padding: 2px; }"
         "QToolButton:hover { background: #E5F2D8; }"));
     connect(tab, &QToolButton::clicked, this, [this, dock]() {
         restoreCollapsedDock(dock);

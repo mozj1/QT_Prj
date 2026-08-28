@@ -3,7 +3,12 @@
 
 #include <QWidget>
 
+#include <QHash>
+#include <QStringList>
+#include <QVector>
+
 class QLineEdit;
+class QEvent;
 class QPushButton;
 class QSlider;
 class QSplitter;
@@ -34,6 +39,19 @@ public:
     };
 
     void setLayoutMode(LayoutMode mode);
+    void setRegisterValue(int address, qint64 value);
+    void setEnableState(bool enabled);
+    void setCurrentPosition(qint32 value);
+    void setCurrentPositionPollingPaused(bool paused);
+
+signals:
+    void positionRegisterWriteRequested(int address, qint64 value);
+    void positionEnableWriteRequested(bool enabled);
+    void positionCycleModeChanged(int modeIndex);
+    void positionDirectionChanged(bool reverse);
+    void positionRunPauseChanged(bool paused);
+    void positionStepJogCommandRequested(int commandValue);
+    void currentPositionPollingToggleRequested();
 
 protected:
     /**
@@ -43,10 +61,26 @@ protected:
      */
     void resizeEvent(QResizeEvent *event) override;
 
+    /**
+     * @brief Catches clicks on the current-position display to pause or resume polling.
+     * @author mozhengjie
+     * @param watched Watched object.
+     * @param event Event to process.
+     * @return bool true when the click is consumed.
+     */
+    bool eventFilter(QObject *watched, QEvent *event) override;
+
 private:
     QLineEdit *createNumericEdit(const QString &text = QString(), bool readOnly = false);
     QPushButton *createCommandButton(const QString &text);
     QPushButton *createToggleButton(const QString &firstText, const QString &secondText);
+    QPushButton *createCycleButton(const QStringList &states);
+    void bindRegisterEdit(QLineEdit *edit, int address);
+    bool handleStepJogButtonEvent(QPushButton *button, QEvent *event);
+    int stepJogCommandForButton(QPushButton *button) const;
+    void startStepJogButton(QPushButton *button);
+    void stopStepJogButton(QPushButton *button);
+    void setStepJogButtonActive(QPushButton *button, bool active);
     QWidget *createStep1Group();
     QWidget *createStep2Group();
     QWidget *createPositionDisplayGroup();
@@ -73,6 +107,15 @@ private:
     QLineEdit *negativeLimitEdit_ = nullptr;
     QLineEdit *positiveLimitEdit_ = nullptr;
     QSlider *positionSlider_ = nullptr;
+    QPushButton *enableButton_ = nullptr;
+    QPushButton *step1ReverseButton_ = nullptr;
+    QPushButton *step1ForwardButton_ = nullptr;
+    QPushButton *cycleModeButton_ = nullptr;
+    QPushButton *directionButton_ = nullptr;
+    QPushButton *runPauseButton_ = nullptr;
+    QPushButton *pressedStepJogButton_ = nullptr;
+    QPushButton *lockedStepJogButton_ = nullptr;
+    QHash<int, QVector<QLineEdit *>> registerEdits_;
     LayoutMode layoutMode_ = LayoutMode::FloatingDefault;
     int negativeLimit_ = -200000;
     int positiveLimit_ = 200000;

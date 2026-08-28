@@ -74,11 +74,11 @@ CommunicationSettingsDialog::CommunicationSettingsDialog(const CommunicationConf
     setModal(true);
     setMinimumWidth(360);
     setStyleSheet(QStringLiteral(
-        "QDialog { background: #FFFFFF; }"
+        "QDialog { background: #FFFFFF; font-family: '宋体'; }"
         "QLabel { color: #000000; background: transparent; }"
-        "QComboBox, QSpinBox { background: #FFFFFF; border: 1px solid #B8B8B8; padding: 4px 6px; color: #000000; }"
+        "QComboBox, QSpinBox { background: #FFFFFF; border: 1px solid #B8B8B8; padding: 4px 6px; color: #000000; font-family: '宋体'; }"
         "QComboBox QAbstractItemView { background: #FFFFFF; color: #000000; selection-background-color: #DDEAF7; }"
-        "QPushButton { background: #F8F8F8; border: 1px solid #A8A8A8; padding: 5px 14px; color: #000000; }"
+        "QPushButton { background: #F8F8F8; border: 1px solid #A8A8A8; padding: 5px 14px; color: #000000; font-family: '宋体'; }"
         "QPushButton:hover { background: #FFFFFF; }"
         "QPushButton:pressed { background: #E5E5E5; }"));
 

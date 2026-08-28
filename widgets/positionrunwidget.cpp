@@ -5,13 +5,17 @@
 #include <QGroupBox>
 #include <QHBoxLayout>
 #include <QIntValidator>
+#include <QEvent>
 #include <QLabel>
 #include <QLayoutItem>
 #include <QLineEdit>
+#include <QMouseEvent>
 #include <QPushButton>
 #include <QSlider>
+#include <QSignalBlocker>
 #include <QSizePolicy>
 #include <QSplitter>
+#include <QStyle>
 #include <QVBoxLayout>
 #include <QResizeEvent>
 
@@ -124,6 +128,77 @@ void PositionRunWidget::setLayoutMode(LayoutMode mode)
 }
 
 /**
+ * @brief Updates one or more input boxes bound to the same Modbus register.
+ * @author mozhengjie
+ * @param address Modbus register address.
+ * @param value Value displayed in all bound editors.
+ */
+void PositionRunWidget::setRegisterValue(int address, qint64 value)
+{
+    const QVector<QLineEdit *> edits = registerEdits_.value(address);
+    for (QLineEdit *edit : edits) {
+        if (!edit) {
+            continue;
+        }
+
+        QSignalBlocker blocker(edit);
+        edit->setText(QString::number(value));
+    }
+}
+
+/**
+ * @brief Updates the enable button from Pn44 without emitting a write request.
+ * @author mozhengjie
+ * @param enabled true means the motor is enabled.
+ */
+void PositionRunWidget::setEnableState(bool enabled)
+{
+    if (!enableButton_) {
+        return;
+    }
+
+    QSignalBlocker blocker(enableButton_);
+    enableButton_->setChecked(enabled);
+    enableButton_->setText(enabled ? QStringLiteral("使能") : QStringLiteral("失能"));
+    enableButton_->style()->unpolish(enableButton_);
+    enableButton_->style()->polish(enableButton_);
+    enableButton_->update();
+}
+
+/**
+ * @brief Displays the signed 32-bit current position and keeps the slider in range.
+ * @author mozhengjie
+ * @param value Signed 32-bit position value combined from Pn449/Pn450.
+ */
+void PositionRunWidget::setCurrentPosition(qint32 value)
+{
+    currentPosition_ = qBound(negativeLimit_, int(value), positiveLimit_);
+    if (currentPositionEdit_) {
+        QSignalBlocker blocker(currentPositionEdit_);
+        currentPositionEdit_->setText(QString::number(value));
+    }
+    if (positionSlider_) {
+        positionSlider_->setValue(currentPosition_);
+    }
+}
+
+/**
+ * @brief Marks whether current-position polling is paused by changing the display tooltip.
+ * @author mozhengjie
+ * @param paused true when polling is paused.
+ */
+void PositionRunWidget::setCurrentPositionPollingPaused(bool paused)
+{
+    if (!currentPositionEdit_) {
+        return;
+    }
+
+    currentPositionEdit_->setToolTip(paused
+                                         ? QStringLiteral("当前位置轮询已暂停，单击恢复")
+                                         : QStringLiteral("单击暂停当前位置轮询"));
+}
+
+/**
  * @brief Updates adaptive spacing when the panel geometry changes.
  * @author mozhengjie
  * @param event Resize event.
@@ -132,6 +207,175 @@ void PositionRunWidget::resizeEvent(QResizeEvent *event)
 {
     QWidget::resizeEvent(event);
     updateResponsiveMetrics();
+}
+
+/**
+ * @brief Handles clicks on the read-only current-position editor.
+ * @author mozhengjie
+ * @param watched Watched object.
+ * @param event Incoming event.
+ * @return bool true when the click is handled.
+ */
+bool PositionRunWidget::eventFilter(QObject *watched, QEvent *event)
+{
+    if (watched == currentPositionEdit_ && event->type() == QEvent::MouseButtonPress) {
+        emit currentPositionPollingToggleRequested();
+        return true;
+    }
+
+    if (watched == step1ReverseButton_ || watched == step1ForwardButton_) {
+        return handleStepJogButtonEvent(qobject_cast<QPushButton *>(watched), event);
+    }
+
+    return QWidget::eventFilter(watched, event);
+}
+
+/**
+ * @brief Handles press/release/double-click lock behavior for step1 jog buttons.
+ * @author mozhengjie
+ * @param button Jog button receiving the event.
+ * @param event Incoming mouse or focus event.
+ * @return bool true when the event is consumed by jog logic.
+ */
+bool PositionRunWidget::handleStepJogButtonEvent(QPushButton *button, QEvent *event)
+{
+    if (!button || !event) {
+        return false;
+    }
+
+    if (event->type() == QEvent::MouseButtonPress) {
+        auto *mouseEvent = static_cast<QMouseEvent *>(event);
+        if (mouseEvent->button() != Qt::LeftButton) {
+            return false;
+        }
+
+        if (lockedStepJogButton_ == button) {
+            stopStepJogButton(button);
+            return true;
+        }
+
+        if (lockedStepJogButton_ && lockedStepJogButton_ != button) {
+            stopStepJogButton(lockedStepJogButton_);
+        }
+        startStepJogButton(button);
+        return true;
+    }
+
+    if (event->type() == QEvent::MouseButtonDblClick) {
+        auto *mouseEvent = static_cast<QMouseEvent *>(event);
+        if (mouseEvent->button() != Qt::LeftButton) {
+            return false;
+        }
+
+        if (lockedStepJogButton_ && lockedStepJogButton_ != button) {
+            stopStepJogButton(lockedStepJogButton_);
+        }
+        lockedStepJogButton_ = button;
+        pressedStepJogButton_ = nullptr;
+        setStepJogButtonActive(button, true);
+        emit positionStepJogCommandRequested(stepJogCommandForButton(button));
+        return true;
+    }
+
+    if (event->type() == QEvent::MouseButtonRelease) {
+        auto *mouseEvent = static_cast<QMouseEvent *>(event);
+        if (mouseEvent->button() != Qt::LeftButton) {
+            return false;
+        }
+
+        if (lockedStepJogButton_ == button) {
+            return true;
+        }
+        if (pressedStepJogButton_ == button) {
+            stopStepJogButton(button);
+            return true;
+        }
+        return true;
+    }
+
+    if ((event->type() == QEvent::Hide || event->type() == QEvent::FocusOut)
+        && (pressedStepJogButton_ == button || lockedStepJogButton_ == button)) {
+        stopStepJogButton(button);
+        return false;
+    }
+
+    return false;
+}
+
+/**
+ * @brief Returns the Pn59 command value for a step1 jog direction button.
+ * @author mozhengjie
+ * @param button Direction button.
+ * @return int 4 for forward, 3 for reverse, 6 for stop/default.
+ */
+int PositionRunWidget::stepJogCommandForButton(QPushButton *button) const
+{
+    if (button == step1ForwardButton_) {
+        return 4;
+    }
+    if (button == step1ReverseButton_) {
+        return 3;
+    }
+    return 6;
+}
+
+/**
+ * @brief Starts a step1 jog action and marks the active button in light green.
+ * @author mozhengjie
+ * @param button Button to activate.
+ */
+void PositionRunWidget::startStepJogButton(QPushButton *button)
+{
+    if (!button) {
+        return;
+    }
+
+    if (pressedStepJogButton_ && pressedStepJogButton_ != button) {
+        stopStepJogButton(pressedStepJogButton_);
+    }
+    pressedStepJogButton_ = button;
+    setStepJogButtonActive(button, true);
+    emit positionStepJogCommandRequested(stepJogCommandForButton(button));
+}
+
+/**
+ * @brief Stops step1 jog by writing Pn59 stop command and restoring button style.
+ * @author mozhengjie
+ * @param button Button to release.
+ */
+void PositionRunWidget::stopStepJogButton(QPushButton *button)
+{
+    if (!button) {
+        return;
+    }
+
+    if (pressedStepJogButton_ == button) {
+        pressedStepJogButton_ = nullptr;
+    }
+    if (lockedStepJogButton_ == button) {
+        lockedStepJogButton_ = nullptr;
+    }
+    setStepJogButtonActive(button, false);
+    emit positionStepJogCommandRequested(6);
+}
+
+/**
+ * @brief Applies or clears the visual active state for a step1 jog button.
+ * @author mozhengjie
+ * @param button Button to restyle.
+ * @param active true for pressed/locked state.
+ */
+void PositionRunWidget::setStepJogButtonActive(QPushButton *button, bool active)
+{
+    if (!button) {
+        return;
+    }
+
+    button->setDown(active);
+    button->setProperty("jogActive", active);
+    button->style()->unpolish(button);
+    button->style()->polish(button);
+    button->update();
 }
 
 /**
@@ -149,7 +393,7 @@ QLineEdit *PositionRunWidget::createNumericEdit(const QString &text, bool readOn
     edit->setMinimumSize(kInputMinWidth, kInputHeight);
     edit->setFixedHeight(kInputHeight);
     edit->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
-    edit->setStyleSheet(QStringLiteral("QLineEdit { background: #FFFFFF; color: #000000; border: 1px solid #000000; }"
+    edit->setStyleSheet(QStringLiteral("QLineEdit { background: #FFFFFF; color: #000000; border: 1px solid #000000; font-family: '宋体'; }"
                                        "QLineEdit[readOnly=\"true\"] { background: #F7F7F7; }"));
     return edit;
 }
@@ -188,6 +432,56 @@ QPushButton *PositionRunWidget::createToggleButton(const QString &firstText, con
 }
 
 /**
+ * @brief 创建单按钮多状态循环切换控件，点击后按传入顺序切换显示文本。
+ * @author mozhengjie
+ * @param states 状态文本列表，首个状态为默认状态。
+ * @return QPushButton* 多状态循环按钮。
+ */
+QPushButton *PositionRunWidget::createCycleButton(const QStringList &states)
+{
+    if (states.isEmpty()) {
+        return createCommandButton(QString());
+    }
+
+    QPushButton *button = createCommandButton(states.first());
+    button->setCheckable(true);
+    button->setChecked(false);
+    button->setProperty("cycleIndex", 0);
+    connect(button, &QPushButton::clicked, button, [button, states]() {
+        const int nextIndex = (button->property("cycleIndex").toInt() + 1) % states.size();
+        button->setProperty("cycleIndex", nextIndex);
+        button->setText(states.at(nextIndex));
+        button->setChecked(nextIndex != 0);
+    });
+    return button;
+}
+
+/**
+ * @brief Binds an editor to a Modbus register and emits a write request on Enter.
+ * @author mozhengjie
+ * @param edit Numeric editor to bind.
+ * @param address Modbus register address.
+ */
+void PositionRunWidget::bindRegisterEdit(QLineEdit *edit, int address)
+{
+    if (!edit) {
+        return;
+    }
+
+    registerEdits_[address].append(edit);
+    connect(edit, &QLineEdit::returnPressed, this, [this, edit, address]() {
+        bool ok = false;
+        const qint64 value = edit->text().trimmed().toLongLong(&ok);
+        if (!ok) {
+            return;
+        }
+
+        setRegisterValue(address, value);
+        emit positionRegisterWriteRequested(address, value);
+    });
+}
+
+/**
  * @brief 创建 step1 点动参数区域。
  * @author mozhengjie
  * @return QWidget* step1 分组控件。
@@ -211,22 +505,35 @@ QWidget *PositionRunWidget::createStep1Group()
         auto *label = new QLabel(labels.at(row), group);
         label->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
         grid->addWidget(label, row, 0);
-        grid->addWidget(createNumericEdit(), row, 1);
+        QLineEdit *edit = createNumericEdit();
+        bindRegisterEdit(edit, 80 + row);
+        grid->addWidget(edit, row, 1);
     }
     grid->setColumnStretch(0, 1);
     grid->setColumnStretch(1, 1);
     layout->addLayout(grid);
+
+    // step1 与 step2 保持同类留白策略，用固定缓冲行拉开“位置点动减速度”和底部按钮区。
+    // 该缓冲不会随自适应布局被清除，窗口压缩时仍能避免输入框与按钮贴得过近。
+    layout->addSpacing(7);
     layout->addStretch(1);
 
     auto *buttonLayout = new QHBoxLayout();
     buttonLayout->setSpacing(14);
-    buttonLayout->addWidget(createCommandButton(QStringLiteral("使能")));
+    enableButton_ = createToggleButton(QStringLiteral("失能"), QStringLiteral("使能"));
+    enableButton_->setObjectName(QStringLiteral("step1EnableToggleButton"));
+    connect(enableButton_, &QPushButton::toggled, this, &PositionRunWidget::positionEnableWriteRequested);
+    buttonLayout->addWidget(enableButton_);
     buttonLayout->addStretch(1);
-    buttonLayout->addWidget(createCommandButton(QStringLiteral("反向")));
+    step1ReverseButton_ = createCommandButton(QStringLiteral("反向"));
+    step1ReverseButton_->installEventFilter(this);
+    buttonLayout->addWidget(step1ReverseButton_);
     buttonLayout->addStretch(1);
-    buttonLayout->addWidget(createCommandButton(QStringLiteral("正向")));
+    step1ForwardButton_ = createCommandButton(QStringLiteral("正向"));
+    step1ForwardButton_->installEventFilter(this);
+    buttonLayout->addWidget(step1ForwardButton_);
     layout->addLayout(buttonLayout);
-    group->setMinimumSize(207, 122);
+    group->setMinimumSize(160, 100);
     return group;
 }
 
@@ -256,7 +563,10 @@ QWidget *PositionRunWidget::createStep2Group()
         auto *label = new QLabel(labels.at(row), group);
         label->setAlignment(Qt::AlignRight | Qt::AlignVCenter);
         grid->addWidget(label, row, 0);
-        grid->addWidget(createNumericEdit(), row, 1);
+        const QVector<int> addresses = {83, 80, 81, 82, 85};
+        QLineEdit *edit = createNumericEdit();
+        bindRegisterEdit(edit, addresses.at(row));
+        grid->addWidget(edit, row, 1);
     }
     grid->setColumnStretch(0, 1);
     grid->setColumnStretch(1, 1);
@@ -266,13 +576,23 @@ QWidget *PositionRunWidget::createStep2Group()
 
     auto *buttonLayout = new QHBoxLayout();
     buttonLayout->setSpacing(13);
-    buttonLayout->addWidget(createToggleButton(QStringLiteral("单次"), QStringLiteral("连续")));
+    cycleModeButton_ = createCycleButton({QStringLiteral("单次"),
+                                          QStringLiteral("往返"),
+                                          QStringLiteral("连续")});
+    connect(cycleModeButton_, &QPushButton::clicked, this, [this]() {
+        emit positionCycleModeChanged(cycleModeButton_->property("cycleIndex").toInt());
+    });
+    buttonLayout->addWidget(cycleModeButton_);
     buttonLayout->addStretch(1);
-    buttonLayout->addWidget(createToggleButton(QStringLiteral("正向"), QStringLiteral("反向")));
+    directionButton_ = createToggleButton(QStringLiteral("正向"), QStringLiteral("反向"));
+    connect(directionButton_, &QPushButton::toggled, this, &PositionRunWidget::positionDirectionChanged);
+    buttonLayout->addWidget(directionButton_);
     buttonLayout->addStretch(1);
-    buttonLayout->addWidget(createToggleButton(QStringLiteral("运行"), QStringLiteral("暂停")));
+    runPauseButton_ = createToggleButton(QStringLiteral("运行"), QStringLiteral("暂停"));
+    connect(runPauseButton_, &QPushButton::toggled, this, &PositionRunWidget::positionRunPauseChanged);
+    buttonLayout->addWidget(runPauseButton_);
     layout->addLayout(buttonLayout);
-    group->setMinimumSize(207, 158);
+    group->setMinimumSize(160, 120);
     return group;
 }
 
@@ -295,6 +615,9 @@ QWidget *PositionRunWidget::createPositionDisplayGroup()
 
     currentPositionEdit_ = createNumericEdit(QString::number(currentPosition_), true);
     currentPositionEdit_->setFixedWidth(kInputPreferredWidth);
+    currentPositionEdit_->setCursor(Qt::PointingHandCursor);
+    currentPositionEdit_->installEventFilter(this);
+    setCurrentPositionPollingPaused(false);
     layout->addWidget(currentPositionEdit_, 0, Qt::AlignHCenter);
 
     positionSlider_ = new QSlider(Qt::Horizontal, group);
@@ -329,7 +652,7 @@ QWidget *PositionRunWidget::createPositionDisplayGroup()
     connect(negativeLimitEdit_, &QLineEdit::editingFinished, this, &PositionRunWidget::updateSliderRangeFromLimits);
     connect(positiveLimitEdit_, &QLineEdit::editingFinished, this, &PositionRunWidget::updateSliderRangeFromLimits);
 
-    group->setMinimumSize(198, 198);
+    group->setMinimumSize(160, 150);
     return group;
 }
 
@@ -340,15 +663,18 @@ QWidget *PositionRunWidget::createPositionDisplayGroup()
 void PositionRunWidget::applyStyle()
 {
     setStyleSheet(QStringLiteral(
-        "PositionRunWidget { background: #F4F4F4; color: #000000; font-size: 11px; }"
-        "QGroupBox { background: #F4F4F4; color: #000000; border: 1px solid #000000; margin-top: 9px; font-size: 11px; font-weight: bold; }"
-        "QGroupBox::title { subcontrol-origin: margin; subcontrol-position: top center; padding: 0 7px; background: #F4F4F4; }"
-        "QLabel { color: #000000; background: transparent; font-size: 11px; }"
-        "QLineEdit { font-size: 11px; }"
-        "QPushButton { background: #FFFFFF; color: #000000; border: 1px solid #000000; padding: 1px 7px; font-size: 11px; }"
+        "PositionRunWidget { background: #F4F4F4; color: #000000; font-family: '宋体'; font-size: 11px; }"
+        "QGroupBox { background-color: #F4F4F4; color: #000000; border: 1px solid #000000; margin-top: 9px; font-size: 11px; font-weight: 500; }"
+        "QGroupBox::title { subcontrol-origin: margin; subcontrol-position: top center; padding: 0 7px; background-color: #F4F4F4; color: #000000; }"
+        "QLabel { color: #000000; background: transparent; font-family: '宋体'; font-size: 11px; }"
+        "QLineEdit { font-family: '宋体'; font-size: 11px; }"
+        "QPushButton { background: #FFFFFF; color: #000000; border: 1px solid #000000; padding: 1px 7px; font-family: '宋体'; font-size: 11px; }"
         "QPushButton:hover { background: #E5F2D8; }"
         "QPushButton:pressed { background: #D4E8C5; }"
         "QPushButton:checked { background: #D8EFC8; border-color: #7DAAA6; }"
+        "QPushButton[jogActive=\"true\"] { background: #D8EFC8; border-color: #7DAAA6; }"
+        "QPushButton#step1EnableToggleButton { background: #FADDE1; border-color: #C78B91; }"
+        "QPushButton#step1EnableToggleButton:checked { background: #D8EFC8; border-color: #7DAAA6; }"
         "QSlider::groove:horizontal { height: 4px; background: #FFFFFF; border: 1px solid #000000; }"
         "QSlider::handle:horizontal { width: 8px; background: #000000; margin: -6px 0; }"
         "QSplitter::handle { background: #B8B8B8; }"
@@ -368,9 +694,10 @@ void PositionRunWidget::rebuildLayout()
     detachLayoutGroups();
 
     if (layoutMode_ == LayoutMode::DockedBottom) {
-        step1Group_->setMinimumSize(70, 60);
-        step2Group_->setMinimumSize(70, 70);
-        positionDisplayGroup_->setMinimumSize(80, 70);
+        // 底部嵌入时只放宽高度压缩边界：原最小高度 50px，按 0.7 倍调整为 35px。
+        step1Group_->setMinimumSize(70, 35);
+        step2Group_->setMinimumSize(70, 35);
+        positionDisplayGroup_->setMinimumSize(80, 35);
         mainSplitter_ = new QSplitter(Qt::Horizontal, this);
         mainSplitter_->addWidget(step1Group_);
         mainSplitter_->addWidget(step2Group_);
@@ -378,12 +705,14 @@ void PositionRunWidget::rebuildLayout()
         mainSplitter_->setStretchFactor(0, 1);
         mainSplitter_->setStretchFactor(1, 1);
         mainSplitter_->setStretchFactor(2, 1);
-        mainSplitter_->setSizes({120, 130, 150});
-        setMinimumSize(180, 70);
+        mainSplitter_->setSizes({85, 85, 270});
+        // 面板整体底部嵌入最小高度同步由 70px 降为 49px，避免外层先卡住拖动。
+        setMinimumSize(180, 49);
     } else if (layoutMode_ == LayoutMode::DockedRight) {
-        step1Group_->setMinimumSize(70, 60);
-        step2Group_->setMinimumSize(70, 80);
-        positionDisplayGroup_->setMinimumSize(70, 80);
+        // 右侧嵌入时只放宽宽度压缩边界：原最小宽度 50px，按 0.7 倍调整为 35px。
+        step1Group_->setMinimumSize(35, 60);
+        step2Group_->setMinimumSize(35, 80);
+        positionDisplayGroup_->setMinimumSize(35, 80);
         mainSplitter_ = new QSplitter(Qt::Vertical, this);
         mainSplitter_->addWidget(positionDisplayGroup_);
         mainSplitter_->addWidget(step2Group_);
@@ -392,11 +721,12 @@ void PositionRunWidget::rebuildLayout()
         mainSplitter_->setStretchFactor(1, 2);
         mainSplitter_->setStretchFactor(2, 1);
         mainSplitter_->setSizes({100, 90, 70});
-        setMinimumSize(80, 135);
+        // 面板整体右侧嵌入最小宽度同步由 80px 降为 56px，避免外层先卡住拖动。
+        setMinimumSize(56, 135);
     } else {
-        step1Group_->setMinimumSize(150, 90);
-        step2Group_->setMinimumSize(150, 110);
-        positionDisplayGroup_->setMinimumSize(140, 130);
+        step1Group_->setMinimumSize(130, 110);
+        step2Group_->setMinimumSize(130, 150);
+        positionDisplayGroup_->setMinimumSize(160, 130);
         mainSplitter_ = new QSplitter(Qt::Horizontal, this);
         auto *leftSplitter = new QSplitter(Qt::Vertical, mainSplitter_);
         leftSplitter->addWidget(step1Group_);
@@ -410,7 +740,8 @@ void PositionRunWidget::rebuildLayout()
         mainSplitter_->addWidget(positionDisplayGroup_);
         mainSplitter_->setStretchFactor(0, 3);
         mainSplitter_->setStretchFactor(1, 2);
-        mainSplitter_->setSizes({210, 150});
+        leftSplitter->setSizes({120, 150});
+        mainSplitter_->setSizes({120, 230});
         setMinimumSize(260, 180);
     }
 

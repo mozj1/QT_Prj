@@ -9,6 +9,9 @@ Rectangle {
     height: 720
     color: "#FFFFFF"
 
+    property string appFontFamily: "宋体"
+    property int appNormalFontWeight: Font.Light
+    property int appEmphasisFontWeight: Font.Medium
     property bool contentOnly: false
     property int activePage: uiController.activePage
     property int lastParameterMatchedRow: -1
@@ -46,6 +49,8 @@ Rectangle {
         contentItem: Text {
             text: control.text
             color: "#000000"
+            font.family: root.appFontFamily
+            font.weight: root.appNormalFontWeight
             horizontalAlignment: Text.AlignHCenter
             verticalAlignment: Text.AlignVCenter
             elide: Text.ElideRight
@@ -111,6 +116,8 @@ Rectangle {
             enabled: true
             selectByMouse: control.editable
             color: "#000000"
+            font.family: root.appFontFamily
+            font.weight: root.appNormalFontWeight
             horizontalAlignment: TextInput.AlignHCenter
             verticalAlignment: TextInput.AlignVCenter
             clip: true
@@ -161,6 +168,8 @@ Rectangle {
             contentItem: Text {
                 text: modelData
                 color: "#000000"
+                font.family: root.appFontFamily
+                font.weight: root.appNormalFontWeight
                 horizontalAlignment: Text.AlignHCenter
                 verticalAlignment: Text.AlignVCenter
                 elide: Text.ElideRight
@@ -193,6 +202,8 @@ Rectangle {
             z: 2
             text: control.textFromValue(control.value, control.locale)
             color: "#000000"
+            font.family: root.appFontFamily
+            font.weight: root.appNormalFontWeight
             selectionColor: "#DDEAF7"
             selectedTextColor: "#000000"
             horizontalAlignment: TextInput.AlignHCenter
@@ -215,6 +226,8 @@ Rectangle {
         Layout.minimumWidth: 49
         selectByMouse: true
         color: "#000000"
+        font.family: root.appFontFamily
+        font.weight: root.appNormalFontWeight
         horizontalAlignment: TextInput.AlignHCenter
         verticalAlignment: TextInput.AlignVCenter
         validator: DoubleValidator { bottom: -2147483648; top: 2147483647; decimals: 3; notation: DoubleValidator.StandardNotation }
@@ -255,7 +268,7 @@ Rectangle {
             text: control.title
             color: "#000000"
             font.pixelSize: 11
-            font.bold: true
+            font.weight: root.appEmphasisFontWeight
             background: Rectangle { color: "#F4F4F4" }
         }
         background: Rectangle {
@@ -448,7 +461,7 @@ Rectangle {
                 text: qsTr("点动运行窗体")
                 color: "#000000"
                 font.pixelSize: 18
-                font.bold: true
+                font.weight: root.appEmphasisFontWeight
             }
         }
     }
@@ -484,7 +497,7 @@ Rectangle {
                 anchors.verticalCenter: parent.verticalCenter
                 text: preview ? qsTr("释放后嵌入：") + root.runWindowTitle : root.runWindowTitle
                 color: "#000000"
-                font.bold: true
+                font.weight: root.appEmphasisFontWeight
                 elide: Text.ElideRight
             }
 
@@ -539,7 +552,7 @@ Rectangle {
             text: qsTr("松开鼠标嵌入此区域")
             color: "#000000"
             font.pixelSize: 18
-            font.bold: true
+            font.weight: root.appEmphasisFontWeight
         }
     }
 
@@ -588,7 +601,7 @@ Rectangle {
                     anchors.rightMargin: 8
                     text: toolWindow.titleText
                     color: "#000000"
-                    font.bold: true
+                    font.weight: root.appEmphasisFontWeight
                     elide: Text.ElideRight
                 }
 
@@ -981,7 +994,7 @@ Rectangle {
                             Label {
                                 text: qsTr("选择电机型号")
                                 color: "#000000"
-                                font.bold: true
+                                font.weight: root.appEmphasisFontWeight
                             }
 
                             AppComboBox {
@@ -1044,7 +1057,7 @@ Rectangle {
                                 Label {
                                     text: qsTr("参数操作")
                                     color: "#000000"
-                                    font.bold: true
+                                    font.weight: root.appEmphasisFontWeight
                                 }
                                 AppButton { Layout.fillWidth: true; text: qsTr("上传全部"); onClicked: appController.uploadAllParameters() }
                                 AppButton { Layout.fillWidth: true; text: qsTr("下载全部"); onClicked: appController.downloadAllParameters() }
@@ -1060,7 +1073,7 @@ Rectangle {
                                 Label {
                                     text: qsTr("监控操作")
                                     color: "#000000"
-                                    font.bold: true
+                                    font.weight: root.appEmphasisFontWeight
                                 }
                                 Label { text: qsTr("监控间隔 ms"); color: "#000000" }
                                 AppSpinBox {
@@ -1136,7 +1149,7 @@ Rectangle {
                                         text: qsTr("参数总表")
                                         color: "#000000"
                                         font.pixelSize: 18
-                                        font.bold: true
+                                        font.weight: root.appEmphasisFontWeight
                                     }
                                     TextField {
                                         id: parameterSearch
@@ -1192,7 +1205,7 @@ Rectangle {
                                                             anchors.centerIn: parent
                                                             text: root.parameterColumnTitles[index]
                                                             color: "#000000"
-                                                            font.bold: true
+                                                            font.weight: root.appEmphasisFontWeight
                                                             elide: Text.ElideRight
                                                         }
                                                         Rectangle {
@@ -1389,7 +1402,7 @@ Rectangle {
                                 RowLayout {
                                     Layout.fillWidth: true
                                     spacing: 12
-                                    Label { text: qsTr("监控总表"); color: "#000000"; font.pixelSize: 18; font.bold: true }
+                                    Label { text: qsTr("监控总表"); color: "#000000"; font.pixelSize: 18; font.weight: root.appEmphasisFontWeight }
                                     TextField {
                                         id: monitorSearch
                                         Layout.preferredWidth: 280
@@ -1435,7 +1448,7 @@ Rectangle {
                                                         height: monitorHeaderRow.height
                                                         color: index === 0 ? "#EFEFEF" : "#F2F2F2"
                                                         border.color: "#B8B8B8"
-                                                        Text { anchors.centerIn: parent; text: root.monitorColumnTitles[index]; color: "#000000"; font.bold: true; elide: Text.ElideRight }
+                                                        Text { anchors.centerIn: parent; text: root.monitorColumnTitles[index]; color: "#000000"; font.weight: root.appEmphasisFontWeight; elide: Text.ElideRight }
                                                     }
                                                 }
                                             }
@@ -1507,7 +1520,7 @@ Rectangle {
                                 anchors.fill: parent
                                 anchors.margins: 12
                                 spacing: 8
-                                Label { text: qsTr("故障总表"); color: "#000000"; font.pixelSize: 18; font.bold: true }
+                                Label { text: qsTr("故障总表"); color: "#000000"; font.pixelSize: 18; font.weight: root.appEmphasisFontWeight }
 
                                 Rectangle {
                                     Layout.fillWidth: true
@@ -1533,7 +1546,7 @@ Rectangle {
                                                         height: faultHeaderRow.height
                                                         color: "#F2F2F2"
                                                         border.color: "#B8B8B8"
-                                                        Text { anchors.centerIn: parent; text: root.faultColumnTitles[index]; color: "#000000"; font.bold: true; elide: Text.ElideRight }
+                                                        Text { anchors.centerIn: parent; text: root.faultColumnTitles[index]; color: "#000000"; font.weight: root.appEmphasisFontWeight; elide: Text.ElideRight }
                                                     }
                                                 }
                                             }
@@ -1596,7 +1609,7 @@ Rectangle {
                                 anchors.fill: parent
                                 anchors.margins: 12
                                 spacing: 8
-                                Label { text: qsTr("示波器"); color: "#000000"; font.pixelSize: 18; font.bold: true }
+                                Label { text: qsTr("示波器"); color: "#000000"; font.pixelSize: 18; font.weight: root.appEmphasisFontWeight }
                                 Rectangle {
                                     Layout.fillWidth: true
                                     Layout.fillHeight: true
@@ -1651,6 +1664,19 @@ Rectangle {
 
                     Label { text: appController.connectionStatus; color: "#000000" }
                     Label { text: appController.selectedModelStatus; color: "#000000" }
+                    Rectangle {
+                        Layout.preferredHeight: 22
+                        implicitWidth: servoStateLabel.implicitWidth + 12
+                        color: appController.servoAlarmActive ? "#FF4D4F" : "transparent"
+                        border.color: appController.servoAlarmActive ? "#C00000" : "transparent"
+                        Label {
+                            id: servoStateLabel
+                            anchors.centerIn: parent
+                            text: appController.servoStateText
+                            color: "#000000"
+                        }
+                    }
+                    Item { Layout.fillWidth: true }
                     ProgressBar {
                         Layout.preferredWidth: 320
                         from: 0
@@ -1669,19 +1695,6 @@ Rectangle {
                                 color: "#000000"
                                 font.pixelSize: 11
                             }
-                        }
-                    }
-                    Item { Layout.fillWidth: true }
-                    Rectangle {
-                        Layout.preferredHeight: 22
-                        implicitWidth: servoStateLabel.implicitWidth + 12
-                        color: appController.servoAlarmActive ? "#FF4D4F" : "transparent"
-                        border.color: appController.servoAlarmActive ? "#C00000" : "transparent"
-                        Label {
-                            id: servoStateLabel
-                            anchors.centerIn: parent
-                            text: appController.servoStateText
-                            color: "#000000"
                         }
                     }
                     Label { text: appController.operationStatus; color: "#000000" }
@@ -1737,7 +1750,7 @@ Rectangle {
                     property real dragStartX: 0
                     property real dragStartY: 0
 
-                    Text { anchors.left: parent.left; anchors.leftMargin: 8; anchors.verticalCenter: parent.verticalCenter; text: root.runWindowTitle; color: "#000000"; font.bold: true }
+                    Text { anchors.left: parent.left; anchors.leftMargin: 8; anchors.verticalCenter: parent.verticalCenter; text: root.runWindowTitle; color: "#000000"; font.weight: root.appEmphasisFontWeight }
                     Row {
                         anchors.right: parent.right
                         anchors.rightMargin: 4
